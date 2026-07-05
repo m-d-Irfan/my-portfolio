@@ -11,7 +11,8 @@ export interface Project {
   description: string;
   imageSrc: string;
   liveUrl: string;
-  githubUrl: string; // client only repo
+  githubUrl: string; // client / frontend repo
+  githubBackendUrl?: string; // backend repo if separate
   techStack: string[];
   challenges: string;
   improvements: string;
@@ -164,11 +165,12 @@ export const portfolioData: PortfolioData = {
   projects: [
     {
       id: "educore-ai",
-      title: "EduCore ai",
+      title: "EduCore AI",
       description: "A comprehensive full-stack learning platform featuring role-separated dashboards for students, instructors, and administrators. Supports course creations, modules management, progress tracking, and secure enrollments.",
-      imageSrc: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
-      liveUrl: "https://educore-ai-demo.vercel.app", // Placeholder live url
-      githubUrl: "https://github.com/m-d-Irfan/educore-client", // Client repo only as requested
+      imageSrc: "/educore-ai.png",
+      liveUrl: "https://educore-ai-tan.vercel.app/",
+      githubUrl: "https://github.com/m-d-Irfan/LLC_FrontEnd",
+      githubBackendUrl: "https://github.com/m-d-Irfan/LLC_backend",
       techStack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Django", "Django REST Framework", "PostgreSQL", "Cloudinary", "JWT"],
       challenges: "Setting up role-based route protection across the Next.js client and Django REST backend. Enforcing custom cookie middleware in Next.js to inject and validate JWT tokens securely while preventing page flash and unauthorized layouts. Another challenge was auto-generating beautiful API documentation using drf-spectacular while using custom route namespaces.",
       improvements: "Integrate WebSockets (Django Channels) for real-time chat between students and instructors, add interactive coding playgrounds, and incorporate automated quiz grading dashboards with interactive analytics charts."
@@ -178,8 +180,8 @@ export const portfolioData: PortfolioData = {
       title: "Sports Blog CMS",
       description: "A custom content management system built from scratch with full CRUD capabilities for blog posts, comments, and categories. Designed with strict role authorization separation for administrators and regular users.",
       imageSrc: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
-      liveUrl: "https://sports-cms-demo.render.com",
-      githubUrl: "https://github.com/m-d-Irfan/sports-blog-cms",
+      liveUrl: "https://sport-blogs.onrender.com/",
+      githubUrl: "https://github.com/m-d-Irfan/Basic-Blog",
       techStack: ["Python", "Django", "MySQL", "HTML5", "CSS3", "JavaScript"],
       challenges: "Building authentication and custom authorization filters from scratch without using any external pre-packaged third-party CMS libraries. Handling transactional safety in MySQL when multiple readers post comments simultaneously on the same sports article.",
       improvements: "Migrate the frontend to Next.js App Router for server-side rendering (SSR), optimize database queries with selective indexing, and implement Algolia search for instantaneous article discovery."

@@ -77,8 +77,19 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                 rel="noopener noreferrer"
                 className="btn btn-outline btn-block rounded-2xl gap-2 font-outfit"
               >
-                <Github className="w-5 h-5" /> Client Repository
+                <Github className="w-5 h-5" /> {project.githubBackendUrl ? "Frontend Repository" : "GitHub Repository"}
               </a>
+
+              {project.githubBackendUrl && (
+                <a
+                  href={project.githubBackendUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline btn-block rounded-2xl gap-2 font-outfit"
+                >
+                  <Github className="w-5 h-5" /> Backend Repository
+                </a>
+              )}
             </div>
           </div>
         </div>
