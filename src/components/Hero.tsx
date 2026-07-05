@@ -101,38 +101,16 @@ export default function Hero() {
             {/* Card Frame */}
             <div className="relative w-full h-full bg-base-200/50 backdrop-blur-md border border-base-300/60 rounded-3xl p-6 flex flex-col justify-center items-center overflow-hidden transition-all duration-500 group-hover:border-primary/40 group-hover:shadow-2xl group-hover:shadow-primary/5">
               
-              {/* Fallback Beautiful Developer SVG */}
-              <svg
-                viewBox="0 0 200 200"
-                className="w-48 h-48 sm:w-64 sm:h-64 drop-shadow-lg text-primary animate-float"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Tech Background Grid */}
-                <circle cx="100" cy="100" r="85" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.4" />
-                <circle cx="100" cy="100" r="70" stroke="currentColor" strokeWidth="1" opacity="0.2" />
-                
-                {/* Desk Base */}
-                <path d="M40 150h120v4H40z" fill="currentColor" opacity="0.2" />
-                
-                {/* Laptop Outline */}
-                <rect x="75" y="115" width="50" height="30" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
-                <path d="M70 145h60v5H70z" fill="currentColor" stroke="currentColor" strokeWidth="1" />
-                
-                {/* Glowing Screen Emission */}
-                <path d="M85 118h30v20H85z" fill="currentColor" className="text-secondary/30" />
-                
-                {/* Dev Silhouette */}
-                <circle cx="100" cy="75" r="18" fill="currentColor" opacity="0.8" />
-                <path d="M75 110c0-12 10-18 25-18s25 6 25 18v5H75v-5z" fill="currentColor" opacity="0.8" />
-                
-                {/* Dynamic floating tags */}
-                <g className="text-accent animate-pulse-slow">
-                  <path d="M30 70l10 5-10 5V70z" fill="currentColor" />
-                  <circle cx="170" cy="90" r="6" fill="currentColor" />
-                  <path d="M150 45h15v5h-15z" fill="currentColor" />
-                </g>
-              </svg>
+              {/* Profile Image with animations & glowing frames */}
+              <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-3xl overflow-hidden border-2 border-primary/20 shadow-xl group-hover:border-primary/50 group-hover:scale-[1.03] transition-all duration-500 ease-out animate-float mb-12">
+                <img
+                  src="/Monzurul Islam.png"
+                  alt="Monzurul Islam"
+                  className="w-full h-full object-cover object-center"
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent opacity-60"></div>
+              </div>
 
               {/* Tag overlay */}
               <div className="absolute bottom-6 left-6 right-6 text-center">

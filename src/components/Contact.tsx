@@ -123,11 +123,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Hiring Banner card */}
-              <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 text-xs leading-relaxed text-primary font-sans">
-                💡 <strong>Hiring tip:</strong> Submitting the contact form will hit the Next.js API server endpoint route `/api/contact` dynamically!
-              </div>
-
             </div>
           </div>
 
