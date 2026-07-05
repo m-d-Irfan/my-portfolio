@@ -239,7 +239,7 @@ export const portfolioData: PortfolioData = {
       provider: "Udemy / Online Reference",
       dates: "Feb 2025",
       description: "Comprehensive workflow training: branch models, forks, merges (2-way/3-way), merge conflicts resolution, and Git teamwork best practices.",
-      link: "https://github.com/m-d-Irfan"
+      link: "https://udemy-certificate.s3.amazonaws.com/image/UC-491ed3e9-c16c-491d-8e8c-d331cf6cac92.jpg"
     }
   ],
   experience: [] // No formal experience listed on CV, but we keep it empty to fulfill typescript typing
