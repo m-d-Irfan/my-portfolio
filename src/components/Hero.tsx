@@ -1,0 +1,149 @@
+import React from "react";
+import Link from "next/link";
+import { portfolioData } from "@/data/portfolio";
+import { Github, Linkedin, Mail, Code, FileText, ArrowRight, Download } from "lucide-react";
+
+export default function Hero() {
+  const getSocialIcon = (title: string) => {
+    switch (title.toLowerCase()) {
+      case "github":
+        return <Github className="w-5 h-5" />;
+      case "linkedin":
+        return <Linkedin className="w-5 h-5" />;
+      case "codeforces":
+        return <Code className="w-5 h-5" />;
+      case "email":
+        return <Mail className="w-5 h-5" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <section id="home" className="relative min-h-[90vh] flex items-center justify-center pt-16 overflow-hidden">
+      {/* Background glow animations */}
+      <div className="glow-circle-1"></div>
+      <div className="glow-circle-2"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-12">
+        
+        {/* Left: Text Contents */}
+        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+          
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-outfit text-sm font-semibold mb-6 animate-pulse-slow">
+            <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+            Open for Opportunities
+          </div>
+
+          {/* Heading */}
+          <h1 className="font-outfit text-4xl sm:text-6xl font-bold tracking-tight mb-4">
+            Hi, I'm <span className="text-gradient">{portfolioData.name}</span>
+          </h1>
+          
+          {/* Subheading Designation */}
+          <h2 className="font-outfit text-xl sm:text-2xl font-semibold text-secondary mb-6">
+            {portfolioData.designation}
+          </h2>
+
+          {/* Objective Paragraph */}
+          <p className="font-sans text-base sm:text-lg opacity-80 leading-relaxed mb-8 max-w-2xl">
+            {portfolioData.careerObjective}
+          </p>
+
+          {/* Call to Actions */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8">
+            <Link
+              href="/resume"
+              className="btn btn-primary font-outfit shadow-lg shadow-primary/20 hover:shadow-primary/45 transition-all duration-300"
+            >
+              <FileText className="w-5 h-5" /> View Resume
+            </Link>
+            
+            <a
+              href="/resume.pdf"
+              download="Monzurul_Islam_Resume.pdf"
+              className="btn btn-outline btn-secondary font-outfit"
+            >
+              <Download className="w-5 h-5" /> Download PDF
+            </a>
+
+            <Link href="/#contact" className="btn btn-ghost font-outfit gap-2">
+              Contact Me <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-4">
+            <span className="text-sm opacity-60 font-medium font-outfit">Connect:</span>
+            {portfolioData.socials.map((social) => (
+              <a
+                key={social.id}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-circle btn-sm hover:bg-primary/25 hover:text-primary transition-all duration-300"
+                title={social.title}
+              >
+                {getSocialIcon(social.title)}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Premium Graphic/Avatar Card */}
+        <div className="lg:col-span-5 flex justify-center items-center">
+          <div className="relative group w-72 h-72 sm:w-96 sm:h-96">
+            
+            {/* Pulsing Backlighting */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary to-secondary opacity-30 blur-2xl group-hover:opacity-50 transition-opacity duration-500"></div>
+            
+            {/* Card Frame */}
+            <div className="relative w-full h-full bg-base-200/50 backdrop-blur-md border border-base-300/60 rounded-3xl p-6 flex flex-col justify-center items-center overflow-hidden transition-all duration-500 group-hover:border-primary/40 group-hover:shadow-2xl group-hover:shadow-primary/5">
+              
+              {/* Fallback Beautiful Developer SVG */}
+              <svg
+                viewBox="0 0 200 200"
+                className="w-48 h-48 sm:w-64 sm:h-64 drop-shadow-lg text-primary animate-float"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Tech Background Grid */}
+                <circle cx="100" cy="100" r="85" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.4" />
+                <circle cx="100" cy="100" r="70" stroke="currentColor" strokeWidth="1" opacity="0.2" />
+                
+                {/* Desk Base */}
+                <path d="M40 150h120v4H40z" fill="currentColor" opacity="0.2" />
+                
+                {/* Laptop Outline */}
+                <rect x="75" y="115" width="50" height="30" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="2" />
+                <path d="M70 145h60v5H70z" fill="currentColor" stroke="currentColor" strokeWidth="1" />
+                
+                {/* Glowing Screen Emission */}
+                <path d="M85 118h30v20H85z" fill="currentColor" className="text-secondary/30" />
+                
+                {/* Dev Silhouette */}
+                <circle cx="100" cy="75" r="18" fill="currentColor" opacity="0.8" />
+                <path d="M75 110c0-12 10-18 25-18s25 6 25 18v5H75v-5z" fill="currentColor" opacity="0.8" />
+                
+                {/* Dynamic floating tags */}
+                <g className="text-accent animate-pulse-slow">
+                  <path d="M30 70l10 5-10 5V70z" fill="currentColor" />
+                  <circle cx="170" cy="90" r="6" fill="currentColor" />
+                  <path d="M150 45h15v5h-15z" fill="currentColor" />
+                </g>
+              </svg>
+
+              {/* Tag overlay */}
+              <div className="absolute bottom-6 left-6 right-6 text-center">
+                <span className="font-outfit font-bold text-lg tracking-wide block">Monzurul Islam</span>
+                <span className="font-mono text-xs opacity-65 text-primary">{"<Backend & API Developer />"}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
