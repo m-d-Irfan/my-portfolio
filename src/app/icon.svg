@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <style>
+    rect.bg { fill: #BAB58C; }
+    path.base { fill: #18221D; }
+    rect.accent { fill: #8A2E2B; }
+    
+    @media (prefers-color-scheme: dark) {
+      rect.bg { fill: #18221D; }
+      path.base { fill: #BAB58C; }
+      rect.accent { fill: #E27D60; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="8"/>
+  <!-- Stylized M & I Monogram -->
+  <path class="base" d="M7 23V9h4l4 6 4-6h4v14h-3V13.5l-4.2 6.3h-1.6L9.8 13.5V23H7z" />
+  <rect class="accent" x="22.5" y="9" width="3" height="14" rx="1"/>
+</svg>

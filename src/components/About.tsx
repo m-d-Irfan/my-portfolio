@@ -1,6 +1,6 @@
 import React from "react";
 import { portfolioData } from "@/data/portfolio";
-import { Heart, Compass, Terminal, Award } from "lucide-react";
+import { Heart, Compass, Terminal, Award, Server, Layout } from "lucide-react";
 
 export default function About() {
   const getAboutIcon = (index: number) => {
@@ -64,7 +64,8 @@ export default function About() {
 
           {/* Right Side: Hobbies and Personal Highlights */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 sm:p-8 rounded-3xl bg-base-200/40 backdrop-blur-md border border-base-300/50 shadow-xl">
+            {/* Card Frame - Removed backdrop-blur-md and changed opacity to prevent horizontal line screen tearing */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-base-200/90 border border-base-300/50 shadow-xl">
               <h3 className="font-outfit text-2xl font-bold text-gradient mb-6">
                 Personality & Hobbies
               </h3>
@@ -93,6 +94,59 @@ export default function About() {
             </div>
           </div>
 
+        </div>
+
+        {/* Services & Capabilities Section */}
+        <div className="mt-20 pt-16 border-t border-base-300/40">
+          <h3 className="font-outfit text-2xl sm:text-3xl font-bold text-center mb-12">
+            Services & <span className="text-gradient">Capabilities</span>
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* API Development & Backend */}
+            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-300 group hover:shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Terminal className="w-6 h-6" />
+              </div>
+              <h4 className="font-outfit text-lg font-bold mb-2">API & Backend Dev</h4>
+              <p className="font-sans text-xs opacity-75 leading-relaxed">
+                Designing and building clean, secure RESTful APIs using Python, Django, DRF, Node.js, and JWT auth.
+              </p>
+            </div>
+
+            {/* Database Architecture */}
+            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-secondary/30 transition-all duration-300 group hover:shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Server className="w-6 h-6" />
+              </div>
+              <h4 className="font-outfit text-lg font-bold mb-2">Database Design</h4>
+              <p className="font-sans text-xs opacity-75 leading-relaxed">
+                Relational database modeling, query tuning, indexing, and management in PostgreSQL and MySQL.
+              </p>
+            </div>
+
+            {/* Frontend UI Integration */}
+            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-accent/30 transition-all duration-300 group hover:shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Layout className="w-6 h-6" />
+              </div>
+              <h4 className="font-outfit text-lg font-bold mb-2">Frontend Integration</h4>
+              <p className="font-sans text-xs opacity-75 leading-relaxed">
+                Crafting fast, responsive interfaces with Next.js 15, React 19, TypeScript, and Tailwind CSS.
+              </p>
+            </div>
+
+            {/* DevOps & Automation */}
+            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-success/30 transition-all duration-300 group hover:shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Award className="w-6 h-6" />
+              </div>
+              <h4 className="font-outfit text-lg font-bold mb-2">DevOps & Automation</h4>
+              <p className="font-sans text-xs opacity-75 leading-relaxed">
+                Docker setups, CI/CD pipelines (GitHub Actions), AWS storage, and workflow automation in n8n.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

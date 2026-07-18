@@ -8,6 +8,7 @@ export interface Social {
 export interface Project {
   id: string;
   title: string;
+  category: string; // "Full Stack" | "Backend" | "CMS"
   description: string;
   imageSrc: string;
   liveUrl: string;
@@ -166,6 +167,7 @@ export const portfolioData: PortfolioData = {
     {
       id: "educore-ai",
       title: "EduCore AI",
+      category: "Full Stack",
       description: "A comprehensive full-stack learning platform featuring role-separated dashboards for students, instructors, and administrators. Supports course creations, modules management, progress tracking, and secure enrollments.",
       imageSrc: "/educore-ai.png",
       liveUrl: "https://educore-ai-tan.vercel.app/",
@@ -178,6 +180,7 @@ export const portfolioData: PortfolioData = {
     {
       id: "sports-blog-cms",
       title: "Sports Blog CMS",
+      category: "CMS",
       description: "A custom content management system built from scratch with full CRUD capabilities for blog posts, comments, and categories. Designed with strict role authorization separation for administrators and regular users.",
       imageSrc: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
       liveUrl: "https://sport-blogs.onrender.com/",
@@ -189,13 +192,14 @@ export const portfolioData: PortfolioData = {
     {
       id: "devflow-api",
       title: "DevFlow API Backend",
+      category: "Backend",
       description: "A highly scalable developer Q&A API engine supporting reputation scoring, questions upvote/downvote ranking, custom tagging systems, and comprehensive search capabilities.",
       imageSrc: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&w=800&q=80",
       liveUrl: "https://devflow-api-demo.render.com",
       githubUrl: "https://github.com/m-d-Irfan/devflow-api",
       techStack: ["Python", "Django REST Framework", "PostgreSQL", "Docker", "JWT", "Swagger"],
       challenges: "Designing high-performance PostgreSQL queries to calculate reputation points dynamically based on votes, questions, and answers without causing N+1 query overhead. Containerizing the multi-service system (Django, DB) for reliable cloud deployments.",
-      improvements: "Add Redis caching for rapid responses on popular questions, implement email digests using Celery background workers, and add real-time notifications for question answers."
+      improvements: "Add Redis caching for popular questions, implement email digests using Celery background workers, and add real-time notifications for question answers."
     }
   ],
   education: [

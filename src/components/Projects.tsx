@@ -9,15 +9,9 @@ export default function Projects() {
 
   const categories = ["All", "Full Stack", "Backend", "CMS"];
 
-  const getProjectCategory = (project: Project) => {
-    if (project.id === "educore-ai") return "Full Stack";
-    if (project.id === "sports-blog-cms") return "CMS";
-    return "Backend";
-  };
-
   const filteredProjects = portfolioData.projects.filter((project) => {
     if (filter === "All") return true;
-    return getProjectCategory(project) === filter;
+    return project.category === filter;
   });
 
   return (
@@ -74,7 +68,7 @@ export default function Projects() {
                   {/* Category Pill */}
                   <span className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full bg-base-100/90 border border-base-300/60 font-outfit">
                     <Layers className="w-3 h-3 text-secondary" />
-                    {getProjectCategory(project)}
+                    {project.category}
                   </span>
                 </div>
 

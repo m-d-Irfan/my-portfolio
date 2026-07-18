@@ -1,9 +1,27 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Code, FileText, ArrowRight, Download } from "lucide-react";
 
 export default function Hero() {
+  const [theme, setTheme] = useState<string>("night");
+
+  useEffect(() => {
+    // Initial theme check
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "night";
+    setTheme(currentTheme);
+
+    // Event listener for theme changes from Navbar
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      setTheme(customEvent.detail || "night");
+    };
+
+    window.addEventListener("theme-change", handleThemeChange);
+    return () => window.removeEventListener("theme-change", handleThemeChange);
+  }, []);
+
   const getSocialIcon = (title: string) => {
     switch (title.toLowerCase()) {
       case "github":
@@ -30,9 +48,16 @@ export default function Hero() {
         {/* Left: Text Contents */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
           
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-outfit text-sm font-semibold mb-6 animate-pulse-slow">
-            <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+          {/* Highlighted Status Badge */}
+          <div className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-full font-outfit text-sm font-bold tracking-wide mb-6 shadow-md transition-transform duration-300 hover:scale-[1.03] ${
+            theme === "light"
+              ? "bg-success/15 border border-success/30 text-emerald-900 shadow-success/5"
+              : "bg-success/10 border border-success/30 text-success shadow-success/5"
+          }`}>
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
+            </span>
             Open for Opportunities
           </div>
 
@@ -61,7 +86,7 @@ export default function Hero() {
             </Link>
             
             <a
-              href="/resume.pdf"
+              href="/Monzurul_Islam.pdf"
               download="Monzurul_Islam_Resume.pdf"
               className="btn btn-outline btn-secondary font-outfit"
             >
@@ -72,23 +97,6 @@ export default function Hero() {
               Contact Me <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-
-          {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            <span className="text-sm opacity-60 font-medium font-outfit">Connect:</span>
-            {portfolioData.socials.map((social) => (
-              <a
-                key={social.id}
-                href={social.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-circle btn-sm hover:bg-primary/25 hover:text-primary transition-all duration-300"
-                title={social.title}
-              >
-                {getSocialIcon(social.title)}
-              </a>
-            ))}
-          </div>
         </div>
 
         {/* Right: Premium Graphic/Avatar Card */}
@@ -98,18 +106,21 @@ export default function Hero() {
             {/* Pulsing Backlighting */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary to-secondary opacity-30 blur-2xl group-hover:opacity-50 transition-opacity duration-500"></div>
             
-            {/* Card Frame */}
-            <div className="relative w-full h-full bg-base-200/50 backdrop-blur-md border border-base-300/60 rounded-3xl p-6 flex flex-col justify-center items-center overflow-hidden transition-all duration-500 group-hover:border-primary/40 group-hover:shadow-2xl group-hover:shadow-primary/5">
+            {/* Card Frame - Removed backdrop-blur-md and changed opacity to prevent horizontal line screen tearing */}
+            <div className="relative w-full h-full bg-base-200/90 border border-base-300/60 rounded-3xl p-6 flex flex-col justify-center items-center overflow-hidden transition-all duration-500 group-hover:border-primary/40 group-hover:shadow-2xl group-hover:shadow-primary/5">
               
-              {/* Profile Image with animations & glowing frames */}
-              <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-3xl overflow-hidden border-2 border-primary/20 shadow-xl group-hover:border-primary/50 group-hover:scale-[1.03] transition-all duration-500 ease-out animate-float mb-12">
-                <img
-                  src="/Monzurul Islam.png"
-                  alt="Monzurul Islam"
-                  className="w-full h-full object-cover object-center"
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent opacity-60"></div>
+              {/* Floating Wrapper - decodes keyframe translateY animation */}
+              <div className="animate-float mb-12">
+                {/* Profile Image - handles scale transition on hover smoothly by using transition-transform instead of transition-all */}
+                <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-3xl overflow-hidden border-2 border-primary/20 shadow-xl group-hover:border-primary/50 transition-transform duration-500 ease-out group-hover:scale-[1.03]">
+                  <img
+                    src={theme === "light" ? "/Monzurul Islam-Light.jpeg" : "/Monzurul Islam-Dark.jpeg"}
+                    alt="Monzurul Islam"
+                    className="w-full h-full object-cover object-center"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent opacity-60"></div>
+                </div>
               </div>
 
               {/* Tag overlay */}

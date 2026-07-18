@@ -27,20 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`} data-theme="night">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const savedTheme = localStorage.getItem('theme') || 'night';
-                  document.documentElement.setAttribute('data-theme', savedTheme);
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
+      <head />
       <body className="font-sans antialiased bg-base-100 text-base-content min-h-screen relative">
         {children}
       </body>
