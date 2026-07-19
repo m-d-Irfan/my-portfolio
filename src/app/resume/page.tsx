@@ -170,7 +170,7 @@ export default function ResumePage() {
                   <p className="opacity-85 text-xs">{edu.institution}</p>
                   <p className="text-xs font-semibold text-secondary print:text-gray-800 mt-0.5">{edu.grade}</p>
                 </div>
-                <div className="text-right text-xs opacity-80 print:text-black">
+                <div className="text-right text-xs opacity-80 print:text-black shrink-0">
                   <p className="font-semibold">{edu.dates}</p>
                   <p>{edu.location}</p>
                 </div>

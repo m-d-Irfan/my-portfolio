@@ -41,7 +41,7 @@ export default function Education() {
                   </div>
 
                   {/* Dates & Location Badge */}
-                  <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3 md:shrink-0">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-base-100/80 border border-base-300 font-mono text-xs opacity-80">
                       <Calendar className="w-3.5 h-3.5" />
                       {edu.dates}

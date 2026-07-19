@@ -47,19 +47,8 @@ export default function Hero() {
         
         {/* Left: Text Contents */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-          
-          {/* Highlighted Status Badge */}
-          <div className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-full font-outfit text-sm font-bold tracking-wide mb-6 shadow-md transition-transform duration-300 hover:scale-[1.03] ${
-            theme === "light"
-              ? "bg-success/15 border border-success/30 text-emerald-900 shadow-success/5"
-              : "bg-success/10 border border-success/30 text-success shadow-success/5"
-          }`}>
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
-            </span>
-            Open for Opportunities
-          </div>
+
+
 
           {/* Heading */}
           <h1 className="font-outfit text-4xl sm:text-6xl font-bold tracking-tight mb-4">

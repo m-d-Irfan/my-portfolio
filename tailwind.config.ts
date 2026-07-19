@@ -42,17 +42,17 @@ const config: Config = {
         },
         light: {
           "color-scheme": "light",
-          primary: "#57401C", // Bronze accent
-          secondary: "#443013",
-          accent: "#8A2E2B",
-          neutral: "#F4EFEA",
-          "neutral-content": "#1C1B14",
-          "base-100": "#BAB58C", // Pistachio background
-          "base-200": "#A8A37A", // Darker pistachio for cards
-          "base-300": "#98936A", // Borders
-          "base-content": "#1C1B14", // Dark text
+          primary: "#18221D", // Deep Pine Green highlight
+          secondary: "#26362D", // Muted Pine charcoal
+          accent: "#8A2E2B", // Rust Red accent
+          neutral: "#B8CDBC", // Rich Greenish Pistachio background
+          "neutral-content": "#14221A",
+          "base-100": "#B8CDBC", // Rich Greenish Pistachio background
+          "base-200": "#A6BCA8", // Deeper cards
+          "base-300": "#94AA96", // Borders
+          "base-content": "#14221A", // Deep Pine Charcoal text
           info: "#06b6d4",
-          success: "#10b981",
+          success: "#22c55e",
           warning: "#f59e0b",
           error: "#f43f5e",
         }

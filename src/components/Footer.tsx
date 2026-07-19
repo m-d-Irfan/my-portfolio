@@ -80,7 +80,6 @@ export default function Footer() {
         {/* Copyright */}
         <div className="text-xs opacity-60 font-sans mt-4">
           <p>© {new Date().getFullYear()} Monzurul Islam. All rights reserved.</p>
-          <p className="mt-1">Built with Next.js 15, TypeScript, & Tailwind CSS.</p>
         </div>
       </div>
     </footer>
