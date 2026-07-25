@@ -84,15 +84,14 @@ export const portfolioData: PortfolioData = {
   whatsapp: "+8801611836864",
   location: "Chattogram, Bangladesh",
   githubUsername: "m-d-Irfan",
-  careerObjective: "Backend-focused Computer Science graduate with hands-on experience designing and building secure, scalable REST APIs using Python, Django, and Django REST Framework. Proficient in PostgreSQL for data modeling, JWT-based authentication, and cloud deployment via Render with GitHub Actions CI/CD. Seeking a backend engineering position where I can contribute to production systems and grow within a structured engineering team.",
+  careerObjective: "Software Engineer with a deep focus on backend system architecture, relational database modeling, and modern full-stack development. Proficient in engineering secure, high-performance REST APIs using Python and Django, complemented by reactive web frontends built with Next.js and React. Hands-on experience designing data workflows with PostgreSQL and Prisma, implementing multi-provider payment pipelines, and deploying application-level AI integrations.",
   about: {
-    bio: "Hello! I am Monzurul Islam (often known online as Irfan). I am a passionate and detail-oriented software engineer specializing in backend systems and modern web technologies. I love solving complex algorithms, database scaling puzzles, and crafting secure APIs.",
+    bio: "Hello! I am Monzurul Islam. I am a passionate and detail-oriented software engineer specializing in backend systems and modern web technologies. I love solving complex algorithms, database scaling puzzles, and crafting secure APIs.",
     journey: "My programming journey started during my Bachelor's degree in Computer Science & Engineering. I fell in love with python and its ecosystem, particularly Django. To deepen my skills, I completed rigorous industry-oriented training programs, including Phitron (focused on Computer Science fundamentals, competitive programming, and backend development) and Programming Hero Level-2 (deep diving into Advanced TypeScript, Node.js, Next.js, and databases). Today, I build full-stack web applications with bulletproof backend APIs and clean, fast frontends.",
     enjoyWork: "I truly enjoy backend architecture, schema design, authentication protocols (JWT, sessions), and setting up automated CI/CD pipelines. There is a special satisfaction in writing optimized SQL queries and seeing a API route execute under 50ms.",
     hobbies: [
       "Competitive Programming (active on Codeforces as monzurul.islam2022 and Codechef as montikuna_2)",
-      "Solving algorithmic puzzles on LeetCode",
-      "Exploring new tech tools, Docker orchestration, and automation with n8n",
+      "Exploring new tech tools how to integrate AI in Web Development and work with AI agents.",
       "Traveling and exploring the green hills and scenic spots of Chattogram"
     ]
   },
