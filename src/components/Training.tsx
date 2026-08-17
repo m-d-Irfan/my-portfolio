@@ -4,7 +4,7 @@ import { Award, Calendar, BookOpen, ExternalLink } from "lucide-react";
 
 export default function Training() {
   return (
-    <section id="training" className="section py-20 bg-base-100 relative">
+    <section id="training" className="section py-20 bg-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}

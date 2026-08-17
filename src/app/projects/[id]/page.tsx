@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { portfolioData } from "@/data/portfolio";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AuraBackground from "@/components/AuraBackground";
 import { ArrowLeft, Code, ExternalLink, Github, Sparkles, Flame, Milestone } from "lucide-react";
 
 interface ProjectPageProps {
@@ -21,9 +22,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <>
+    <AuraBackground>
       <Navbar />
-      <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex-grow">
         {/* Back navigation */}
         <div className="mb-8">
           <Link
@@ -152,7 +153,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         </div>
       </main>
       <Footer />
-    </>
+    </AuraBackground>
   );
 }
 

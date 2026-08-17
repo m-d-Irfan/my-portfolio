@@ -26,35 +26,35 @@ const config: Config = {
       {
         night: {
           "color-scheme": "dark",
-          primary: "#BAB58C", // Pistachio accent
-          secondary: "#A8A37A",
-          accent: "#E27D60",
-          neutral: "#121A16",
-          "neutral-content": "#ECF2EE",
-          "base-100": "#18221D", // Deep Pine Green background
-          "base-200": "#121A16", // Darker Pine Green for cards
-          "base-300": "#0c120f", // Borders
-          "base-content": "#ECF2EE", // Warm soft white text
-          info: "#0ca5e9",
-          success: "#22c55e",
-          warning: "#eab308",
-          error: "#ef4444",
-        },
-        light: {
-          "color-scheme": "light",
-          primary: "#18221D", // Deep Pine Green highlight
-          secondary: "#26362D", // Muted Pine charcoal
-          accent: "#8A2E2B", // Rust Red accent
-          neutral: "#B8CDBC", // Rich Greenish Pistachio background
-          "neutral-content": "#14221A",
-          "base-100": "#B8CDBC", // Rich Greenish Pistachio background
-          "base-200": "#A6BCA8", // Deeper cards
-          "base-300": "#94AA96", // Borders
-          "base-content": "#14221A", // Deep Pine Charcoal text
-          info: "#06b6d4",
+          primary: "#8b5cf6", // Violet glow matching Aura Layer 2
+          secondary: "#6366f1", // Indigo glow matching Aura Layer 3
+          accent: "#c084fc", // Lilac / Purple accent
+          neutral: "#181424", // Deep Obsidian neutral
+          "neutral-content": "#f3f4f6",
+          "base-100": "#100e0b", // Obsidian base backdrop
+          "base-200": "#181424", // Obsidian Glass card tint
+          "base-300": "#262035", // Subtle glass borders
+          "base-content": "#f3f4f6", // Crisp white text
+          info: "#38bdf8",
           success: "#22c55e",
           warning: "#f59e0b",
           error: "#f43f5e",
+        },
+        light: {
+          "color-scheme": "light",
+          primary: "#7c3aed",
+          secondary: "#4f46e5",
+          accent: "#9333ea",
+          neutral: "#f5f5f4",
+          "neutral-content": "#1c1917",
+          "base-100": "#fafaf9",
+          "base-200": "#f5f5f4",
+          "base-300": "#e7e5e4",
+          "base-content": "#1c1917",
+          info: "#0284c7",
+          success: "#16a34a",
+          warning: "#d97706",
+          error: "#dc2626",
         }
       }
     ],

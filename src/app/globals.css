@@ -6,46 +6,121 @@
   html {
     scroll-behavior: smooth;
   }
+  
+  /* Obsidian Glass - Aura Base Backdrop */
   body {
+    background-color: #100e0b;
     overflow-x: hidden;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  [data-theme="light"] body {
+    background-color: #fafaf9;
+  }
 }
 
-/* Custom premium glow effects and animations */
-.glow-circle-1 {
-  position: absolute;
-  top: 10%;
-  left: 5%;
-  width: 30rem;
-  height: 30rem;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.05) 60%, transparent 100%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
+/* =========================================================
+   Aura Gradient: "Obsidian Glass"
+   Layered CSS blend mode architecture over #100e0b backdrop
+   ========================================================= */
+
+.aura-bg {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  /* NO background-color - layers blend against body */
 }
 
-.glow-circle-2 {
+/* Layer 1 - normal linear gradient */
+.aura-layer-1 {
   position: absolute;
-  bottom: 20%;
-  right: 5%;
-  width: 35rem;
-  height: 35rem;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(244, 63, 94, 0.05) 60%, transparent 100%);
-  filter: blur(50px);
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 10, 25, 0.95) 0%, rgba(30, 20, 50, 0.8) 50%, rgba(50, 30, 80, 0.6) 100%);
+  mix-blend-mode: normal;
+  transform: translateZ(0);
+  will-change: transform;
   pointer-events: none;
-  z-index: 0;
 }
+
+/* Layer 2 - screen (multiply in light theme) radial violet glow */
+.aura-layer-2 {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 35%, rgba(139, 92, 246, 0.4) 0%, transparent 40%);
+  mix-blend-mode: screen;
+  filter: blur(125px);
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .aura-layer-2 {
+    filter: blur(180px);
+  }
+}
+
+[data-theme="light"] .aura-layer-2 {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle at 25% 35%, rgba(139, 92, 246, 0.25) 0%, transparent 40%);
+}
+
+/* Layer 3 - screen (multiply in light theme) radial indigo glow */
+.aura-layer-3 {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.3) 0%, transparent 35%);
+  mix-blend-mode: screen;
+  filter: blur(150px);
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .aura-layer-3 {
+    filter: blur(216px);
+  }
+}
+
+[data-theme="light"] .aura-layer-3 {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.2) 0%, transparent 35%);
+}
+
+/* Layer 4 - overlay (multiply in light theme) subtle linear shimmer */
+.aura-layer-4 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.03) 100%);
+  mix-blend-mode: overlay;
+  filter: blur(25px);
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .aura-layer-4 {
+    filter: blur(36px);
+  }
+}
+
+[data-theme="light"] .aura-layer-4 {
+  mix-blend-mode: multiply;
+}
+
+/* =========================================================
+   Obsidian Glass UI Utilities
+   ========================================================= */
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary;
 }
 
 .glass-card {
-  @apply bg-base-200/90 border border-base-300/40 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5;
+  @apply bg-base-200/50 backdrop-blur-md border border-base-300/40 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5;
 }
 
 .glow-card-hover {

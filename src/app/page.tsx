@@ -8,15 +8,16 @@ import Education from "@/components/Education";
 import Training from "@/components/Training";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import AuraBackground from "@/components/AuraBackground";
 
 export default function Home() {
   return (
-    <>
+    <AuraBackground>
       {/* Sticky top Navigation Bar */}
       <Navbar />
       
       {/* Scrollable Layout sections */}
-      <main className="min-h-screen">
+      <main className="flex-grow">
         <Hero />
         <About />
         <Skills />
@@ -28,6 +29,6 @@ export default function Home() {
 
       {/* Simple and elegant footer */}
       <Footer />
-    </>
+    </AuraBackground>
   );
 }

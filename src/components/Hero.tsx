@@ -39,10 +39,6 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-[90vh] flex items-center justify-center pt-16 overflow-hidden">
-      {/* Background glow animations */}
-      <div className="glow-circle-1"></div>
-      <div className="glow-circle-2"></div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-12">
         
         {/* Left: Text Contents */}

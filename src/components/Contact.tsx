@@ -9,7 +9,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section py-24 bg-base-100 relative">
+    <section id="contact" className="section py-24 bg-transparent relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         
         {/* Section Header */}
