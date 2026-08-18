@@ -350,17 +350,30 @@ function initMobileMenu() {
 }
 
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal, .card, .section-header, .contact-box');
+  const revealElements = document.querySelectorAll(
+    '.reveal, .card, .section-header, .contact-box, .metric-card, .skill-category-card, .cp-card, .timeline-item, .hero-chips-container, #projects'
+  );
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
+        if (entry.target.id === 'projects' || entry.target.closest('#projects')) {
+          const stage = document.getElementById('projects-coverflow-stage');
+          if (stage) stage.classList.add('projects-emerge');
+        }
+      } else {
+        // Reset when scrolled out so animations slightly re-trigger every time for every screen view
+        entry.target.classList.remove('active');
+        if (entry.target.id === 'projects' || entry.target.closest('#projects')) {
+          const stage = document.getElementById('projects-coverflow-stage');
+          if (stage) stage.classList.remove('projects-emerge');
+        }
       }
     });
   }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
   });
 
   revealElements.forEach((el) => {

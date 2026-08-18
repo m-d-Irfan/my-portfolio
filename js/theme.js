@@ -1,6 +1,6 @@
 /**
  * Theme Switcher Module (Dark / Light)
- * Implements smooth View Transitions API with circular clip-path expansion
+ * Implements ultra-smooth View Transitions API with circular clip-path expansion starting from the trigger button
  */
 
 const THEME_KEY = 'monzurul_portfolio_theme';
@@ -34,23 +34,20 @@ export function toggleTheme(event) {
   let x = window.innerWidth - 60;
   let y = 32;
 
-  if (event) {
-    const rect = event.currentTarget ? event.currentTarget.getBoundingClientRect() : null;
-    if (rect) {
-      x = rect.left + rect.width / 2;
-      y = rect.top + rect.height / 2;
-    } else if (event.clientX && event.clientY) {
-      x = event.clientX;
-      y = event.clientY;
-    }
+  const btn = (event && (event.currentTarget || event.target?.closest?.('button'))) || document.getElementById('theme-toggle-btn');
+  if (btn && typeof btn.getBoundingClientRect === 'function') {
+    const rect = btn.getBoundingClientRect();
+    x = rect.left + rect.width / 2;
+    y = rect.top + rect.height / 2;
+  } else if (event && event.clientX && event.clientY) {
+    x = event.clientX;
+    y = event.clientY;
   }
 
-  document.documentElement.classList.add('theme-transitioning');
-
   // Check if browser supports View Transitions API
-  if (document.startViewTransition) {
+  if (typeof document.startViewTransition === 'function') {
     const transition = document.startViewTransition(() => {
-      setTheme(nextTheme, true);
+      setTheme(nextTheme, false);
     });
 
     transition.ready.then(() => {
@@ -59,7 +56,7 @@ export function toggleTheme(event) {
         Math.max(y, window.innerHeight - y)
       );
 
-      const anim = document.documentElement.animate(
+      document.documentElement.animate(
         {
           clipPath: [
             `circle(0px at ${x}px ${y}px)`,
@@ -67,22 +64,19 @@ export function toggleTheme(event) {
           ]
         },
         {
-          duration: 550,
-          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          duration: 700,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
           pseudoElement: '::view-transition-new(root)'
         }
       );
-
-      anim.onfinish = () => {
-        document.documentElement.classList.remove('theme-transitioning');
-      };
     });
   } else {
-    // Fallback direct swap with CSS transition
+    // Fallback smooth transition
+    document.documentElement.classList.add('theme-transitioning');
     setTheme(nextTheme, false);
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transitioning');
-    }, 450);
+    }, 600);
   }
 }
 
@@ -98,6 +92,7 @@ function updateThemeUi(themeName) {
           <line x1="12" y1="1" x2="12" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="23"></line>
           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
           <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
           <line x1="1" y1="12" x2="3" y2="12"></line>
           <line x1="21" y1="12" x2="23" y2="12"></line>
@@ -119,7 +114,7 @@ function updateThemeUi(themeName) {
   const avatarImgs = document.querySelectorAll('#hero-avatar-img, .avatar-img, .avatar-img-mobile');
   avatarImgs.forEach((img) => {
     img.src = themeName === 'light' 
-      ? './assets/Monzurul Islam-Light.jpeg' 
-      : './assets/Monzurul Islam-Dark.jpeg';
+      ? './assets/avatar-light.jpeg' 
+      : './assets/avatar-dark.jpeg';
   });
 }

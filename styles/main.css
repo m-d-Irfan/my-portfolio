@@ -1291,67 +1291,116 @@ section[id] {
 .coverflow-stage {
   position: relative;
   width: 100%;
-  height: 550px;
+  height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 1200px;
   transform-style: preserve-3d;
   margin-bottom: var(--space-6);
+  overflow: hidden;
 }
 
 .coverflow-card {
   position: absolute;
-  width: 440px;
-  max-width: 90vw;
+  width: 460px;
+  max-width: 86vw;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-2xl);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease, border-color 0.25s ease;
-  will-change: transform, opacity;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s ease,
+              filter 0.5s ease,
+              border-color 0.3s ease,
+              box-shadow 0.5s ease;
+  will-change: transform, opacity, filter;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform-style: preserve-3d;
   cursor: pointer;
 }
 
-/* Center Active Card */
+/* Center Active Card: Much bigger in the middle, sharp, highlighted */
 .coverflow-card.card-center {
-  z-index: 10;
+  z-index: 20;
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+  transform: translate3d(0, 0, 40px) scale(1.1) rotateY(0deg);
   border-color: var(--border-accent);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 16px rgba(16, 185, 129, 0.12);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.6), 0 0 35px rgba(16, 185, 129, 0.22);
+  filter: blur(0px);
   cursor: default;
   pointer-events: auto;
 }
 
-/* Previous Card (Left Peeking) */
+/* Previous Card: Left half-shown, transparent & blurry */
 .coverflow-card.card-prev {
-  z-index: 5;
-  opacity: 0.4;
-  transform: translate3d(-60%, 0, -60px) scale(0.86) rotateY(12deg);
+  z-index: 10;
+  opacity: 0.45;
+  transform: translate3d(-70%, 0, -40px) scale(0.85) rotateY(12deg);
+  filter: blur(2.5px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   pointer-events: auto;
 }
 
 .coverflow-card.card-prev:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+  filter: blur(0.5px);
 }
 
-/* Next Card (Right Peeking) */
+/* Next Card: Right half-shown, transparent & blurry */
 .coverflow-card.card-next {
-  z-index: 5;
-  opacity: 0.4;
-  transform: translate3d(60%, 0, -60px) scale(0.86) rotateY(-12deg);
+  z-index: 10;
+  opacity: 0.45;
+  transform: translate3d(70%, 0, -40px) scale(0.85) rotateY(-12deg);
+  filter: blur(2.5px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   pointer-events: auto;
 }
 
 .coverflow-card.card-next:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+  filter: blur(0.5px);
+}
+
+/* Cards Emerge Animation: Side cards come out from behind the middle card */
+.coverflow-stage.projects-emerge .coverflow-card.card-prev {
+  animation: cardEmergeLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.coverflow-stage.projects-emerge .coverflow-card.card-next {
+  animation: cardEmergeRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cardEmergeLeft {
+  0% {
+    transform: translate3d(0, 0, -10px) scale(0.9) rotateY(0deg);
+    opacity: 0;
+    filter: blur(5px);
+  }
+  100% {
+    transform: translate3d(-70%, 0, -40px) scale(0.85) rotateY(12deg);
+    opacity: 0.45;
+    filter: blur(2.5px);
+  }
+}
+
+@keyframes cardEmergeRight {
+  0% {
+    transform: translate3d(0, 0, -10px) scale(0.9) rotateY(0deg);
+    opacity: 0;
+    filter: blur(5px);
+  }
+  100% {
+    transform: translate3d(70%, 0, -40px) scale(0.85) rotateY(-12deg);
+    opacity: 0.45;
+    filter: blur(2.5px);
+  }
 }
 
 /* Hidden Cards */
@@ -1360,6 +1409,7 @@ section[id] {
   opacity: 0;
   transform: translate3d(0, 0, -120px) scale(0.7);
   pointer-events: none;
+  filter: blur(6px);
 }
 
 /* Thumbnail with Category Pill */
