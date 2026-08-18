@@ -46,9 +46,9 @@ export default function Education() {
           {data.education.map((edu, index) => (
             <div
               key={edu.id}
-              style={{ transitionDelay: `${index * 200}ms` }}
-              className={`relative group transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                isInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+              style={{ transitionDelay: `${index * 150}ms` }}
+              className={`relative group transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+                isInView ? "opacity-100 translate-x-0 scale-100" : "opacity-0 -translate-x-10 scale-95"
               }`}
             >
               

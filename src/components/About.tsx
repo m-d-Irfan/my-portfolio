@@ -162,10 +162,10 @@ export default function About() {
                 style={{
                   transitionDelay: `${index * 180}ms`,
                 }}
-                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] group hover:shadow-xl hover:scale-[1.02] ${
+                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group hover:shadow-xl hover:scale-[1.02] will-change-transform ${
                   servicesInView
-                    ? "opacity-100 translate-x-0 translate-y-0"
-                    : "opacity-0 -translate-y-20 md:translate-y-0 md:-translate-x-28"
+                    ? "opacity-100 translate-x-0 translate-y-0 scale-100"
+                    : "opacity-0 -translate-y-14 md:translate-y-0 md:-translate-x-20 scale-95"
                 }`}
               >
                 <div

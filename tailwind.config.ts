@@ -7,23 +7,39 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/context/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: ["class", '[data-theme="night"]'],
   theme: {
     extend: {
+      fontFamily: {
+        outfit: ["var(--font-outfit)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
+      },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "float": "float 6s ease-in-out infinite",
-        "fade-in": "fadeInCurtain 0.3s ease-out forwards",
+        "float": "float 5s ease-in-out infinite",
+        "fade-in": "fadeIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "slide-up": "slideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "scale-up": "scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(-6px)" },
         },
-        fadeInCurtain: {
-          from: { opacity: "0", transform: "scale(0.99)" },
+        fadeIn: {
+          from: { opacity: "0", transform: "translateY(4px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideUp: {
+          from: { opacity: "0", transform: "translateY(16px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        scaleUp: {
+          from: { opacity: "0", transform: "scale(0.96)" },
           to: { opacity: "1", transform: "scale(1)" },
-        }
-      }
+        },
+      },
     },
   },
   plugins: [require("daisyui")],
@@ -32,39 +48,40 @@ const config: Config = {
       {
         night: {
           "color-scheme": "dark",
-          primary: "#22d3ee", // Vibrant Cyan
-          secondary: "#06b6d4", // Teal / Deep Cyan
-          accent: "#38bdf8", // Sky Blue
-          neutral: "#082f49", // Dark Cyan Navy
-          "neutral-content": "#f0fdfa",
-          "base-100": "#100e0b", // Dark backdrop matching Liquid Cyan
-          "base-200": "#0e1e24", // Deep glass cyan tint
-          "base-300": "#163842", // Subtle cyan glass borders
-          "base-content": "#f0fdfa", // Crisp soft white/cyan text
+          primary: "#10b981", // Crisp Emerald Green
+          secondary: "#38bdf8", // Sky Cyan
+          accent: "#818cf8", // Soft Indigo
+          neutral: "#1e293b", // Slate Neutral
+          "neutral-content": "#f8fafc",
+          "base-100": "#0a0e14", // Obsidian Dark Canvas
+          "base-200": "#121822", // Card Surface
+          "base-300": "#1e293b", // Crisp 1px Borders
+          "base-content": "#f8fafc", // High-contrast clean typography
           info: "#38bdf8",
-          success: "#22c55e",
+          success: "#10b981",
           warning: "#f59e0b",
           error: "#f43f5e",
         },
         light: {
           "color-scheme": "light",
-          primary: "#0891b2", // Ocean Cyan
-          secondary: "#0284c7", // Sky Blue
-          accent: "#06b6d4", // Aqua
-          neutral: "#f3efe6", // Warm sand neutral
+          primary: "#0d9488", // Deep Forest Teal
+          secondary: "#0284c7", // Cobalt Ocean
+          accent: "#6366f1", // Indigo
+          neutral: "#f1f5f9", // Crisp light neutral
           "neutral-content": "#0f172a",
-          "base-100": "#faf8f2", // Light backdrop matching Aqua Bubble
-          "base-200": "#f0ede4", // Subtle warm glass card tint
-          "base-300": "#e2ddd2", // Border tone
-          "base-content": "#0f172a", // Deep slate text
+          "base-100": "#faf9f6", // Warm Porcelain Canvas
+          "base-200": "#ffffff", // Pure White Card Surface
+          "base-300": "#e2e8f0", // Clean hairline border
+          "base-content": "#0f172a", // Deep Slate typography
           info: "#0284c7",
-          success: "#16a34a",
+          success: "#059669",
           warning: "#d97706",
           error: "#dc2626",
-        }
-      }
+        },
+      },
     ],
   },
 };
 
 export default config;
+

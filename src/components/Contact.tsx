@@ -32,8 +32,8 @@ export default function Contact() {
         
         {/* Section Header */}
         <div
-          className={`mb-12 transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          className={`mb-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+            isInView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
           }`}
         >
           <h2 className="font-outfit text-4xl sm:text-5xl font-bold tracking-tight mb-4">
@@ -47,8 +47,8 @@ export default function Contact() {
 
         {/* Buttons Group - Side by Side */}
         <div
-          className={`flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto mb-12 transition-all duration-800 delay-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-            isInView ? "opacity-100 scale-100" : "opacity-0 scale-90"
+          className={`flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto mb-12 transition-all duration-700 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+            isInView ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-4"
           }`}
         >
           <a

@@ -87,16 +87,16 @@ export default function Projects() {
 
     if (diff === 0) {
       // Active / Middle Card - Much bigger, sharp, centered, full opacity
-      return "relative z-30 scale-100 sm:scale-105 opacity-100 shadow-2xl shadow-primary/15 border-primary/50 pointer-events-auto translate-x-0 transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "relative z-30 scale-100 sm:scale-105 opacity-100 shadow-2xl shadow-primary/15 border-primary/50 pointer-events-auto translate-x-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // Right Card - Half shown on right edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] translate-x-[48%] sm:translate-x-[52%] lg:translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] translate-x-[48%] sm:translate-x-[52%] lg:translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
     } else if (diff === total - 1) {
       // Left Card - Half shown on left edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] -translate-x-[48%] sm:-translate-x-[52%] lg:-translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] -translate-x-[48%] sm:-translate-x-[52%] lg:-translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
     } else {
       // Hidden behind
-      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-800";
+      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-700";
     }
   };
 

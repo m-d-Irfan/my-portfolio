@@ -18,6 +18,7 @@ export interface Project {
   techStack: string[];
   challenges: string;
   improvements: string;
+  featured?: boolean;
 }
 
 export interface EducationItem {
@@ -28,6 +29,7 @@ export interface EducationItem {
   location: string;
   grade: string;
   description?: string;
+  highlights?: string[];
 }
 
 export interface TrainingItem {
@@ -37,6 +39,7 @@ export interface TrainingItem {
   dates: string;
   description: string;
   link?: string;
+  skills?: string[];
 }
 
 export interface ExperienceItem {
@@ -51,12 +54,30 @@ export interface ExperienceItem {
 
 export interface SkillCategory {
   title: string;
-  skills: { name: string; level: number }[]; // level from 0 to 100
+  description?: string;
+  skills: { name: string; level: number; tag?: string }[]; // level from 0 to 100
+}
+
+export interface MetricItem {
+  label: string;
+  value: string;
+  sublabel: string;
+}
+
+export interface CompetitiveProfile {
+  platform: string;
+  username: string;
+  url: string;
+  badge: string;
+  description: string;
 }
 
 export interface PortfolioData {
   name: string;
+  nickname: string;
   designation: string;
+  tagline: string;
+  status: string;
   email: string;
   phone: string;
   whatsapp?: string;
@@ -68,6 +89,7 @@ export interface PortfolioData {
   codechefUsername: string;
   resumePdfUrl: string;
   careerObjective: string;
+  metrics: MetricItem[];
   about: {
     bio: string;
     journey: string;
@@ -79,6 +101,7 @@ export interface PortfolioData {
   hardSkills: string[];
   languages: string[];
   projects: Project[];
+  competitiveProgramming: CompetitiveProfile[];
   education: EducationItem[];
   training: TrainingItem[];
   experience: ExperienceItem[];
@@ -86,7 +109,10 @@ export interface PortfolioData {
 
 export const portfolioData: PortfolioData = {
   name: "Monzurul Islam",
+  nickname: "Irfan",
   designation: "Junior Software Engineer",
+  tagline: "Specializing in Scalable Backend APIs & Reactive Web Frontends",
+  status: "Available for full-time backend & full-stack roles",
   email: "monsurulislamcse.0208@gmail.com",
   phone: "+8801611836864",
   whatsapp: "+8801611836864",
@@ -98,6 +124,12 @@ export const portfolioData: PortfolioData = {
   codechefUsername: "montikuna_2",
   resumePdfUrl: "/Monzurul_Islam.pdf",
   careerObjective: "Backend-focused Computer Science graduate with hands-on experience designing and building secure, scalable REST APIs using Python, Django, and Django REST Framework. Proficient in PostgreSQL for data modeling, JWT-based authentication, and cloud deployment via Render with GitHub Actions CI/CD. Seeking a backend engineering position where I can contribute to production systems and grow within a structured engineering team.",
+  metrics: [
+    { label: "Academic CGPA", value: "3.53 / 4.00", sublabel: "B.Sc. in CSE (2022 – 2026)" },
+    { label: "Intensive Bootcamps", value: "210+ Hrs", sublabel: "Phitron & Programming Hero" },
+    { label: "Production APIs", value: "10+ Endpoints", sublabel: "JWT, RBAC & Cloud Deployment" },
+    { label: "Problem Solving", value: "Active Solver", sublabel: "Codeforces & Codechef" },
+  ],
   about: {
     bio: "Hello! I am Monzurul Islam (online as Irfan). I am a passionate and detail-oriented Junior Software Engineer specializing in backend architecture, REST API design, and modern full-stack web technologies. I love solving complex algorithmic challenges, relational database modeling, and crafting clean, reliable systems.",
     journey: "My programming journey started during my Bachelor's in Computer Science & Engineering at Port City International University. I fell in love with Python and its ecosystem, particularly Django and Django REST Framework. To expand my skills, I completed rigorous industry-oriented training with Phitron (covering CS fundamentals, algorithms, OOP, database design, and cloud deployments) and Programming Hero Level-2 (covering Advanced TypeScript, Node.js, Next.js, and Prisma). Today, I build full-stack web applications with bulletproof backend APIs and reactive frontends.",
@@ -124,62 +156,90 @@ export const portfolioData: PortfolioData = {
     },
     {
       id: "3",
+      title: "WhatsApp",
+      link: "https://wa.me/8801611836864",
+      icon: "MessageSquare"
+    },
+    {
+      id: "4",
+      title: "Email",
+      link: "mailto:monsurulislamcse.0208@gmail.com",
+      icon: "Mail"
+    },
+    {
+      id: "5",
       title: "Codeforces",
       link: "https://codeforces.com/profile/monzurul.islam2022",
       icon: "Code"
     },
     {
-      id: "4",
+      id: "6",
       title: "Codechef",
       link: "https://www.codechef.com/users/montikuna_2",
       icon: "Code"
+    }
+  ],
+  competitiveProgramming: [
+    {
+      platform: "Codeforces",
+      username: "monzurul.islam2022",
+      url: "https://codeforces.com/profile/monzurul.islam2022",
+      badge: "Active Contestant",
+      description: "Regular participation in Div.2 & Div.3 rounds, practicing dynamic programming, number theory, graph traversal, and binary search."
     },
     {
-      id: "5",
-      title: "Email",
-      link: "mailto:monsurulislamcse.0208@gmail.com",
-      icon: "Mail"
+      platform: "Codechef",
+      username: "montikuna_2",
+      url: "https://www.codechef.com/users/montikuna_2",
+      badge: "Rated Solver",
+      description: "Solving algorithmic problems involving greedy techniques, trees, hash tables, and modular arithmetic."
     }
   ],
   skills: [
     {
-      title: "Languages",
+      title: "Backend & Databases",
+      description: "Architecture, REST APIs, ORM, Auth & Relational Schemas",
       skills: [
-        { name: "Python", level: 92 },
-        { name: "TypeScript", level: 86 },
-        { name: "JavaScript", level: 88 },
-        { name: "C++", level: 78 }
-      ]
-    },
-    {
-      title: "Backend & DBs",
-      skills: [
-        { name: "Django", level: 92 },
-        { name: "Django REST Framework (DRF)", level: 94 },
-        { name: "REST APIs & JWT", level: 95 },
-        { name: "PostgreSQL", level: 88 },
-        { name: "MySQL", level: 85 }
+        { name: "Django", level: 92, tag: "Primary" },
+        { name: "Django REST Framework (DRF)", level: 94, tag: "Primary" },
+        { name: "REST APIs & JWT", level: 95, tag: "Core" },
+        { name: "PostgreSQL", level: 88, tag: "Primary DB" },
+        { name: "MySQL", level: 85, tag: "Relational" },
+        { name: "Prisma ORM", level: 82, tag: "TypeScript ORM" }
       ]
     },
     {
       title: "Frontend Development",
+      description: "Reactive UI, Server Components, State & Styling",
       skills: [
-        { name: "React.js (v19)", level: 88 },
-        { name: "Next.js (v15)", level: 85 },
-        { name: "Tailwind CSS", level: 92 },
-        { name: "HTML5 & CSS3", level: 92 },
-        { name: "Axios", level: 90 }
+        { name: "React.js (v19)", level: 88, tag: "Core UI" },
+        { name: "Next.js (v15)", level: 85, tag: "App Router" },
+        { name: "TypeScript", level: 86, tag: "Type Safe" },
+        { name: "Tailwind CSS", level: 92, tag: "Styling" },
+        { name: "HTML5 & CSS3", level: 92, tag: "Markup" },
+        { name: "Axios", level: 90, tag: "API Client" }
       ]
     },
     {
-      title: "Tools & DevOps",
+      title: "Programming Languages",
+      description: "Core logic, OOP, Algorithms & Scripting",
       skills: [
-        { name: "Git & GitHub", level: 92 },
-        { name: "Render & Vercel", level: 88 },
-        { name: "Postman", level: 90 },
-        { name: "AWS", level: 75 },
-        { name: "Prisma", level: 82 },
-        { name: "Docker", level: 75 }
+        { name: "Python", level: 92, tag: "Core Language" },
+        { name: "TypeScript", level: 86, tag: "Full-Stack" },
+        { name: "JavaScript", level: 88, tag: "ES6+" },
+        { name: "C++", level: 78, tag: "Algorithms/CP" }
+      ]
+    },
+    {
+      title: "DevOps & Cloud Tools",
+      description: "Containerization, Deployments, CI/CD & Testing",
+      skills: [
+        { name: "Git & GitHub", level: 92, tag: "Version Control" },
+        { name: "Docker", level: 78, tag: "Containers" },
+        { name: "Render & Vercel", level: 88, tag: "Cloud Deploy" },
+        { name: "AWS (S3/EC2)", level: 75, tag: "Cloud Storage" },
+        { name: "Postman", level: 90, tag: "API Testing" },
+        { name: "n8n Automation", level: 80, tag: "Workflow" }
       ]
     }
   ],
@@ -190,6 +250,7 @@ export const portfolioData: PortfolioData = {
       id: "educore-ai",
       title: "EduCore AI",
       category: "Full Stack",
+      featured: true,
       description: "A comprehensive full-stack learning platform featuring role-separated dashboards for students, instructors, and administrators. Built with a multi-app Django REST Framework backend and a modern Next.js 15 frontend.",
       bullets: [
         "Role-based access & admin control — Users register as student or instructor; instructor accounts stay pending until an admin approves or rejects them (with an emailed reason). Enforced via JWT auth and role-based route middleware, with an admin dashboard for stats, user/course management, and enrollment cancellation.",
@@ -209,6 +270,7 @@ export const portfolioData: PortfolioData = {
       id: "sports-blog-cms",
       title: "Sports Blog CMS",
       category: "CMS",
+      featured: true,
       description: "A robust content management system built from scratch with complete CRUD functionality for posts and categories with zero third-party CMS bloat.",
       bullets: [
         "User authentication — Visitors sign up and log in (Django's built-in auth) to get posting rights; logged-out users can still browse.",
@@ -226,6 +288,7 @@ export const portfolioData: PortfolioData = {
       id: "devflow-api",
       title: "DevFlow API Backend",
       category: "Backend",
+      featured: true,
       description: "A high-performance developer Q&A REST API platform featuring reputation scoring algorithms, question ranking, and relational tagging pipelines.",
       bullets: [
         "Scalable REST Architecture — Built with Django REST Framework, PostgreSQL, and JWT authentication.",
@@ -248,7 +311,12 @@ export const portfolioData: PortfolioData = {
       dates: "01/2022 – 02/2026",
       location: "Chittagong, Bangladesh",
       grade: "CGPA: 3.53 / 4.00",
-      description: "Core studies in Data Structures and Algorithms, Object-Oriented Programming, Database Management Systems, Computer Networks, and Software Engineering."
+      description: "Core studies in Data Structures and Algorithms, Object-Oriented Programming, Database Management Systems, Computer Networks, and Software Engineering.",
+      highlights: [
+        "Graduated with a strong academic standing of 3.53 / 4.00 CGPA",
+        "Deep foundation in Data Structures, Relational Database Modeling, and Distributed Systems",
+        "Active team participant in university programming contests and hackathons"
+      ]
     }
   ],
   training: [
@@ -257,7 +325,8 @@ export const portfolioData: PortfolioData = {
       title: "Computer Science Fundamentals − with Phitron",
       provider: "Phitron",
       dates: "2023 – 2024",
-      description: "Industry oriented training around 210 hours covering C++, Python, Data Structure and Algorithm, Object Oriented Programming, Competitive Programming, Database Management on SQL and PostgreSQL, Django, Django REST framework, RestAPIs, Server Deploy with AWS."
+      description: "Industry oriented training around 210 hours covering C++, Python, Data Structure and Algorithm, Object Oriented Programming, Competitive Programming, Database Management on SQL and PostgreSQL, Django, Django REST framework, RestAPIs, Server Deploy with AWS.",
+      skills: ["Python", "C++", "Django", "DRF", "PostgreSQL", "AWS", "DSA"]
     },
     {
       id: "train-2",
@@ -265,15 +334,18 @@ export const portfolioData: PortfolioData = {
       provider: "Online Certification",
       dates: "Feb 2025",
       description: "Covering basic setup, branching, project fork & clone, workflow (staging, upstaging, commit), 2way merge, 3way merge, resolve merge conflict, collaborations.",
-      link: "https://udemy-certificate.s3.amazonaws.com/image/UC-491ed3e9-c16c-491d-8e8c-d331cf6cac92.jpg"
+      link: "https://udemy-certificate.s3.amazonaws.com/image/UC-491ed3e9-c16c-491d-8e8c-d331cf6cac92.jpg",
+      skills: ["Git", "GitHub Actions", "Branching", "Merge Conflicts", "Workflows"]
     },
     {
       id: "train-3",
       title: "Next Level Web Development – Programming Hero (Running)",
       provider: "Programming Hero",
       dates: "April ⎯ Sep 2026",
-      description: "AI driven Software Engineering Oriented bootcamp covers Advance Typescript with OOP, Node.js, CRUD with Express.js, Advance PostgreSQL and Database modeling, Prisma ORM, Advance Querying, filtering, Advance Next.js, WT custom Authentication, Docker container and Data Management, AI chat integration with Node.js and automation with n8n."
+      description: "AI driven Software Engineering Oriented bootcamp covers Advance Typescript with OOP, Node.js, CRUD with Express.js, Advance PostgreSQL and Database modeling, Prisma ORM, Advance Querying, filtering, Advance Next.js, WT custom Authentication, Docker container and Data Management, AI chat integration with Node.js and automation with n8n.",
+      skills: ["Next.js 15", "TypeScript", "Prisma", "Docker", "PostgreSQL", "n8n"]
     }
   ],
   experience: []
 };
+

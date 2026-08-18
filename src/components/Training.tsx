@@ -79,23 +79,23 @@ export default function Training() {
     // Initial entrance animation states before user scrolls into view
     if (!isInView) {
       if (index === 0 || (total > 1 && index === 1)) {
-        return "opacity-0 -translate-y-28 scale-90 pointer-events-none";
+        return "opacity-0 -translate-y-20 scale-95 pointer-events-none";
       } else if (index === 0) {
-        return "opacity-0 translate-x-40 scale-75 pointer-events-none";
+        return "opacity-0 translate-x-32 scale-80 pointer-events-none";
       } else {
-        return "opacity-0 -translate-x-40 scale-75 pointer-events-none";
+        return "opacity-0 -translate-x-32 scale-80 pointer-events-none";
       }
     }
 
     // Active Card
     if (diff === 0) {
-      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/15 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/15 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]";
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // Right Card
-      return "absolute md:relative z-10 scale-[0.85] md:scale-95 opacity-30 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "absolute md:relative z-10 scale-[0.88] md:scale-100 opacity-30 md:opacity-100 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]";
     } else if (diff === total - 1) {
       // Left Card
-      return "absolute md:relative z-10 scale-[0.85] md:scale-95 opacity-30 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
+      return "absolute md:relative z-10 scale-[0.88] md:scale-100 opacity-30 md:opacity-100 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]";
     } else {
       return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-700";
     }
@@ -118,11 +118,11 @@ export default function Training() {
 
         {/* =========================================================
             Training Cards Container:
-            - Desktop: 3-column structured grid
-            - Mobile: 2-second auto-loop slide with touch freeze & manual swiping
+            - Desktop: Uniform grid with identically sized cards
+            - Mobile: 2-second auto-loop slide with touch freeze
            ========================================================= */}
         <div
-          className="relative min-h-[440px] flex items-center justify-center md:grid md:grid-cols-3 gap-6 max-w-6xl mx-auto select-none"
+          className="relative min-h-[460px] sm:min-h-[480px] flex items-center justify-center md:grid md:grid-cols-3 gap-6 max-w-6xl mx-auto select-none items-stretch"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onMouseEnter={() => setIsPaused(true)}
@@ -138,9 +138,10 @@ export default function Training() {
                 onClick={() => {
                   if (!isCenter) setCurrentIndex(index);
                 }}
-                className={`w-full max-w-[340px] md:max-w-none p-6 sm:p-8 rounded-3xl bg-base-200/90 border border-base-300/60 hover:border-secondary/40 group hover:shadow-xl flex flex-col justify-between ${cardClass}`}
+                className={`w-full max-w-[340px] sm:max-w-[360px] md:max-w-none h-[450px] md:h-full md:min-h-[460px] p-6 sm:p-8 rounded-3xl bg-base-200/90 border border-base-300/60 hover:border-secondary/40 group hover:shadow-xl flex flex-col justify-between will-change-transform ${cardClass}`}
               >
-                <div>
+                {/* Top Section */}
+                <div className="flex flex-col flex-grow">
                   {/* Header Info */}
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <div className="w-10 h-10 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -155,25 +156,25 @@ export default function Training() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-outfit text-xl font-bold text-base-content/95 group-hover:text-secondary transition-colors duration-300 mb-2">
+                  <h3 className="font-outfit text-lg sm:text-xl font-bold text-base-content/95 group-hover:text-secondary transition-colors duration-300 mb-2 line-clamp-2">
                     {train.title}
                   </h3>
                   
                   {/* Provider */}
                   <p className="font-outfit text-sm font-semibold opacity-70 mb-4 flex items-center gap-1.5">
-                    <BookOpen className="w-4 h-4 text-accent" />
-                    {train.provider}
+                    <BookOpen className="w-4 h-4 text-accent shrink-0" />
+                    <span className="truncate">{train.provider}</span>
                   </p>
 
                   {/* Description */}
-                  <p className="font-sans text-xs sm:text-sm opacity-80 leading-relaxed mb-6 text-justify">
+                  <p className="font-sans text-xs sm:text-sm opacity-80 leading-relaxed text-justify line-clamp-6 overflow-hidden">
                     {train.description}
                   </p>
                 </div>
 
-                {/* Action Link */}
-                {train.link && (
-                  <div className="pt-2">
+                {/* Bottom Action / Verification Container - Uniform across all cards */}
+                <div className="pt-4 border-t border-base-300/40 min-h-[48px] flex items-center">
+                  {train.link ? (
                     <a
                       href={train.link}
                       target="_blank"
@@ -182,15 +183,19 @@ export default function Training() {
                     >
                       View Verification <ExternalLink className="w-3.5 h-3.5" />
                     </a>
-                  </div>
-                )}
+                  ) : (
+                    <span className="font-mono text-xs opacity-40 italic">
+                      Bootcamp Track
+                    </span>
+                  )}
+                </div>
               </div>
             );
           })}
         </div>
 
         {/* =========================================================
-            Mobile Clean Pagination Dots (No arrows or text indicators)
+            Mobile Clean Pagination Dots
            ========================================================= */}
         <div className="flex md:hidden justify-center items-center gap-2.5 mt-8">
           {data.training.map((_, i) => (
