@@ -14,35 +14,41 @@ export default function IntroLoader() {
       return;
     }
 
-    // 3+ seconds smooth initialization counter (0 to 100%)
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        // Increment smoothly across ~3.2 seconds
-        return prev + 1;
-      });
-    }, 32);
+    // 3.4 seconds guaranteed precision timer using performance.now()
+    const DURATION_MS = 3400;
+    let animationFrameId: number;
+    let startTimestamp: number | null = null;
 
-    return () => clearInterval(interval);
-  }, [introFinished]);
+    const animateProgress = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const elapsed = timestamp - startTimestamp;
+      const calculatedProgress = Math.min(Math.floor((elapsed / DURATION_MS) * 100), 100);
 
-  useEffect(() => {
-    if (progress === 100 && !isDone) {
-      const timer = setTimeout(() => {
-        setIsSlidingUp(true);
-        const exitTimer = setTimeout(() => {
-          setIsDone(true);
-          finishIntro();
-        }, 900);
-        return () => clearTimeout(exitTimer);
-      }, 500);
+      setProgress(calculatedProgress);
 
-      return () => clearTimeout(timer);
-    }
-  }, [progress, isDone, finishIntro]);
+      if (elapsed < DURATION_MS) {
+        animationFrameId = requestAnimationFrame(animateProgress);
+      } else {
+        setProgress(100);
+        // Hold for 400ms at 100% before smoothly sliding up curtain
+        setTimeout(() => {
+          setIsSlidingUp(true);
+          setTimeout(() => {
+            setIsDone(true);
+            finishIntro();
+          }, 900);
+        }, 400);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(animateProgress);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [introFinished, finishIntro]);
 
   if (isDone || introFinished) return null;
 
@@ -50,7 +56,7 @@ export default function IntroLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[999999] flex flex-col justify-between p-8 sm:p-16 bg-[#100e0b] text-[#f0fdfa] transition-transform duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+      className={`fixed inset-0 w-screen h-screen z-[999999] overflow-hidden flex flex-col justify-between p-6 sm:p-16 bg-[#100e0b] text-[#f0fdfa] touch-none select-none transition-transform duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] ${
         isSlidingUp ? "-translate-y-full" : "translate-y-0"
       }`}
       aria-label="Loading portfolio"
@@ -65,22 +71,26 @@ export default function IntroLoader() {
       </div>
 
       {/* Center: Luxury Name Reveal & Tracking Typography */}
-      <div className="my-auto text-center space-y-6">
-        {/* Name with clean mobile two-line separation and tracking expansion */}
+      <div className="my-auto text-center space-y-4 sm:space-y-6 w-full max-w-full px-2">
+        {/* Name with strict no-wrap per word and adaptive mobile tracking */}
         <div className="overflow-hidden py-2">
-          <h1 className="font-outfit text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-gradient animate-pulse-slow flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
-            <span>{"MONZURUL".split("").join(" ")}</span>
-            <span>{"ISLAM".split("").join(" ")}</span>
+          <h1 className="font-outfit text-[1.65rem] xs:text-2xl sm:text-5xl md:text-6xl font-bold uppercase text-gradient animate-pulse-slow flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-6 w-full">
+            <span className="whitespace-nowrap inline-block tracking-[0.1em] sm:tracking-[0.25em]">
+              M O N Z U R U L
+            </span>
+            <span className="whitespace-nowrap inline-block tracking-[0.1em] sm:tracking-[0.25em]">
+              I S L A M
+            </span>
           </h1>
         </div>
 
         {/* Subheading Title */}
-        <p className="font-outfit text-xs sm:text-sm md:text-base tracking-[0.25em] uppercase opacity-80 text-secondary">
-          {data.designation} · Full Stack Developer
+        <p className="font-outfit text-xs sm:text-sm md:text-base tracking-[0.18em] sm:tracking-[0.25em] uppercase opacity-80 text-secondary">
+          Junior Software Engineer · Full Stack Developer
         </p>
 
         {/* Minimalist Glowing Progress Line */}
-        <div className="w-48 sm:w-72 h-[2px] bg-white/10 mx-auto rounded-full overflow-hidden relative">
+        <div className="w-44 sm:w-72 h-[2px] bg-white/10 mx-auto rounded-full overflow-hidden relative mt-2">
           <div
             className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-75 ease-out shadow-[0_0_12px_rgba(34,211,238,0.8)]"
             style={{ width: `${progress}%` }}
