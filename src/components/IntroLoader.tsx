@@ -72,13 +72,13 @@ export default function IntroLoader() {
 
       {/* Center: Luxury Name Reveal & Tracking Typography */}
       <div className="my-auto text-center space-y-4 sm:space-y-6 w-full max-w-full px-2">
-        {/* Name with strict no-wrap per word, generous spacing, and adaptive mobile tracking */}
+        {/* Name with strict no-wrap per word, wide desktop gap, and adaptive mobile tracking */}
         <div className="overflow-hidden py-2 w-full">
-          <h1 className="font-outfit text-[1.4rem] xs:text-[1.75rem] sm:text-5xl md:text-6xl font-bold uppercase text-gradient animate-pulse-slow flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-8 md:gap-10 w-full max-w-full">
-            <span className="whitespace-nowrap inline-block tracking-[0.08em] xs:tracking-[0.12em] sm:tracking-[0.25em] shrink-0">
+          <h1 className="font-outfit text-[1.4rem] xs:text-[1.75rem] sm:text-5xl md:text-6xl font-bold uppercase text-gradient animate-pulse-slow flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-14 md:gap-20 w-full max-w-full">
+            <span className="whitespace-nowrap inline-block tracking-[0.08em] xs:tracking-[0.12em] sm:tracking-[0.3em] sm:mr-6 md:mr-8 shrink-0">
               M O N Z U R U L
             </span>
-            <span className="whitespace-nowrap inline-block tracking-[0.08em] xs:tracking-[0.12em] sm:tracking-[0.25em] shrink-0">
+            <span className="whitespace-nowrap inline-block tracking-[0.08em] xs:tracking-[0.12em] sm:tracking-[0.3em] shrink-0">
               I S L A M
             </span>
           </h1>
