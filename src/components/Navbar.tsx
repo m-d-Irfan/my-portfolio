@@ -69,12 +69,12 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Permanently Fixed Navbar pinned to top everywhere */}
+      {/* Dynamic Floating Navbar - Seamless at top, frosted glass on scroll */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 w-full no-print transition-all duration-500 ${
           isScrolled
-            ? "bg-base-100/85 backdrop-blur-xl border-b border-base-300/60 shadow-lg shadow-base-content/5"
-            : "bg-base-100/60 backdrop-blur-md border-b border-base-300/30"
+            ? "bg-base-100/80 backdrop-blur-xl border-b border-base-300/60 shadow-lg shadow-base-content/5 py-0"
+            : "bg-transparent border-b border-transparent shadow-none backdrop-blur-none py-1"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
