@@ -1,15 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { portfolioData, Project } from "@/data/portfolio";
+import { usePortfolio } from "@/context/context";
 import { ArrowUpRight, Code, Layers } from "lucide-react";
 
 export default function Projects() {
+  const { data } = usePortfolio();
   const [filter, setFilter] = useState<string>("All");
 
   const categories = ["All", "Full Stack", "Backend", "CMS"];
 
-  const filteredProjects = portfolioData.projects.filter((project) => {
+  const filteredProjects = data.projects.filter((project) => {
     if (filter === "All") return true;
     return project.category === filter;
   });
@@ -23,7 +24,7 @@ export default function Projects() {
           <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
           <p className="font-sans text-sm sm:text-base opacity-70 mt-4 max-w-xl mx-auto">
             Explore a selection of my latest software engineering projects, showcasing end-to-end full-stack systems and secure backend APIs.
           </p>
@@ -57,8 +58,7 @@ export default function Projects() {
               <div>
                 {/* Project Image Frame */}
                 <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-base-300">
-                  {/* Backdrop tint */}
-                  <div className="absolute inset-0 bg-base-900/10 z-10 transition-colors group-hover:bg-transparent"></div>
+                  <div className="absolute inset-0 bg-base-900/10 z-10 transition-colors group-hover:bg-transparent" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={project.imageSrc}
@@ -84,7 +84,7 @@ export default function Projects() {
                     {project.description}
                   </p>
 
-                  {/* Tech stack pills (preview) */}
+                  {/* Tech stack pills */}
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {project.techStack.slice(0, 4).map((tech) => (
                       <span

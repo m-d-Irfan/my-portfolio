@@ -12,11 +12,70 @@
     background-color: #100e0b;
     overflow-x: hidden;
     min-height: 100vh;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: background-color 0.5s cubic-bezier(0.65, 0, 0.35, 1), color 0.5s ease;
   }
 
   [data-theme="light"] body {
     background-color: #faf8f2;
+  }
+}
+
+/* =========================================================
+   FEDERICO PIAN THEME TRANSITION (View Transitions API)
+   ========================================================= */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 999999;
+}
+
+/* Fallback circular theme wave overlay */
+.theme-wave-overlay {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.theme-wave-circle {
+  position: absolute;
+  top: var(--origin-y, 32px);
+  left: var(--origin-x, 90vw);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.theme-wave-to-light {
+  background: radial-gradient(circle, #faf8f2 0%, rgba(250, 248, 242, 0.98) 60%, rgba(34, 211, 238, 0.4) 100%);
+  animation: circularExpand 0.75s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.theme-wave-to-dark {
+  background: radial-gradient(circle, #100e0b 0%, rgba(16, 14, 11, 0.98) 60%, rgba(14, 116, 144, 0.4) 100%);
+  animation: circularExpand 0.75s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes circularExpand {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 1;
+  }
+  100% {
+    width: 320vmax;
+    height: 320vmax;
+    opacity: 0;
   }
 }
 
@@ -151,52 +210,6 @@
 @media (min-width: 768px) {
   [data-theme="light"] .aura-layer-4 {
     filter: blur(72px);
-  }
-}
-
-/* =========================================================
-   SUNLIGHT BURST ANIMATION (Circular Theme Transition)
-   ========================================================= */
-
-.sunlight-flare {
-  position: absolute;
-  top: var(--sun-y, 32px);
-  left: var(--sun-x, 90vw);
-  width: 0;
-  height: 0;
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-}
-
-.sunlight-flare-day {
-  background: radial-gradient(circle, rgba(254, 240, 138, 0.95) 0%, rgba(253, 224, 71, 0.7) 20%, rgba(56, 189, 248, 0.4) 50%, rgba(250, 248, 242, 0.8) 80%, transparent 100%);
-  box-shadow: 0 0 100px 40px rgba(253, 224, 71, 0.5);
-  animation: sunlightBurst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.sunlight-flare-night {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.95) 0%, rgba(14, 116, 144, 0.75) 25%, rgba(8, 47, 73, 0.85) 60%, rgba(16, 14, 11, 0.95) 85%, transparent 100%);
-  box-shadow: 0 0 100px 40px rgba(34, 211, 238, 0.4);
-  animation: sunlightBurst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes sunlightBurst {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-  50% {
-    opacity: 0.9;
-  }
-  100% {
-    width: 320vmax;
-    height: 320vmax;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1);
   }
 }
 

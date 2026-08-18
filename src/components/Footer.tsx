@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
 import Link from "next/link";
-import { portfolioData } from "@/data/portfolio";
-import { Github, Linkedin, Mail, MessageSquare } from "lucide-react";
+import { usePortfolio } from "@/context/context";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
+  const { data } = usePortfolio();
+
   const getSocialIcon = (title: string) => {
     switch (title.toLowerCase()) {
       case "github":
@@ -29,10 +32,10 @@ export default function Footer() {
         {/* Brand Logo and Subtitle */}
         <div>
           <h2 className="font-outfit text-2xl font-bold tracking-tight text-gradient">
-            Monzurul Islam
+            {data.name}
           </h2>
           <p className="font-outfit text-sm opacity-75 mt-1">
-            Junior Software Engineer | Backend & DRF Specialist
+            {data.designation} | Backend & DRF Specialist
           </p>
         </div>
 
@@ -49,7 +52,7 @@ export default function Footer() {
 
         {/* Social Buttons */}
         <div className="flex gap-4">
-          {portfolioData.socials.map((social) => {
+          {data.socials.map((social) => {
             let title = social.title;
             let link = social.link;
 
@@ -79,7 +82,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-xs opacity-60 font-sans mt-4">
-          <p>© {new Date().getFullYear()} Monzurul Islam. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {data.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

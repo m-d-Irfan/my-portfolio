@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePortfolio } from "@/context/PortfolioContext";
+import { usePortfolio } from "@/context/context";
 import AuraBackground from "@/components/AuraBackground";
-import { ArrowLeft, Printer, Download, Github, Linkedin, Mail, Phone, MapPin, Globe, ExternalLink } from "lucide-react";
+import { ArrowLeft, Printer, Download, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
 export default function ResumePage() {
   const { data, navigateToHome } = usePortfolio();
@@ -15,7 +15,8 @@ export default function ResumePage() {
   return (
     <AuraBackground className="py-8 px-4 sm:px-6 lg:px-8">
       {/* Top Action Header Bar (Excluded in Print) */}
-      <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4 mb-6 no-print border-b border-base-300/60 pb-4">
+      <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 mb-6 no-print border-b border-base-300/60 pb-4">
+        {/* Back to Portfolio (Always visible on all screens) */}
         <button
           onClick={() => navigateToHome()}
           className="inline-flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors font-outfit"
@@ -23,69 +24,119 @@ export default function ResumePage() {
           <ArrowLeft className="w-4 h-4" /> Back to Portfolio
         </button>
 
-        <div className="flex items-center gap-3">
+        {/* Desktop / Window View: Show 'Print' button only */}
+        <div className="hidden sm:inline-flex items-center gap-3">
+          <button
+            onClick={handlePrint}
+            className="btn btn-primary btn-sm rounded-2xl font-outfit gap-2 shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] transition-all px-4"
+          >
+            <Printer className="w-4 h-4" /> Print
+          </button>
+        </div>
+
+        {/* Mobile View: Show 'Download' button only */}
+        <div className="sm:hidden inline-flex items-center gap-2">
           <a
             href="/Monzurul_Islam.pdf"
             download="Monzurul_Islam_Resume.pdf"
-            className="btn btn-outline btn-secondary btn-sm rounded-xl font-outfit gap-1.5 shadow-sm hover:scale-[1.02] transition-all"
+            className="btn btn-primary btn-sm rounded-2xl font-outfit gap-1.5 shadow-md shadow-primary/20 px-3.5"
           >
-            <Download className="w-4 h-4" /> Download PDF
+            <Download className="w-4 h-4" /> Download
           </a>
-
-          <button
-            onClick={handlePrint}
-            className="btn btn-primary btn-sm rounded-xl font-outfit gap-1.5 shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] transition-all"
-          >
-            <Printer className="w-4 h-4" /> Print / Save as PDF
-          </button>
         </div>
       </div>
 
       {/* High-Fidelity Printable Resume Sheet */}
       <main className="max-w-4xl mx-auto bg-base-200/90 [data-theme='light']:bg-white border border-base-300/60 p-6 sm:p-10 rounded-3xl shadow-2xl print-card print:p-0 print:border-none print:bg-white print:text-black animate-fade-in">
         
-        {/* Top Header Information */}
-        <header className="border-b-2 border-base-300 print:border-black pb-4 mb-5">
+        {/* Top Header Information Matching Exact Screenshot */}
+        <header className="border-b-2 border-base-300 print:border-black pb-5 mb-5">
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+            {/* Left Side: Name and Professional Designation */}
             <div>
               <h1 className="font-outfit text-3xl sm:text-4xl font-bold tracking-tight text-gradient print:text-black print:bg-none">
                 {data.name}
               </h1>
-              <p className="font-outfit text-lg font-semibold text-secondary print:text-gray-800 mt-0.5">
+              <p className="font-outfit text-lg sm:text-xl font-semibold text-secondary print:text-gray-800 mt-1">
                 {data.designation}
               </p>
             </div>
 
-            {/* Quick Contact Info */}
-            <div className="text-xs sm:text-sm font-sans opacity-90 space-y-1 text-left md:text-right print:text-black">
-              <div className="flex flex-wrap items-center md:justify-end gap-x-2 gap-y-1">
-                <a href={`mailto:${data.email}`} className="hover:underline flex items-center gap-1">
-                  <Mail className="w-3.5 h-3.5 print:hidden text-primary" /> {data.email}
-                </a>
-                <span>|</span>
-                <a href={`tel:${data.phone}`} className="hover:underline flex items-center gap-1">
-                  <Phone className="w-3.5 h-3.5 print:hidden text-secondary" /> {data.phone}
-                </a>
-                <span>|</span>
-                <span>{data.location}</span>
-              </div>
-              
-              <div className="flex flex-wrap items-center md:justify-end gap-x-2 gap-y-1 pt-0.5 text-xs">
-                <a href="https://github.com/m-d-Irfan" target="_blank" rel="noopener noreferrer" className="hover:underline font-mono">
-                  github.com/m-d-Irfan
-                </a>
-                <span>|</span>
-                <a href="https://linkedin.com/in/monzurul-islam-irfan/" target="_blank" rel="noopener noreferrer" className="hover:underline font-mono">
-                  linkedin.com/in/monzurul-islam-irfan/
+            {/* Right Side: Stacked Contact and Social Channels */}
+            <div className="text-xs sm:text-sm font-sans space-y-1.5 text-left md:text-right print:text-black">
+              {/* Email */}
+              <div className="flex items-center md:justify-end gap-2">
+                <Mail className="w-4 h-4 text-primary shrink-0 print:text-black" />
+                <a href={`mailto:${data.email}`} className="hover:underline opacity-90">
+                  {data.email}
                 </a>
               </div>
 
-              <div className="flex flex-wrap items-center md:justify-end gap-x-2 gap-y-1 pt-0.5 text-xs opacity-85">
-                <span>Portfolio: <a href="https://monzurul-islam.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:underline font-mono">monzurul-islam</a></span>
-                <span>|</span>
-                <span>Codeforce: <a href="https://codeforces.com/profile/monzurul.islam2022" target="_blank" rel="noopener noreferrer" className="hover:underline font-mono">monzurul.islam2022</a></span>
-                <span>|</span>
-                <span>Codechef: <a href="https://www.codechef.com/users/montikuna_2" target="_blank" rel="noopener noreferrer" className="hover:underline font-mono">montikuna_2</a></span>
+              {/* Phone */}
+              <div className="flex items-center md:justify-end gap-2">
+                <Phone className="w-4 h-4 text-secondary shrink-0 print:text-black" />
+                <a href={`tel:${data.phone}`} className="hover:underline opacity-90">
+                  {data.phone}
+                </a>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-center md:justify-end gap-2">
+                <MapPin className="w-4 h-4 text-accent shrink-0 print:text-black" />
+                <span className="opacity-90">{data.location}</span>
+              </div>
+
+              {/* Social Channels Row: GitHub, LinkedIn, Codeforces, Codechef */}
+              <div className="flex flex-wrap items-center md:justify-end gap-3 pt-1 text-xs opacity-90">
+                {/* GitHub */}
+                <a
+                  href="https://github.com/m-d-Irfan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
+                >
+                  <Github className="w-3.5 h-3.5 shrink-0" />
+                  <span>github.com/m-d-Irfan</span>
+                </a>
+
+                {/* LinkedIn */}
+                <a
+                  href="https://linkedin.com/in/monzurul-islam-irfan/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
+                >
+                  <Linkedin className="w-3.5 h-3.5 shrink-0" />
+                  <span>linkedin.com/in/...</span>
+                </a>
+
+                {/* Codeforces */}
+                <a
+                  href="https://codeforces.com/profile/monzurul.islam2022"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="11" width="4" height="11" fill="#AEAEAE" rx="0.5"/>
+                    <rect x="10" y="3" width="4" height="19" fill="#3182CE" rx="0.5"/>
+                    <rect x="17" y="7" width="4" height="15" fill="#E53E3E" rx="0.5"/>
+                  </svg>
+                  <span>Codeforces</span>
+                </a>
+
+                {/* Codechef */}
+                <a
+                  href="https://www.codechef.com/users/montikuna_2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5 text-amber-600 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C10.3 2 9 3.3 9 5c0 .3 0 .7.1 1C7.3 6.6 6 8.1 6 10c0 2.2 1.8 4 4 4v1H8.5c-.8 0-1.5.7-1.5 1.5V22h10v-5.5c0-.8-.7-1.5-1.5-1.5H14v-1c2.2 0 4-1.8 4-4 0-1.9-1.3-3.4-3.1-4 .1-.3.1-.7.1-1 0-1.7-1.3-3-3-3zm-2 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm4 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                  </svg>
+                  <span>Codechef</span>
+                </a>
               </div>
             </div>
           </div>
@@ -282,7 +333,7 @@ export default function ResumePage() {
       </main>
 
       <p className="text-center text-xs opacity-50 no-print mt-6">
-        Print-ready A4 single-page format. Click 'Print / Save as PDF' or 'Download PDF' for direct file access.
+        Print-ready A4 single-page format. Click 'Print' or 'Download' for direct export.
       </p>
     </AuraBackground>
   );

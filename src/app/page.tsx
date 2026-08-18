@@ -9,10 +9,14 @@ import Training from "@/components/Training";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AuraBackground from "@/components/AuraBackground";
+import IntroLoader from "@/components/IntroLoader";
 
 export default function Home() {
   return (
     <AuraBackground>
+      {/* Intro Loading Animation like Mattia Cielo */}
+      <IntroLoader />
+
       {/* Sticky top Navigation Bar */}
       <Navbar />
       
@@ -27,7 +31,7 @@ export default function Home() {
         <Contact />
       </main>
 
-      {/* Simple and elegant footer */}
+      {/* Footer */}
       <Footer />
     </AuraBackground>
   );

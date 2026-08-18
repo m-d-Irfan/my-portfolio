@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
-import { portfolioData } from "@/data/portfolio";
+import { usePortfolio } from "@/context/context";
 import { Code, Server, Layout, Settings } from "lucide-react";
 
 export default function Skills() {
+  const { data } = usePortfolio();
+
   const getCategoryIcon = (title: string) => {
     switch (title.toLowerCase()) {
       case "languages":
@@ -205,7 +208,7 @@ export default function Skills() {
 
         {/* Skill Category Grid - Collapses on Mobile, Side by Side on Desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {portfolioData.skills.map((category) => (
+          {data.skills.map((category) => (
             <div
               key={category.title}
               // Category Card Design - High-opacity base color without backdrop-blur to prevent tearing visual glitches

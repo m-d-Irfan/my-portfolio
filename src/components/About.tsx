@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
-import { portfolioData } from "@/data/portfolio";
+import { usePortfolio } from "@/context/context";
 import { Heart, Compass, Terminal, Award, Server, Layout } from "lucide-react";
 
 export default function About() {
+  const { data } = usePortfolio();
+
   const getAboutIcon = (index: number) => {
     switch (index) {
       case 0:
@@ -25,7 +28,7 @@ export default function About() {
           <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
             About <span className="text-gradient">Me</span>
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
         </div>
 
         {/* Content Grid */}
@@ -37,26 +40,26 @@ export default function About() {
               My Programming Journey
             </h3>
             <p className="font-sans text-base opacity-80 leading-relaxed">
-              {portfolioData.about.journey}
+              {data.about.journey}
             </p>
 
             <h3 className="font-outfit text-2xl font-bold text-base-content/95 pt-2">
               What Drives Me & The Work I Enjoy
             </h3>
             <p className="font-sans text-base opacity-80 leading-relaxed">
-              {portfolioData.about.enjoyWork}
+              {data.about.enjoyWork}
             </p>
 
             {/* Profile Brief Info Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               <div className="p-4 rounded-2xl bg-base-200/50 border border-base-300/50 flex flex-col gap-1.5">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary font-mono">Location</span>
-                <span className="font-outfit text-base font-semibold">{portfolioData.location}</span>
+                <span className="font-outfit text-base font-semibold">{data.location}</span>
               </div>
               <div className="p-4 rounded-2xl bg-base-200/50 border border-base-300/50 flex flex-col gap-1.5">
                 <span className="text-xs font-semibold uppercase tracking-wider text-secondary font-mono">Email Contact</span>
-                <a href={`mailto:${portfolioData.email}`} className="font-outfit text-base font-semibold hover:text-primary transition-colors truncate">
-                  {portfolioData.email}
+                <a href={`mailto:${data.email}`} className="font-outfit text-base font-semibold hover:text-primary transition-colors truncate">
+                  {data.email}
                 </a>
               </div>
             </div>
@@ -64,18 +67,17 @@ export default function About() {
 
           {/* Right Side: Hobbies and Personal Highlights */}
           <div className="lg:col-span-5 space-y-6">
-            {/* Card Frame - Removed backdrop-blur-md and changed opacity to prevent horizontal line screen tearing */}
             <div className="p-6 sm:p-8 rounded-3xl bg-base-200/90 border border-base-300/50 shadow-xl">
               <h3 className="font-outfit text-2xl font-bold text-gradient mb-6">
                 Personality & Hobbies
               </h3>
               
               <p className="font-sans text-sm opacity-75 mb-6 leading-relaxed">
-                {portfolioData.about.bio}
+                {data.about.bio}
               </p>
 
               <div className="space-y-4">
-                {portfolioData.about.hobbies.map((hobby, index) => (
+                {data.about.hobbies.map((hobby, index) => (
                   <div
                     key={index}
                     className="flex gap-4 p-3 rounded-2xl bg-base-100/60 border border-base-200 hover:border-primary/20 transition-all duration-300 group"

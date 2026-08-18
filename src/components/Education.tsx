@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
-import { portfolioData } from "@/data/portfolio";
+import { usePortfolio } from "@/context/context";
 import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
 
 export default function Education() {
+  const { data } = usePortfolio();
+
   return (
     <section id="education" className="section py-20 bg-base-200/20 border-y border-base-300/40 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -12,15 +15,15 @@ export default function Education() {
           <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
             Education <span className="text-gradient">History</span>
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
           <p className="font-sans text-sm sm:text-base opacity-70 mt-4 max-w-xl mx-auto">
-            My academic journey and academic qualifications.
+            My academic journey and qualifications.
           </p>
         </div>
 
         {/* Responsive Timeline Grid */}
         <div className="max-w-4xl mx-auto relative pl-6 sm:pl-8 border-l border-base-300/70 space-y-12">
-          {portfolioData.education.map((edu) => (
+          {data.education.map((edu) => (
             <div key={edu.id} className="relative group">
               
               {/* Timeline dot */}
