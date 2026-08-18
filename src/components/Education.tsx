@@ -90,15 +90,12 @@ export default function Education() {
                   </span>
                 </div>
 
-                {/* Highlights List */}
-                <ul className="space-y-2 mt-4 text-sm font-sans opacity-75">
-                  {edu.highlights.map((highlight, hIndex) => (
-                    <li key={hIndex} className="flex items-start gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary/80 mt-2 shrink-0" />
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Description */}
+                {edu.description && (
+                  <p className="mt-4 text-sm font-sans opacity-80 leading-relaxed text-justify">
+                    {edu.description}
+                  </p>
+                )}
               </div>
 
             </div>
