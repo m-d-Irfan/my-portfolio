@@ -7,22 +7,23 @@
     scroll-behavior: smooth;
   }
   
-  /* Obsidian Glass - Aura Base Backdrop */
+  /* Base Backdrops: Liquid Cyan (#100e0b) for Dark & Aqua Bubble (#faf8f2) for Light */
   body {
     background-color: #100e0b;
     overflow-x: hidden;
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   [data-theme="light"] body {
-    background-color: #fafaf9;
+    background-color: #faf8f2;
   }
 }
 
 /* =========================================================
-   Aura Gradient: "Obsidian Glass"
-   Layered CSS blend mode architecture over #100e0b backdrop
+   AURA GRADIENT SYSTEM
+   - Dark: "Liquid Cyan" (Screen blend mode stack over #100e0b)
+   - Light: "Aqua Bubble" (Multiply blend mode stack over #faf8f2)
    ========================================================= */
 
 .aura-bg {
@@ -32,24 +33,28 @@
   /* NO background-color - layers blend against body */
 }
 
-/* Layer 1 - normal linear gradient */
+/* ---------------------------------------------------------
+   DARK MODE: Liquid Cyan
+   --------------------------------------------------------- */
+
+/* Layer 1 - normal */
 .aura-layer-1 {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15, 10, 25, 0.95) 0%, rgba(30, 20, 50, 0.8) 50%, rgba(50, 30, 80, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(8, 47, 73, 0.82) 0%, rgba(14, 116, 144, 0.48) 48%, rgba(34, 211, 238, 0.30) 100%);
   mix-blend-mode: normal;
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
 }
 
-/* Layer 2 - screen (multiply in light theme) radial violet glow */
+/* Layer 2 - screen */
 .aura-layer-2 {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 25% 35%, rgba(139, 92, 246, 0.4) 0%, transparent 40%);
+  background: radial-gradient(ellipse 55% 42% at 28% 42%, rgba(34, 211, 238, 0.42) 0%, transparent 68%);
   mix-blend-mode: screen;
-  filter: blur(125px);
+  filter: blur(120px);
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
@@ -57,22 +62,17 @@
 
 @media (min-width: 768px) {
   .aura-layer-2 {
-    filter: blur(180px);
+    filter: blur(173px);
   }
 }
 
-[data-theme="light"] .aura-layer-2 {
-  mix-blend-mode: multiply;
-  background: radial-gradient(circle at 25% 35%, rgba(139, 92, 246, 0.25) 0%, transparent 40%);
-}
-
-/* Layer 3 - screen (multiply in light theme) radial indigo glow */
+/* Layer 3 - screen */
 .aura-layer-3 {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.3) 0%, transparent 35%);
+  background: radial-gradient(ellipse 45% 55% at 72% 58%, rgba(103, 232, 249, 0.30) 0%, transparent 68%);
   mix-blend-mode: screen;
-  filter: blur(150px);
+  filter: blur(138px);
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
@@ -80,22 +80,17 @@
 
 @media (min-width: 768px) {
   .aura-layer-3 {
-    filter: blur(216px);
+    filter: blur(198px);
   }
 }
 
-[data-theme="light"] .aura-layer-3 {
-  mix-blend-mode: multiply;
-  background: radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.2) 0%, transparent 35%);
-}
-
-/* Layer 4 - overlay (multiply in light theme) subtle linear shimmer */
+/* Layer 4 - screen */
 .aura-layer-4 {
   position: absolute;
   inset: 0;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.03) 100%);
-  mix-blend-mode: overlay;
-  filter: blur(25px);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, rgba(255, 255, 255, 0.04) 58%, transparent 72%);
+  mix-blend-mode: screen;
+  filter: blur(45px);
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
@@ -103,41 +98,145 @@
 
 @media (min-width: 768px) {
   .aura-layer-4 {
-    filter: blur(36px);
+    filter: blur(65px);
+  }
+}
+
+/* ---------------------------------------------------------
+   LIGHT MODE: Aqua Bubble (Override rules on [data-theme="light"])
+   --------------------------------------------------------- */
+
+[data-theme="light"] .aura-layer-1 {
+  background: radial-gradient(circle at 25% 40%, rgba(34, 211, 238, 0.34) 0%, rgba(103, 232, 249, 0.12) 32%, transparent 55%), radial-gradient(circle at 72% 58%, rgba(14, 165, 233, 0.28) 0%, rgba(125, 211, 252, 0.10) 34%, transparent 58%);
+  mix-blend-mode: normal;
+  filter: blur(63px);
+}
+
+@media (min-width: 768px) {
+  [data-theme="light"] .aura-layer-1 {
+    filter: blur(90px);
+  }
+}
+
+[data-theme="light"] .aura-layer-2 {
+  background: radial-gradient(circle at 25% 40%, rgba(255, 255, 255, 0.65) 0%, transparent 12%);
+  mix-blend-mode: multiply;
+  filter: blur(30px);
+}
+
+@media (min-width: 768px) {
+  [data-theme="light"] .aura-layer-2 {
+    filter: blur(43px);
+  }
+}
+
+[data-theme="light"] .aura-layer-3 {
+  background: radial-gradient(circle at 72% 58%, rgba(255, 255, 255, 0.55) 0%, transparent 13%);
+  mix-blend-mode: multiply;
+  filter: blur(35px);
+}
+
+@media (min-width: 768px) {
+  [data-theme="light"] .aura-layer-3 {
+    filter: blur(50px);
   }
 }
 
 [data-theme="light"] .aura-layer-4 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, transparent 45%, rgba(6, 182, 212, 0.12) 100%);
   mix-blend-mode: multiply;
+  filter: blur(50px);
+}
+
+@media (min-width: 768px) {
+  [data-theme="light"] .aura-layer-4 {
+    filter: blur(72px);
+  }
 }
 
 /* =========================================================
-   Obsidian Glass UI Utilities
+   SUNLIGHT BURST ANIMATION (Circular Theme Transition)
+   ========================================================= */
+
+.sunlight-flare {
+  position: absolute;
+  top: var(--sun-y, 32px);
+  left: var(--sun-x, 90vw);
+  width: 0;
+  height: 0;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.sunlight-flare-day {
+  background: radial-gradient(circle, rgba(254, 240, 138, 0.95) 0%, rgba(253, 224, 71, 0.7) 20%, rgba(56, 189, 248, 0.4) 50%, rgba(250, 248, 242, 0.8) 80%, transparent 100%);
+  box-shadow: 0 0 100px 40px rgba(253, 224, 71, 0.5);
+  animation: sunlightBurst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.sunlight-flare-night {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.95) 0%, rgba(14, 116, 144, 0.75) 25%, rgba(8, 47, 73, 0.85) 60%, rgba(16, 14, 11, 0.95) 85%, transparent 100%);
+  box-shadow: 0 0 100px 40px rgba(34, 211, 238, 0.4);
+  animation: sunlightBurst 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sunlightBurst {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    width: 320vmax;
+    height: 320vmax;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* =========================================================
+   PAGE TRANSITION CURTAIN
+   ========================================================= */
+
+@keyframes fadeInCurtain {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInCurtain 0.25s ease-out forwards;
+}
+
+/* =========================================================
+   UI GLASS UTILITIES & TYPOGRAPHY
    ========================================================= */
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
 }
 
 .glass-card {
-  @apply bg-base-200/50 backdrop-blur-md border border-base-300/40 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5;
+  @apply bg-base-200/60 backdrop-blur-md border border-base-300/50 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10;
+}
+
+[data-theme="light"] .glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-base-300/70 shadow-sm hover:border-primary/40 hover:shadow-lg;
 }
 
 .glow-card-hover {
-  @apply border border-base-300/30 transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10;
-}
-
-/* Smooth active-dot navigation */
-.scroll-spy-dot {
-  @apply w-3 h-3 rounded-full bg-base-300 transition-all duration-300;
-}
-.scroll-spy-dot.active {
-  @apply w-6 bg-primary;
-}
-
-/* Typing keyframes and utilities */
-.typing-container {
-  display: inline-block;
+  @apply border border-base-300/40 transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10;
 }
 
 /* Print-optimized layout */
@@ -150,8 +249,17 @@
     color: black !important;
   }
   .print-card {
-    border: 1px solid #ccc !important;
+    border: none !important;
     background: white !important;
     box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .aura-bg {
+    min-height: auto !important;
+  }
+  .aura-layer-1, .aura-layer-2, .aura-layer-3, .aura-layer-4 {
+    display: none !important;
   }
 }

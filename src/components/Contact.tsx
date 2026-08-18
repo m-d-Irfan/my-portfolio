@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { usePortfolio } from "@/context/PortfolioContext";
+import { Mail, Phone } from "lucide-react";
 
 export default function Contact() {
-  const handleLetsTalk = () => {
-    // Dispatch custom event to trigger Navbar's connect modal
-    window.dispatchEvent(new Event("open-connect-modal"));
-  };
+  const { setConnectModalOpen } = usePortfolio();
 
   return (
     <section id="contact" className="section py-24 bg-transparent relative">
@@ -19,7 +17,7 @@ export default function Contact() {
           </h2>
           <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
           <p className="font-sans text-base opacity-75 mt-6 max-w-xl mx-auto leading-relaxed">
-            I am always open to discussing new backend roles, software architecture opportunities, or developer collaborations.
+            I am always open to discussing new backend engineering roles, database architecture opportunities, or full-stack collaborations.
           </p>
         </div>
 
@@ -33,13 +31,12 @@ export default function Contact() {
           </a>
 
           <button
-            onClick={handleLetsTalk}
+            onClick={() => setConnectModalOpen(true)}
             className="w-full sm:w-auto btn btn-outline btn-secondary btn-lg rounded-2xl font-outfit hover:scale-[1.03] transition-all duration-300 text-base"
           >
             <Phone className="w-5 h-5 mr-2" /> Let's talk
           </button>
         </div>
-
 
       </div>
     </section>

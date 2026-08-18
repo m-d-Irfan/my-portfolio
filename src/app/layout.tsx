@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import { PortfolioProvider } from "@/context/PortfolioContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,10 +27,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`} data-theme="night">
-      <head />
-      <body className="font-sans antialiased bg-base-100 text-base-content min-h-screen relative">
-        {children}
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`} data-theme="night" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const savedTheme = localStorage.getItem('theme') || 'night';
+                  document.documentElement.setAttribute('data-theme', savedTheme);
+                  document.body.style.backgroundColor = savedTheme === 'light' ? '#faf8f2' : '#100e0b';
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="font-sans antialiased text-base-content min-h-screen relative">
+        <PortfolioProvider>
+          {children}
+        </PortfolioProvider>
       </body>
     </html>
   );
