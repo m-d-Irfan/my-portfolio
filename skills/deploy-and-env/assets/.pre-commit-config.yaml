@@ -1,0 +1,99 @@
+# Local gates. Copy to .pre-commit-config.yaml at the repo root, then:
+#
+#   pip install pre-commit
+#   pre-commit install
+#   pre-commit run --all-files     # scan the existing tree once
+#
+# Prevention beats remediation. A secret caught here never enters history, so
+# it never needs rotating, scrubbing, or a coordinated force-push.
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: detect-private-key
+
+      - id: check-added-large-files
+        # Not incidental. This is what stops the next tracked db.sqlite3
+        # (600 KB of real customer rows and password hashes) and the next
+        # 6.6 MB PNG (P3).
+        args: ['--maxkb=1024']
+
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+      - id: no-commit-to-branch
+        # Work on a branch; main arrives through CI. A deploy from a laptop
+        # skips every gate and is unreproducible.
+        args: ['--branch', 'main']
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # --- Project-specific gates -----------------------------------------------
+  # These encode findings from this project's own audit. Each is a grep because
+  # a grep is fast enough to run on every commit.
+
+  - repo: local
+    hooks:
+      - id: no-env-value-as-name
+        name: 'C1: env var name looks like a pasted value'
+        entry: |
+          bash -c 'grep -rnE "environ\.get\(['"'"'\"][^A-Z'"'"'\"]" --include=*.py . && {
+            echo ""
+            echo "C1: the Steadfast key was pasted in as the variable NAME, so"
+            echo "the setting was None and courier dispatch silently stopped."
+            echo "Use env(\"SCREAMING_SNAKE_CASE\") — see deploy-and-env/01."
+            exit 1
+          } || exit 0'
+        language: system
+        pass_filenames: false
+        files: \.py$
+
+      - id: no-viewset-without-permissions
+        name: 'S1/S2: ViewSet without explicit permission_classes'
+        entry: |
+          bash -c 'for f in $(grep -rl "class .*ViewSet" --include=views.py .); do
+            grep -q "permission_classes" "$f" || { echo "No permission_classes in $f"; exit 1; }
+          done; exit 0'
+        language: system
+        pass_filenames: false
+        files: views\.py$
+
+      - id: no-all-fields-serializer
+        name: "P4/security: fields = '__all__'"
+        entry: |
+          bash -c 'grep -rn "fields = ._all__." --include=serializers.py . && {
+            echo "__all__ publishes every future column automatically — that is"
+            echo "how buying_price reaches a customer-facing response."
+            exit 1
+          } || exit 0'
+        language: system
+        pass_filenames: false
+        files: serializers\.py$
+
+      - id: no-hex-literal-in-components
+        name: 'Design tokens: hex literal in a component'
+        entry: |
+          bash -c 'grep -rnE "#[0-9a-fA-F]{6}" --include=*.jsx --include=*.tsx src/ \
+            | grep -v tokens.css && {
+            echo "Use var(--color-*). ~40 hardcoded brand hexes are why the"
+            echo "previous admin skill produced the same brown every time."
+            exit 1
+          } || exit 0'
+        language: system
+        pass_filenames: false
+        files: \.(jsx|tsx)$

@@ -1,0 +1,157 @@
+/* Admin console design tokens.
+ *
+ * Append to the host project's `src/styles/index.css`, or import after it.
+ *
+ * These are the ONLY colour values in the admin panel. Every component
+ * references var(--color-*). That indirection is the entire mechanism by which
+ * "theme-adaptive" is true rather than aspirational — a hex literal in a
+ * className welds one brand permanently into every project built from it.
+ *
+ * If the `ui-design-system` skill is installed, take these from its tokens.css
+ * instead of redefining them. One palette, one source.
+ *
+ * To retheme: change the nine values in :root. Nothing else.
+ */
+
+:root {
+  /* --- Brand ---------------------------------------------------------------
+   * Example palette below is warm luxury (Muqam). Replace with the host
+   * project's brand. Derive them from its existing tailwind.config.js or
+   * index.css rather than inventing a new palette.
+   */
+  --color-primary:       #2d2722;  /* sidebar and banner base */
+  --color-secondary:     #3d302a;  /* mid gradient stop */
+  --color-accent:        #7e5638;  /* active nav, buttons, hairlines */
+  --color-accent-soft:   #b8a48f;  /* watermarks, muted hairlines */
+
+  --color-surface-light: #faf7f2;  /* card gradient top */
+  --color-surface-dark:  #efeae2;  /* card gradient bottom */
+  --color-background:    #faf7f2;
+
+  --color-text-primary:  #2d2722;
+  --color-text-muted:    #8e8377;
+
+  /* Text that sits ON --color-accent. Declared explicitly rather than assumed:
+   * a light accent needs dark text, and hardcoding white fails contrast the
+   * moment someone rethemes to a pastel. */
+  --color-on-accent:     #faf7f2;
+
+  /* --- Derived ------------------------------------------------------------- */
+  --color-border:        rgb(184 164 143 / 0.25);
+
+  /* Depth instead of hard borders. A flat 1px border-gray-200 is the single
+   * strongest "template" signal in an admin UI. Two stacked shadows read as a
+   * physical card: a tight contact shadow plus a wide ambient one. */
+  --shadow-card:
+    0 10px 35px -5px rgb(45 39 34 / 0.10),
+    0 4px 12px -2px  rgb(45 39 34 / 0.05);
+  --shadow-card-hover:
+    0 18px 45px -8px rgb(45 39 34 / 0.16),
+    0 6px 16px -3px  rgb(45 39 34 / 0.07);
+  --shadow-strong:       rgb(45 39 34 / 0.35);
+
+  /* --- Status -------------------------------------------------------------
+   * Semantic, not decorative. Never the only signal — pair every status colour
+   * with a label or icon, or colour-blind users and greyscale prints lose the
+   * information entirely.
+   */
+  --color-success:       #15803d;
+  --color-success-bg:    rgb(21 128 61 / 0.12);
+  --color-warning:       #b45309;
+  --color-warning-bg:    rgb(180 83 9 / 0.12);
+  --color-danger:        #b91c1c;
+  --color-danger-bg:     rgb(185 28 28 / 0.12);
+  --color-info:          #1d4ed8;
+  --color-info-bg:       rgb(29 78 216 / 0.12);
+}
+
+/* Dark mode. Surfaces invert; brand accent stays recognisable.
+ * Remove this block if the project has no dark mode — a half-implemented one
+ * is worse than none. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface-light: #211d19;
+    --color-surface-dark:  #1a1714;
+    --color-background:    #16130f;
+    --color-text-primary:  #ede7de;
+    --color-text-muted:    #a1968a;
+    --color-border:        rgb(184 164 143 / 0.18);
+    --shadow-card:
+      0 10px 35px -5px rgb(0 0 0 / 0.45),
+      0 4px 12px -2px  rgb(0 0 0 / 0.30);
+  }
+}
+
+/* --- Component classes ---------------------------------------------------
+ * Recurring compositions, so a five-utility shadow stack is not repeated in
+ * forty className strings.
+ */
+
+.card-depth {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-surface-light),
+    var(--color-surface-dark)
+  );
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card-depth:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: filter 150ms ease, box-shadow 150ms ease;
+}
+
+.btn-accent:hover  { filter: brightness(1.08); }
+.btn-accent:active { filter: brightness(0.95); }
+
+/* Focus must be visible and must not be removed. Keyboard users navigate the
+ * admin panel by Tab; an invisible focus ring makes it unusable. */
+.btn-accent:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-success { color: var(--color-success); background: var(--color-success-bg); }
+.badge-warning { color: var(--color-warning); background: var(--color-warning-bg); }
+.badge-danger  { color: var(--color-danger);  background: var(--color-danger-bg); }
+.badge-info    { color: var(--color-info);    background: var(--color-info-bg); }
+
+/* Respect the OS reduced-motion setting. Vestibular disorders make sustained
+ * motion genuinely painful; this is not a preference toggle. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,107 +1,72 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import { usePortfolio } from "@/context/context";
-import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
+import React from "react";
+import { usePortfolio } from "../context/context";
+import { GraduationCap, Award, Calendar, MapPin } from "lucide-react";
 
 export default function Education() {
   const { data } = usePortfolio();
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState<boolean>(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
-    <section id="education" ref={sectionRef} className="section py-20 bg-base-200/20 border-y border-base-300/40 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+    <section id="education" className="py-16 sm:py-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
-            Education <span className="text-gradient">History</span>
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary font-mono text-xs font-semibold mb-3">
+            Qualifications
+          </div>
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Academic Background
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
-          <p className="font-sans text-sm sm:text-base opacity-70 mt-4 max-w-xl mx-auto">
-            My academic journey and qualifications.
+          <p className="font-sans text-base text-base-content/75">
+            Formal computer science and engineering coursework and credentials.
           </p>
         </div>
 
-        {/* Responsive Timeline Grid */}
-        <div className="max-w-4xl mx-auto relative pl-6 sm:pl-8 border-l border-base-300/70 space-y-12">
-          {data.education.map((edu, index) => (
+        {/* Education Timeline */}
+        <div className="max-w-3xl mx-auto space-y-6">
+          {data.education.map((edu) => (
             <div
               key={edu.id}
-              style={{ transitionDelay: `${index * 150}ms` }}
-              className={`relative group transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-                isInView ? "opacity-100 translate-x-0 scale-100" : "opacity-0 -translate-x-10 scale-95"
-              }`}
+              className="bg-base-200/60 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-xl hover:border-primary/40 transition-all duration-300 relative pl-8 sm:pl-10"
             >
-              
-              {/* Timeline dot */}
-              <span className="absolute -left-[35px] sm:-left-[43px] top-1.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-base-100 border-2 border-primary flex items-center justify-center shadow-md shadow-primary/10 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-                <GraduationCap className="w-4 h-4 text-primary group-hover:text-primary-content transition-colors duration-300" />
-              </span>
+              <div className="absolute left-3.5 sm:left-4 top-8 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-base-100 shadow-md shadow-primary/30" />
 
-              {/* Education Card content */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-base-200/50 border border-base-300/50 transition-all duration-300 group-hover:border-primary/40 group-hover:shadow-lg group-hover:shadow-primary/5">
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
-                  <div>
-                    <h3 className="font-outfit text-xl sm:text-2xl font-bold text-base-content/95 group-hover:text-primary transition-colors duration-300">
-                      {edu.degree}
-                    </h3>
-                    <p className="font-outfit text-base font-semibold text-secondary mt-1">
-                      {edu.institution}
-                    </p>
-                  </div>
-
-                  {/* Dates & Location Badge */}
-                  <div className="flex flex-wrap items-center gap-3 md:shrink-0">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-base-100/80 border border-base-300 font-mono text-xs opacity-80">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {edu.dates}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-base-100/80 border border-base-300 font-sans text-xs opacity-80">
-                      <MapPin className="w-3.5 h-3.5 text-accent" />
-                      {edu.location}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Score Grade Badge */}
-                <div className="mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 font-outfit text-xs font-semibold text-primary">
-                    <Award className="w-3.5 h-3.5" />
-                    {edu.grade}
-                  </span>
-                </div>
-
-                {/* Description */}
-                {edu.description && (
-                  <p className="mt-4 text-sm font-sans opacity-80 leading-relaxed text-justify">
-                    {edu.description}
-                  </p>
-                )}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 mb-2">
+                <h3 className="font-outfit text-xl font-bold text-base-content flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-primary shrink-0" />
+                  {edu.degree}
+                </h3>
+                <span className="font-mono text-xs text-base-content/60 flex items-center gap-1.5 shrink-0">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {edu.dates}
+                </span>
               </div>
 
+              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-secondary font-semibold mb-4">
+                <span>{edu.institution}</span>
+                <span className="flex items-center gap-1 text-base-content/60 font-mono">
+                  <MapPin className="w-3.5 h-3.5" /> {edu.location}
+                </span>
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary font-mono text-xs font-bold mb-4">
+                <Award className="w-3.5 h-3.5" />
+                <span>{edu.grade}</span>
+              </div>
+
+              <p className="font-sans text-xs sm:text-sm text-base-content/80 leading-relaxed mb-3">
+                {edu.description}
+              </p>
+
+              {edu.highlights && (
+                <ul className="space-y-1.5 font-sans text-xs sm:text-sm text-base-content/75 list-disc pl-4 leading-relaxed">
+                  {edu.highlights.map((h, idx) => (
+                    <li key={idx}>{h}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

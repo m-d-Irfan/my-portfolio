@@ -2,19 +2,19 @@ export interface Social {
   id: string;
   title: string;
   link: string;
-  icon: string; // Lucide icon name or emoji
+  icon: string;
 }
 
 export interface Project {
   id: string;
   title: string;
-  category: string; // "Full Stack" | "Backend" | "CMS"
+  category: string;
   description: string;
   bullets?: string[];
   imageSrc: string;
   liveUrl: string;
-  githubUrl: string; // client / frontend repo
-  githubBackendUrl?: string; // backend repo if separate
+  githubUrl: string;
+  githubBackendUrl?: string;
   techStack: string[];
   challenges: string;
   improvements: string;
@@ -42,20 +42,10 @@ export interface TrainingItem {
   skills?: string[];
 }
 
-export interface ExperienceItem {
-  id: string;
-  position: string;
-  company: string;
-  dates: string;
-  location: string;
-  type: string;
-  bullets: string[];
-}
-
 export interface SkillCategory {
   title: string;
   description?: string;
-  skills: { name: string; level: number; tag?: string }[]; // level from 0 to 100
+  skills: { name: string; level: number; tag?: string }[];
 }
 
 export interface MetricItem {
@@ -76,8 +66,8 @@ export interface PortfolioData {
   name: string;
   nickname: string;
   designation: string;
+  designations?: string[];
   tagline: string;
-  status: string;
   email: string;
   phone: string;
   whatsapp?: string;
@@ -104,15 +94,18 @@ export interface PortfolioData {
   competitiveProgramming: CompetitiveProfile[];
   education: EducationItem[];
   training: TrainingItem[];
-  experience: ExperienceItem[];
 }
 
 export const portfolioData: PortfolioData = {
   name: "Monzurul Islam",
   nickname: "Irfan",
   designation: "Junior Software Engineer",
+  designations: [
+    "Junior Software Engineer",
+    "Backend Developer",
+    "Full Stack Developer"
+  ],
   tagline: "Specializing in Scalable Backend APIs & Reactive Web Frontends",
-  status: "Available for full-time backend & full-stack roles",
   email: "monsurulislamcse.0208@gmail.com",
   phone: "+8801611836864",
   whatsapp: "+8801611836864",
@@ -122,12 +115,12 @@ export const portfolioData: PortfolioData = {
   portfolioUrl: "https://monzurul-islam.vercel.app",
   codeforcesUsername: "monzurul.islam2022",
   codechefUsername: "montikuna_2",
-  resumePdfUrl: "/Monzurul_Islam.pdf",
+  resumePdfUrl: "/assets/Monzurul_Islam.pdf",
   careerObjective: "Backend-focused Computer Science graduate with hands-on experience designing and building secure, scalable REST APIs using Python, Django, and Django REST Framework. Proficient in PostgreSQL for data modeling, JWT-based authentication, and cloud deployment via Render with GitHub Actions CI/CD. Seeking a backend engineering position where I can contribute to production systems and grow within a structured engineering team.",
   metrics: [
     { label: "Academic CGPA", value: "3.53 / 4.00", sublabel: "B.Sc. in CSE (2022 – 2026)" },
-    { label: "Intensive Bootcamps", value: "210+ Hrs", sublabel: "Phitron & Programming Hero" },
-    { label: "Production APIs", value: "10+ Endpoints", sublabel: "JWT, RBAC & Cloud Deployment" },
+    { label: "Bootcamp Training", value: "300+ Hrs", sublabel: "Phitron & Programming Hero" },
+    { label: "Production APIs", value: "5+ Endpoints", sublabel: "JWT, RBAC & Cloud Deployment" },
     { label: "Problem Solving", value: "Active Solver", sublabel: "Codeforces & Codechef" },
   ],
   about: {
@@ -202,9 +195,9 @@ export const portfolioData: PortfolioData = {
       skills: [
         { name: "Django", level: 92, tag: "Primary" },
         { name: "Django REST Framework (DRF)", level: 94, tag: "Primary" },
-        { name: "REST APIs & JWT", level: 95, tag: "Core" },
         { name: "PostgreSQL", level: 88, tag: "Primary DB" },
         { name: "MySQL", level: 85, tag: "Relational" },
+        { name: "REST APIs & JWT", level: 95, tag: "Core" },
         { name: "Prisma ORM", level: 82, tag: "TypeScript ORM" }
       ]
     },
@@ -214,9 +207,9 @@ export const portfolioData: PortfolioData = {
       skills: [
         { name: "React.js (v19)", level: 88, tag: "Core UI" },
         { name: "Next.js (v15)", level: 85, tag: "App Router" },
-        { name: "TypeScript", level: 86, tag: "Type Safe" },
         { name: "Tailwind CSS", level: 92, tag: "Styling" },
-        { name: "HTML5 & CSS3", level: 92, tag: "Markup" },
+        { name: "HTML5", level: 92, tag: "Markup" },
+        { name: "CSS3", level: 90, tag: "Modern CSS" },
         { name: "Axios", level: 90, tag: "API Client" }
       ]
     },
@@ -225,13 +218,15 @@ export const portfolioData: PortfolioData = {
       description: "Core logic, OOP, Algorithms & Scripting",
       skills: [
         { name: "Python", level: 92, tag: "Core Language" },
-        { name: "TypeScript", level: 86, tag: "Full-Stack" },
         { name: "JavaScript", level: 88, tag: "ES6+" },
-        { name: "C++", level: 78, tag: "Algorithms/CP" }
+        { name: "TypeScript", level: 86, tag: "Type-Safe" },
+        { name: "C++", level: 78, tag: "Algorithms/CP" },
+        { name: "SQL", level: 84, tag: "Data Queries" },
+        { name: "C", level: 75, tag: "CS Foundation" }
       ]
     },
     {
-      title: "DevOps & Cloud Tools",
+      title: "Tools & DevOps",
       description: "Containerization, Deployments, CI/CD & Testing",
       skills: [
         { name: "Git & GitHub", level: 92, tag: "Version Control" },
@@ -239,7 +234,7 @@ export const portfolioData: PortfolioData = {
         { name: "Render & Vercel", level: 88, tag: "Cloud Deploy" },
         { name: "AWS (S3/EC2)", level: 75, tag: "Cloud Storage" },
         { name: "Postman", level: 90, tag: "API Testing" },
-        { name: "n8n Automation", level: 80, tag: "Workflow" }
+        { name: "n8n Automation", level: 80, tag: "Workflows" }
       ]
     }
   ],
@@ -258,7 +253,7 @@ export const portfolioData: PortfolioData = {
         "Enrollment & lesson progress tracking (student) — Students browse/search published courses, enroll, work through lessons, and have completion progress tracked per lesson.",
         "Automated certificate issuance — Once a student finishes every lesson in a course, the backend auto-generates a certificate (unique ID) and emails it; a certificates list is available on their dashboard."
       ],
-      imageSrc: "/educore-ai.png",
+      imageSrc: "/assets/educore-ai.png",
       liveUrl: "https://educore-ai-tan.vercel.app/",
       githubUrl: "https://github.com/m-d-Irfan/LLC_FrontEnd",
       githubBackendUrl: "https://github.com/m-d-Irfan/LLC_backend",
@@ -345,7 +340,5 @@ export const portfolioData: PortfolioData = {
       description: "AI driven Software Engineering Oriented bootcamp covers Advance Typescript with OOP, Node.js, CRUD with Express.js, Advance PostgreSQL and Database modeling, Prisma ORM, Advance Querying, filtering, Advance Next.js, WT custom Authentication, Docker container and Data Management, AI chat integration with Node.js and automation with n8n.",
       skills: ["Next.js 15", "TypeScript", "Prisma", "Docker", "PostgreSQL", "n8n"]
     }
-  ],
-  experience: []
+  ]
 };
-

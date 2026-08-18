@@ -1,195 +1,123 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import { usePortfolio } from "@/context/context";
-import { Heart, Compass, Terminal, Award, Server, Layout } from "lucide-react";
+import React from "react";
+import { usePortfolio } from "../context/context";
+import { Server, Database, Layout, Cloud, CheckCircle2 } from "lucide-react";
 
 export default function About() {
   const { data } = usePortfolio();
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const [servicesInView, setServicesInView] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setServicesInView(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
-      }
-    );
-
-    if (servicesRef.current) {
-      observer.observe(servicesRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const getAboutIcon = (index: number) => {
-    switch (index) {
-      case 0:
-        return <Terminal className="w-5 h-5 text-primary" />;
-      case 1:
-        return <Award className="w-5 h-5 text-secondary" />;
-      case 2:
-        return <Compass className="w-5 h-5 text-accent" />;
-      default:
-        return <Heart className="w-5 h-5 text-success" />;
-    }
-  };
-
-  const services = [
+  const capabilities = [
     {
-      title: "API & Backend Dev",
-      desc: "Designing and building clean, secure RESTful APIs using Python, Django, DRF, Node.js, and JWT auth.",
-      icon: <Terminal className="w-6 h-6" />,
-      colorClass: "primary",
+      title: "REST API & Backend Architecture",
+      desc: "Building clean, scalable RESTful APIs using Python, Django, DRF, JWT authentication, and automated Swagger documentation.",
+      icon: <Server className="w-5 h-5 text-primary" />,
     },
     {
-      title: "Database Design",
-      desc: "Relational database modeling, query tuning, indexing, and management in PostgreSQL and MySQL.",
-      icon: <Server className="w-6 h-6" />,
-      colorClass: "secondary",
+      title: "Relational Database Modeling",
+      desc: "Relational schema design, query optimization, indexing, and management with PostgreSQL and MySQL.",
+      icon: <Database className="w-5 h-5 text-secondary" />,
     },
     {
-      title: "Frontend Integration",
-      desc: "Crafting fast, responsive interfaces with Next.js 15, React 19, TypeScript, and Tailwind CSS.",
-      icon: <Layout className="w-6 h-6" />,
-      colorClass: "accent",
+      title: "Reactive Web Frontends",
+      desc: "Developing fast, responsive interfaces using React 19, Next.js 15 App Router, TypeScript, and Tailwind CSS.",
+      icon: <Layout className="w-5 h-5 text-accent" />,
     },
     {
-      title: "DevOps & Automation",
-      desc: "Docker setups, CI/CD pipelines (GitHub Actions), AWS storage, and workflow automation in n8n.",
-      icon: <Award className="w-6 h-6" />,
-      colorClass: "success",
+      title: "DevOps & Cloud Infrastructure",
+      desc: "Containerizing services with Docker, GitHub Actions CI/CD pipelines, AWS S3 storage, and Render/Vercel deployments.",
+      icon: <Cloud className="w-5 h-5 text-info" />,
     },
   ];
 
   return (
-    <section id="about" className="section py-20 bg-base-200/30 border-y border-base-300/40 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Title */}
-        <div className="text-center mb-16">
-          <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
-            About <span className="text-gradient">Me</span>
+    <section id="about" className="py-16 sm:py-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary font-mono text-xs font-semibold mb-3">
+            About Me
+          </div>
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Engineering Philosophy & Background
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
+          <p className="font-sans text-base text-base-content/75">
+            A deep dive into how I build systems, my background, and the technical challenges I enjoy solving.
+          </p>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Left Side: Journey Text */}
-          <div className="lg:col-span-7 space-y-6">
-            <h3 className="font-outfit text-2xl font-bold text-base-content/95">
-              My Programming Journey
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Story & Capabilities */}
+          <div className="lg:col-span-7 bg-base-200/60 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-xl">
+            <h3 className="font-outfit text-xl font-bold mb-4 text-primary">
+              Designing robust backend APIs that execute with speed, precision, and clean data modeling.
             </h3>
-            <p className="font-sans text-base opacity-80 leading-relaxed">
+            
+            <p className="font-sans text-sm sm:text-base text-base-content/85 leading-relaxed mb-4 text-justify">
+              {data.about.bio}
+            </p>
+
+            <p className="font-sans text-sm sm:text-base text-base-content/85 leading-relaxed mb-6 text-justify">
               {data.about.journey}
             </p>
 
-            <h3 className="font-outfit text-2xl font-bold text-base-content/95 pt-2">
-              What Drives Me & The Work I Enjoy
-            </h3>
-            <p className="font-sans text-base opacity-80 leading-relaxed">
-              {data.about.enjoyWork}
-            </p>
-
-            {/* Profile Brief Info Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="p-4 rounded-2xl bg-base-200/50 border border-base-300/50 flex flex-col gap-1.5">
-                <span className="text-xs font-semibold uppercase tracking-wider text-primary font-mono">Location</span>
-                <span className="font-outfit text-base font-semibold">{data.location}</span>
-              </div>
-              <div className="p-4 rounded-2xl bg-base-200/50 border border-base-300/50 flex flex-col gap-1.5">
-                <span className="text-xs font-semibold uppercase tracking-wider text-secondary font-mono">Email Contact</span>
-                <a href={`mailto:${data.email}`} className="font-outfit text-base font-semibold hover:text-primary transition-colors truncate">
-                  {data.email}
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: Hobbies and Personal Highlights */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 sm:p-8 rounded-3xl bg-base-200/90 border border-base-300/50 shadow-xl">
-              <h3 className="font-outfit text-2xl font-bold text-gradient mb-6">
-                Personality & Hobbies
-              </h3>
-              
-              <p className="font-sans text-sm opacity-75 mb-6 leading-relaxed">
-                {data.about.bio}
-              </p>
-
-              <div className="space-y-4">
-                {data.about.hobbies.map((hobby, index) => (
-                  <div
-                    key={index}
-                    className="flex gap-4 p-3 rounded-2xl bg-base-100/60 border border-base-200 hover:border-primary/20 transition-all duration-300 group"
-                  >
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-base-200/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      {getAboutIcon(index)}
-                    </div>
-                    <div>
-                      <p className="font-sans text-sm font-medium leading-relaxed opacity-90">
-                        {hobby}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* =========================================================
-            Services & Capabilities Section:
-            - Windows/Desktop: Cards slide in clearly from the LEFT
-            - Mobile: Cards slide in clearly from the UPSIDE / TOP
-           ========================================================= */}
-        <div ref={servicesRef} className="mt-20 pt-16 border-t border-base-300/40 overflow-hidden">
-          <h3 className="font-outfit text-2xl sm:text-3xl font-bold text-center mb-12">
-            Services & <span className="text-gradient">Capabilities</span>
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {services.map((service, index) => (
-              <div
-                key={service.title}
-                style={{
-                  transitionDelay: `${index * 180}ms`,
-                }}
-                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group hover:shadow-xl hover:scale-[1.02] will-change-transform ${
-                  servicesInView
-                    ? "opacity-100 translate-x-0 translate-y-0 scale-100"
-                    : "opacity-0 -translate-y-14 md:translate-y-0 md:-translate-x-20 scale-95"
-                }`}
-              >
+            {/* Capabilities */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              {capabilities.map((cap, idx) => (
                 <div
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${
-                    service.colorClass === "primary"
-                      ? "bg-primary/10 text-primary"
-                      : service.colorClass === "secondary"
-                      ? "bg-secondary/10 text-secondary"
-                      : service.colorClass === "accent"
-                      ? "bg-accent/10 text-accent"
-                      : "bg-success/10 text-success"
-                  }`}
+                  key={idx}
+                  className="p-4 rounded-2xl bg-base-100/80 border border-base-300 hover:border-primary/40 transition-all duration-300"
                 >
-                  {service.icon}
+                  <div className="w-9 h-9 rounded-xl bg-base-200 flex items-center justify-center mb-3">
+                    {cap.icon}
+                  </div>
+                  <h4 className="font-outfit font-bold text-sm text-base-content mb-1">
+                    {cap.title}
+                  </h4>
+                  <p className="font-sans text-xs text-base-content/70 leading-relaxed">
+                    {cap.desc}
+                  </p>
                 </div>
-                <h4 className="font-outfit text-lg font-bold mb-2">{service.title}</h4>
-                <p className="font-sans text-xs opacity-75 leading-relaxed">
-                  {service.desc}
-                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column: Quick Profile & Hobbies */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div className="bg-base-200/60 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-xl">
+              <h3 className="font-outfit text-xl font-bold mb-4">Quick Overview</h3>
+              <div className="space-y-3 font-sans text-sm">
+                <div className="flex justify-between border-b border-base-300 pb-2">
+                  <span className="font-mono text-xs text-base-content/60">Degree</span>
+                  <span className="font-semibold">B.Sc. in CSE (CGPA 3.53)</span>
+                </div>
+                <div className="flex justify-between border-b border-base-300 pb-2">
+                  <span className="font-mono text-xs text-base-content/60">Location</span>
+                  <span className="font-semibold">Chattogram, Bangladesh</span>
+                </div>
+                <div className="flex justify-between border-b border-base-300 pb-2">
+                  <span className="font-mono text-xs text-base-content/60">Languages</span>
+                  <span className="font-semibold">English (Conversational), Bangla (Native)</span>
+                </div>
+                <div className="flex justify-between border-b border-base-300 pb-2">
+                  <span className="font-mono text-xs text-base-content/60">Specialization</span>
+                  <span className="font-semibold text-primary">Django, DRF & React/Next.js</span>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="bg-base-200/60 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-xl">
+              <h3 className="font-outfit text-xl font-bold mb-4">Problem Solving & Passions</h3>
+              <ul className="space-y-2.5 font-sans text-xs sm:text-sm text-base-content/80">
+                {data.about.hobbies.map((hobby, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <span>{hobby}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-
       </div>
     </section>
   );

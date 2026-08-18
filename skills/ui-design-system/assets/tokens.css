@@ -1,0 +1,260 @@
+/* ui-design-system — the token layer.
+ *
+ * Import this FIRST in the global stylesheet, before any component styles.
+ * Everything else in the app references these names and never a literal.
+ *
+ * To retheme a project: change the values in the "Brand" block below and
+ * nothing else. If that is not true, a component has a literal in it.
+ *
+ * If `admin-panel-builder/assets/admin-tokens.css` is also installed, this file
+ * owns every --color-*; that one adds only console density and depth values on
+ * top. Do not define a colour in both.
+ *
+ * Motion tokens are deliberately NOT here — `transitions-dev/_root.css` owns
+ * --duration-*, --ease-*, --distance-*, --scale-* and --blur-*. Import that too
+ * rather than redefining them.
+ */
+
+:root {
+  /* --- Brand -------------------------------------------------------------
+   * Two stops plus the text colour that sits on the base. Enough for almost
+   * every project; a 50–950 ramp you use three of is busywork.
+   *
+   * The example is warm luxury. Replace with the host project's brand, derived
+   * from its existing tailwind.config.js or index.css.
+   */
+  --color-accent:        #7e5638;
+  --color-accent-soft:   #b8a48f;
+  --color-on-accent:     #faf7f2;  /* explicit: a pastel accent needs dark text
+                                      here, and hardcoded white silently fails
+                                      contrast the moment someone rethemes */
+
+  --color-primary:       #2d2722;  /* dark chrome: headers, sidebars */
+  --color-secondary:     #3d302a;  /* second gradient stop for that chrome */
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  --color-background:    #faf7f2;
+  --color-surface:       #ffffff;
+  --color-surface-sunk:  #f2ede5;  /* wells, code blocks, table headers */
+
+  /* --- Text -------------------------------------------------------------
+   * Three levels. A fourth always ends up illegible.
+   */
+  --color-text-primary:  #2d2722;
+  --color-text-muted:    #6f6559;  /* 4.6:1 on --color-background */
+  --color-text-subtle:   #8e8377;  /* 3.1:1 — LARGE TEXT AND ICONS ONLY */
+
+  /* --- Lines ------------------------------------------------------------- */
+  --color-border:        rgb(45 39 34 / 0.12);
+  --color-border-strong: rgb(45 39 34 / 0.24);
+
+  /* --- Status -----------------------------------------------------------
+   * Semantic, and never the only signal. Pair every status colour with a label
+   * or icon: a green dot alone is invisible to a colour-blind user and prints
+   * as grey.
+   */
+  --color-success:       #15803d;
+  --color-success-bg:    rgb(21 128 61 / 0.12);
+  --color-warning:       #b45309;
+  --color-warning-bg:    rgb(180 83 9 / 0.12);
+  --color-danger:        #b91c1c;
+  --color-danger-bg:     rgb(185 28 28 / 0.12);
+  --color-info:          #1d4ed8;
+  --color-info-bg:       rgb(29 78 216 / 0.12);
+
+  /* --- Type scale -------------------------------------------------------
+   * 1.25 (major third) from a 16px base. Nothing off this scale ships.
+   * Line heights are tighter as size grows — a 32px heading at 1.5 looks
+   * unglued from itself.
+   */
+  --font-sans:  ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono:  ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --text-xs:    0.75rem;   --leading-xs:   1.5;
+  --text-sm:    0.875rem;  --leading-sm:   1.5;
+  --text-base:  1rem;      --leading-base: 1.6;
+  --text-lg:    1.25rem;   --leading-lg:   1.45;
+  --text-xl:    1.5625rem; --leading-xl:   1.3;
+  --text-2xl:   1.953rem;  --leading-2xl:  1.2;
+  --text-3xl:   2.441rem;  --leading-3xl:  1.15;
+  --text-4xl:   3.052rem;  --leading-4xl:  1.05;
+
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  --tracking-tight: -0.02em;  /* display sizes only */
+  --tracking-wide:   0.05em;  /* small caps, overlines */
+
+  /* --- Spacing ---------------------------------------------------------
+   * 4px base. Named by step, not by pixel value, so a density change is one
+   * edit. Spacing carries grouping: tighten related, loosen unrelated.
+   */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* --- Radius ----------------------------------------------------------
+   * Tied to element size, not applied uniformly. A 9999px pill on a 400px card
+   * and on a 20px badge are two different intents; rounded-lg on both is the
+   * single most common "generated" tell.
+   */
+  --radius-sm:   0.25rem;   /* badges, chips, inline code */
+  --radius-md:   0.5rem;    /* inputs, buttons */
+  --radius-lg:   0.75rem;   /* cards, menus */
+  --radius-xl:   1rem;      /* modals, sheets */
+  --radius-full: 9999px;    /* avatars, toggles, pills */
+
+  /* --- Elevation -------------------------------------------------------
+   * Four intents, not a blur ramp. Each is two stacked shadows: a wide ambient
+   * halo plus a tighter contact shadow, which is how a physical object sits on
+   * a surface. One large blur reads as a glow.
+   */
+  --shadow-resting:
+    0 1px 2px rgb(45 39 34 / 0.06);
+  --shadow-raised:
+    0 10px 35px -5px rgb(45 39 34 / 0.10),
+    0 4px 12px -2px  rgb(45 39 34 / 0.05);
+  --shadow-floating:
+    0 18px 45px -8px rgb(45 39 34 / 0.16),
+    0 6px 16px -3px  rgb(45 39 34 / 0.07);
+  --shadow-overlay:
+    0 32px 64px -12px rgb(45 39 34 / 0.28);
+
+  /* --- Layout ----------------------------------------------------------- */
+  --container-prose: 68ch;    /* body copy measure — see 02-typography.md */
+  --container-app:   80rem;
+  --container-wide:  96rem;
+
+  /* --- Z-index ---------------------------------------------------------
+   * Named layers. An arbitrary z-index: 9999 in a component is a bug report
+   * from the future.
+   */
+  --z-base:     0;
+  --z-sticky:   10;
+  --z-dropdown: 20;
+  --z-overlay:  30;
+  --z-modal:    40;
+  --z-toast:    50;
+}
+
+/* --- Dark mode -----------------------------------------------------------
+ * Only surfaces, text and lines invert. The brand accent stays recognisable —
+ * flipping it too makes the app look like a different product at night.
+ *
+ * Shadows get darker rather than lighter: on a dark surface a black shadow is
+ * nearly invisible, so lean on the surface step change for separation and use
+ * shadow only for genuine elevation.
+ *
+ * If the project will not ship dark mode, DELETE this block. A half-done dark
+ * mode — where two screens work and the rest are white-on-white — is worse
+ * than none.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background:    #16130f;
+    --color-surface:       #1f1b17;
+    --color-surface-sunk:  #14110e;
+
+    --color-text-primary:  #ede7de;
+    --color-text-muted:    #b3a89b;
+    --color-text-subtle:   #8b8074;
+
+    --color-border:        rgb(237 231 222 / 0.12);
+    --color-border-strong: rgb(237 231 222 / 0.22);
+
+    /* Status colours lighten so they clear 4.5:1 on a dark surface.
+     * The light-mode values are 2.4:1 here — legible-looking and not legible. */
+    --color-success:       #4ade80;
+    --color-success-bg:    rgb(74 222 128 / 0.14);
+    --color-warning:       #fbbf24;
+    --color-warning-bg:    rgb(251 191 36 / 0.14);
+    --color-danger:        #f87171;
+    --color-danger-bg:     rgb(248 113 113 / 0.14);
+    --color-info:          #60a5fa;
+    --color-info-bg:       rgb(96 165 250 / 0.14);
+
+    --shadow-resting:  0 1px 2px rgb(0 0 0 / 0.40);
+    --shadow-raised:
+      0 10px 35px -5px rgb(0 0 0 / 0.55),
+      0 4px 12px -2px  rgb(0 0 0 / 0.35);
+    --shadow-floating:
+      0 18px 45px -8px rgb(0 0 0 / 0.65),
+      0 6px 16px -3px  rgb(0 0 0 / 0.40);
+    --shadow-overlay:  0 32px 64px -12px rgb(0 0 0 / 0.75);
+  }
+}
+
+/* Manual override, for a theme toggle. Set data-theme="dark" | "light" on
+ * <html>. Declared after the media query so an explicit choice wins over the
+ * OS preference in both directions. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* --- Base ----------------------------------------------------------------
+ * The minimum that makes the tokens take effect. Everything else is a
+ * component's job.
+ */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numerals in tables, prices and counters must be tabular, or a column of
+ * figures will not align vertically — the most noticeable typographic flaw in
+ * any data table. */
+.numeric,
+td.numeric,
+th.numeric {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Focus is never removed. Keyboard users navigate by Tab; an invisible ring
+ * makes the app unusable for them and is a WCAG 2.4.7 failure.
+ * :focus-visible, not :focus — a mouse click on a button should not ring. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Body copy has a measure. Text running the full width of a 1600px monitor is
+ * unreadable regardless of how good the type is. */
+.prose {
+  max-width: var(--container-prose);
+}
+
+/* --- Reduced motion ------------------------------------------------------
+ * Vestibular disorders make sustained motion genuinely painful. This is an
+ * accessibility requirement, not a preference toggle.
+ *
+ * Note this kills transitions too, not just animations, which is deliberate:
+ * a 300ms slide is as much of a problem as a loop for a sensitive user.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

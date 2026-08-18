@@ -1,12 +1,11 @@
-"use client";
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { portfolioData, PortfolioData } from "@/data/portfolio";
+import { portfolioData, PortfolioData } from "../data/portfolio";
+import { CheckCircle2, Info } from "lucide-react";
 
-export interface ThemeTransitionPoint {
-  x: number;
-  y: number;
-  toTheme: "light" | "night";
+export interface ToastMessage {
+  id: string;
+  message: string;
+  type: "success" | "info";
 }
 
 export interface PortfolioContextType {
@@ -16,42 +15,41 @@ export interface PortfolioContextType {
   isMounted: boolean;
   introFinished: boolean;
   finishIntro: () => void;
-  toggleTheme: (event?: React.MouseEvent | React.TouchEvent | any) => void;
-  themeTransitionPoint: ThemeTransitionPoint | null;
-  isNavigating: boolean;
-  navigateToResume: () => void;
-  navigateToHome: (hash?: string) => void;
-  isConnectModalOpen: boolean;
-  setConnectModalOpen: (open: boolean) => void;
+  toggleTheme: (event?: React.MouseEvent | any) => void;
   activeSection: string;
   setActiveSection: (section: string) => void;
+  isConnectModalOpen: boolean;
+  setConnectModalOpen: (open: boolean) => void;
+  isCommandPaletteOpen: boolean;
+  setCommandPaletteOpen: (open: boolean) => void;
+  toggleCommandPalette: () => void;
+  isResumeOpen: boolean;
+  setResumeOpen: (open: boolean) => void;
+  navigateToResume: () => void;
+  navigateToHome: (hash?: string) => void;
+  showToast: (message: string, type?: "success" | "info") => void;
+  copyToClipboard: (text: string, label?: string) => void;
 }
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 export function PortfolioProvider({ children }: { children: React.ReactNode }) {
-  // Session data loaded at the start
   const [data, setData] = useState<PortfolioData>(portfolioData);
   const [theme, setTheme] = useState<string>("night");
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [introFinished, setIntroFinished] = useState<boolean>(false);
-  const [isNavigating, setIsNavigating] = useState<boolean>(false);
-  const [isConnectModalOpen, setConnectModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("home");
-  const [themeTransitionPoint, setThemeTransitionPoint] = useState<ThemeTransitionPoint | null>(null);
+  const [isConnectModalOpen, setConnectModalOpen] = useState<boolean>(false);
+  const [isCommandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
+  const [isResumeOpen, setResumeOpen] = useState<boolean>(false);
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
-  const router = useRouter();
-  const pathname = usePathname();
-
-  // Load session state & intro status on first mount
+  // Initialize theme and intro status on mount
   useEffect(() => {
     try {
-      const savedTheme = localStorage.getItem("theme") || "night";
+      const savedTheme = localStorage.getItem("portfolio_theme") || "night";
       setTheme(savedTheme);
-      if (typeof document !== "undefined") {
-        document.documentElement.setAttribute("data-theme", savedTheme);
-        document.body.style.backgroundColor = savedTheme === "light" ? "#faf8f2" : "#100e0b";
-      }
+      document.documentElement.setAttribute("data-theme", savedTheme);
 
       const hasSeenIntro = sessionStorage.getItem("has_seen_intro");
       if (hasSeenIntro) {
@@ -59,25 +57,34 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (e) {
       setTheme("night");
-      if (typeof document !== "undefined") {
-        document.documentElement.setAttribute("data-theme", "night");
-        document.body.style.backgroundColor = "#100e0b";
-      }
+      document.documentElement.setAttribute("data-theme", "night");
     }
     setIsMounted(true);
   }, []);
 
-  // Update body background color smoothly when theme changes
+  // Update theme on HTML tag smoothly
   useEffect(() => {
-    if (!isMounted || typeof document === "undefined") return;
-    if (theme === "light") {
-      document.body.style.backgroundColor = "#faf8f2";
-    } else {
-      document.body.style.backgroundColor = "#100e0b";
-    }
+    if (!isMounted) return;
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme, isMounted]);
 
-  // Complete intro loader and remember for session
+  // Global Keyboard Shortcuts (Cmd+K / Ctrl+K and Escape)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+      } else if (e.key === "Escape") {
+        setCommandPaletteOpen(false);
+        setConnectModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Mark intro loader as complete
   const finishIntro = useCallback(() => {
     setIntroFinished(true);
     try {
@@ -85,43 +92,31 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {}
   }, []);
 
-  // Federico Pian inspired smooth circular theme transition originating from button
+  // Smooth View Transitions circular theme toggle
   const toggleTheme = useCallback((event?: any) => {
     const nextTheme = theme === "night" ? "light" : "night";
 
-    // Accurate origin calculation for all screen sizes & touch/click events
-    let x = typeof window !== "undefined" ? window.innerWidth - 50 : 100;
+    let x = window.innerWidth - 60;
     let y = 32;
 
     if (event) {
       const btn = (event.currentTarget as HTMLElement) || (event.target as HTMLElement)?.closest("button");
       if (btn && typeof btn.getBoundingClientRect === "function") {
         const rect = btn.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-          x = rect.left + rect.width / 2;
-          y = rect.top + rect.height / 2;
-        }
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
       } else if (event.clientX && event.clientY) {
         x = event.clientX;
         y = event.clientY;
-      } else if (event.touches && event.touches[0]) {
-        x = event.touches[0].clientX;
-        y = event.touches[0].clientY;
       }
     }
 
     if (typeof document !== "undefined") {
-      const doc = document;
-      doc.documentElement.style.setProperty("--theme-origin-x", `${x}px`);
-      doc.documentElement.style.setProperty("--theme-origin-y", `${y}px`);
-
-      const startTransition = (doc as any).startViewTransition;
-
-      if (typeof startTransition === "function") {
-        // Native View Transitions API with circular clip-path expansion
-        const transition = startTransition.call(doc, () => {
+      const doc = document as any;
+      if (typeof doc.startViewTransition === "function") {
+        const transition = doc.startViewTransition(() => {
           setTheme(nextTheme);
-          localStorage.setItem("theme", nextTheme);
+          localStorage.setItem("portfolio_theme", nextTheme);
           doc.documentElement.setAttribute("data-theme", nextTheme);
         });
 
@@ -141,64 +136,67 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
               },
               {
                 duration: 650,
-                easing: "cubic-bezier(0.65, 0, 0.35, 1)",
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
                 pseudoElement: "::view-transition-new(root)",
               }
             );
           });
         }
       } else {
-        // Fallback smooth circular wave overlay for browsers without View Transitions API
-        setThemeTransitionPoint({ x, y, toTheme: nextTheme as "light" | "night" });
         setTheme(nextTheme);
-        localStorage.setItem("theme", nextTheme);
+        localStorage.setItem("portfolio_theme", nextTheme);
         doc.documentElement.setAttribute("data-theme", nextTheme);
-
-        setTimeout(() => {
-          setThemeTransitionPoint(null);
-        }, 750);
       }
     } else {
       setTheme(nextTheme);
     }
   }, [theme]);
 
-  // Smooth page navigation with transition curtain
-  const navigateToResume = useCallback(() => {
-    if (pathname === "/resume") return;
-    setIsNavigating(true);
+  // Toast feedback helper
+  const showToast = useCallback((message: string, type: "success" | "info" = "success") => {
+    const id = Math.random().toString(36).substring(2, 9);
+    setToasts((prev) => [...prev, { id, message, type }]);
+
     setTimeout(() => {
-      router.push("/resume");
-      setTimeout(() => {
-        setIsNavigating(false);
-      }, 350);
-    }, 280);
-  }, [pathname, router]);
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 2800);
+  }, []);
+
+  // 1-Click Clipboard copier
+  const copyToClipboard = useCallback((text: string, label: string = "Copied to clipboard") => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`${label}!`, "success");
+      }).catch(() => {
+        showToast("Failed to copy", "info");
+      });
+    } else {
+      showToast(`${label}!`, "success");
+    }
+  }, [showToast]);
+
+  const toggleCommandPalette = useCallback(() => {
+    setCommandPaletteOpen((prev) => !prev);
+  }, []);
+
+  const navigateToResume = useCallback(() => {
+    setResumeOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const navigateToHome = useCallback((hash: string = "") => {
-    if (pathname === "/" && !hash) {
-      if (typeof window !== "undefined") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+    setResumeOpen(false);
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    if (pathname === "/" && hash) {
-      if (typeof document !== "undefined") {
-        const el = document.getElementById(hash.replace("#", ""));
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-          return;
-        }
-      }
-    }
-    setIsNavigating(true);
     setTimeout(() => {
-      router.push(`/${hash}`);
-      setTimeout(() => {
-        setIsNavigating(false);
-      }, 350);
-    }, 250);
-  }, [pathname, router]);
+      const el = document.getElementById(hash.replace("#", ""));
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 50);
+  }, []);
 
   return (
     <PortfolioContext.Provider
@@ -210,44 +208,39 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         introFinished,
         finishIntro,
         toggleTheme,
-        themeTransitionPoint,
-        isNavigating,
-        navigateToResume,
-        navigateToHome,
-        isConnectModalOpen,
-        setConnectModalOpen,
         activeSection,
         setActiveSection,
+        isConnectModalOpen,
+        setConnectModalOpen,
+        isCommandPaletteOpen,
+        setCommandPaletteOpen,
+        toggleCommandPalette,
+        isResumeOpen,
+        setResumeOpen,
+        navigateToResume,
+        navigateToHome,
+        showToast,
+        copyToClipboard,
       }}
     >
       {children}
 
-      {/* Fallback circular theme wave overlay for non-ViewTransition browsers */}
-      {themeTransitionPoint && (
-        <div
-          className="theme-wave-overlay pointer-events-none fixed inset-0 z-[99999]"
-          style={{
-            ["--origin-x" as any]: `${themeTransitionPoint.x}px`,
-            ["--origin-y" as any]: `${themeTransitionPoint.y}px`,
-          }}
-          aria-hidden="true"
-        >
+      {/* Floating Toast Notification Stack */}
+      <div className="fixed bottom-6 right-6 z-[999999] flex flex-col gap-2 pointer-events-none no-print">
+        {toasts.map((toast) => (
           <div
-            className={`theme-wave-circle ${
-              themeTransitionPoint.toTheme === "light"
-                ? "theme-wave-to-light"
-                : "theme-wave-to-dark"
-            }`}
-          />
-        </div>
-      )}
-
-      {/* Global Page Transition Curtain */}
-      {isNavigating && (
-        <div className="fixed inset-0 z-[99998] pointer-events-none flex items-center justify-center bg-base-100/80 backdrop-blur-md animate-fade-in">
-          <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-        </div>
-      )}
+            key={toast.id}
+            className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-base-200/95 border border-primary/40 shadow-xl shadow-black/20 text-sm font-outfit text-base-content backdrop-blur-md animate-slide-up pointer-events-auto"
+          >
+            {toast.type === "success" ? (
+              <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+            ) : (
+              <Info className="w-4 h-4 text-info shrink-0" />
+            )}
+            <span className="font-medium">{toast.message}</span>
+          </div>
+        ))}
+      </div>
     </PortfolioContext.Provider>
   );
 }

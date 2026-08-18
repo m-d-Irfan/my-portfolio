@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monzurul Islam (Irfan) | Junior Software Engineer & Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Monzurul Islam (Irfan), Junior Software Engineer specializing in Python, Django REST Framework, PostgreSQL, Next.js 15, React 19, and scalable full-stack web architectures." />
+  <meta name="author" content="Monzurul Islam" />
+  <meta name="keywords" content="Monzurul Islam, Irfan, Software Engineer, Backend Developer, Django, DRF, Python, React, Next.js, PostgreSQL, Portfolio, Bangladesh" />
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Monzurul Islam (Irfan) | Junior Software Engineer" />
+  <meta property="og:description" content="Backend & Full-Stack Engineer building high-performance REST APIs, relational schemas, and reactive web applications." />
+  <meta property="og:image" content="./assets/educore-ai.png" />
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%2310b981'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='50' font-weight='bold' fill='%230a0e14'>MI</text></svg>" />
+</head>
+<body>
+
+  <!-- Ambient Mesh Background -->
+  <div class="ambient-mesh-bg" aria-hidden="true">
+    <div class="mesh-grid"></div>
+    <div class="ambient-orb-1"></div>
+    <div class="ambient-orb-2"></div>
+  </div>
+
+  <!-- =========================================================
+       HEADER
+       ========================================================= -->
+  <header class="navbar-wrapper" id="main-navbar">
+    <div class="container navbar-content">
+      <!-- Brand Monogram (Logo only, centered controls) -->
+      <a href="#home" class="nav-brand" aria-label="Monzurul Islam Homepage">
+        <div class="brand-monogram">MI</div>
+      </a>
+
+      <!-- Desktop Navigation Links (Ordered for Recruiters: Home -> Projects -> Skills -> ...) -->
+      <nav aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#competitive" class="nav-link">Problem Solving</a></li>
+          <li><a href="#education" class="nav-link">Education</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="nav-actions">
+        <!-- Command Palette Trigger -->
+        <button class="btn btn-cmd cmd-trigger-btn" aria-label="Open Command Menu">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search</span>
+          <kbd class="kbd-badge">⌘K</kbd>
+        </button>
+
+        <!-- Resume Page Link -->
+        <a href="resume.html" class="btn btn-outline" style="padding: 0.5rem 0.875rem; font-size: var(--text-xs);" title="View Print-Ready Resume">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          <span>Resume</span>
+        </a>
+
+        <!-- Theme Switcher Toggle -->
+        <button id="theme-toggle-btn" class="btn-icon" aria-label="Toggle Theme" title="Toggle Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-toggle" class="btn-icon" aria-label="Open Mobile Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" style="position: fixed; inset: 0; background: var(--bg-overlay); z-index: 9999; backdrop-filter: blur(16px); display: none; flex-direction: column; padding: var(--space-8); justify-content: space-between;">
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-8);">
+        <div class="nav-brand">
+          <div class="brand-monogram">MI</div>
+          <span>Monzurul Islam</span>
+        </div>
+        <button id="mobile-drawer-close" class="btn-icon" aria-label="Close Mobile Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-4);">
+        <li><a href="#home" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Home</a></li>
+        <li><a href="#projects" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Projects</a></li>
+        <li><a href="#skills" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Skills</a></li>
+        <li><a href="#competitive" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Problem Solving</a></li>
+        <li><a href="#education" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Education</a></li>
+        <li><a href="#about" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">About</a></li>
+        <li><a href="#contact" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700;">Contact</a></li>
+        <li><a href="resume.html" class="mobile-drawer-link" style="font-size: var(--text-xl); font-weight: 700; color: var(--color-primary);">Resume View ↗</a></li>
+      </ul>
+    </div>
+    <div style="display: flex; gap: var(--space-3);">
+      <button class="btn btn-primary cmd-trigger-btn" style="flex: 1;">Search (⌘K)</button>
+      <a href="mailto:monsurulislamcse.0208@gmail.com" class="btn btn-outline" style="flex: 1;">Email Me</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- =========================================================
+         1. HERO SECTION (Identity & Quick Actions)
+         ========================================================= -->
+    <section id="home" class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Text & Actions Content -->
+          <div class="reveal">
+            <!-- Mobile Header: Intro text + Prominent Thumbnail Avatar -->
+            <div class="hero-mobile-header">
+              <div class="hero-mobile-text">
+                <h1 class="hero-headline">
+                  Hi, I'm <span class="text-gradient">Monzurul Islam</span>
+                </h1>
+                <div class="hero-subheadline">
+                  <div class="hero-role-rotator" id="hero-role-rotator" aria-label="Professional Roles">
+                    <div class="hero-role-cylinder" id="hero-role-cylinder">
+                      <span class="hero-role-face role-active" data-index="0">Junior Software Engineer</span>
+                      <span class="hero-role-face" data-index="1">Backend Developer</span>
+                      <span class="hero-role-face" data-index="2">Full Stack Developer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Mobile Avatar Thumbnail (Reduced White Space) -->
+              <div class="hero-mobile-avatar">
+                <img src="./assets/Monzurul Islam-Dark.jpeg" alt="Monzurul Islam" class="avatar-img-mobile" />
+              </div>
+            </div>
+
+            <p class="hero-bio">
+              Backend-focused Computer Science graduate with hands-on experience building secure, scalable REST APIs using <strong>Python, Django, and Django REST Framework</strong>. Proficient in <strong>PostgreSQL</strong> relational modeling, JWT authentication, and reactive frontends with <strong>React & Next.js 15</strong>.
+            </p>
+
+            <!-- Recruiter Quick Action Buttons -->
+            <div class="hero-actions">
+              <a href="./assets/Monzurul_Islam.pdf" download="Monzurul_Islam_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="hero-download-cv">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Resume (PDF)
+              </a>
+
+              <a href="resume.html" class="btn btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                View Resume
+              </a>
+
+              <button class="btn btn-outline copy-email-btn" title="Click to copy email">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copy Email
+              </button>
+
+              <a href="https://wa.me/8801611836864" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="color: var(--color-primary);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                WhatsApp Chat
+              </a>
+            </div>
+
+            <!-- Scroll Indication for Mobile View (Positioned Above Core Competencies) -->
+            <div class="hero-scroll-indicator hero-scroll-indicator-mobile">
+              <a href="#projects" class="scroll-indicator-link" aria-label="Scroll to explore projects">
+                <span class="scroll-indicator-text">Scroll to explore</span>
+                <div class="scroll-mouse-pill">
+                  <div class="scroll-mouse-wheel"></div>
+                </div>
+                <svg class="scroll-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Primary Tech Chips (Core Competencies) -->
+            <div class="hero-chips-container">
+              <div class="hero-chips-title">Core Competencies & Stack</div>
+              <div class="hero-chips">
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">Django</span>
+                <span class="tech-chip">DRF</span>
+                <span class="tech-chip">PostgreSQL</span>
+                <span class="tech-chip">REST APIs</span>
+                <span class="tech-chip">React 19</span>
+                <span class="tech-chip">Next.js 15</span>
+                <span class="tech-chip">TypeScript</span>
+                <span class="tech-chip">Docker</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Avatar High-Fidelity Card (Desktop / Windows View) -->
+          <div class="hero-avatar-wrapper hero-desktop-avatar">
+            <div class="avatar-card">
+              <div class="avatar-image-container">
+                <img id="hero-avatar-img" src="./assets/Monzurul Islam-Dark.jpeg" alt="Monzurul Islam" class="avatar-img" />
+                <div class="avatar-overlay-badge">
+                  <div>
+                    <div class="avatar-name">Monzurul Islam</div>
+                    <div class="avatar-role">Junior Software Engineer</div>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 10px; padding: 2px 8px; border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-primary); font-weight: 700;">
+                    Chattogram, BD
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll Indication for Windows / Desktop View (Centered Below Hero Grid) -->
+        <div class="hero-scroll-indicator hero-scroll-indicator-desktop">
+          <a href="#projects" class="scroll-indicator-link" aria-label="Scroll to explore projects">
+            <span class="scroll-indicator-text">Scroll to explore</span>
+            <div class="scroll-mouse-pill">
+              <div class="scroll-mouse-wheel"></div>
+            </div>
+            <svg class="scroll-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         2. IMPACT METRICS STRIP (Instant Credibility)
+         ========================================================= -->
+    <div class="metrics-strip">
+      <div class="container">
+        <div class="metrics-grid" id="metrics-grid-container">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         3. FEATURED PROJECTS (Proof of Work — Recruiter Priority #1)
+         ========================================================= -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Proof of Work</span>
+          <h2 class="section-title">Featured Projects</h2>
+          <p class="section-desc">Selected software engineering projects demonstrating end-to-end full-stack architectures and secure REST APIs.</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-bar" id="project-filter-tabs">
+          <!-- Populated by projects.js -->
+        </div>
+
+        <!-- 3D Coverflow Project Showcase -->
+        <div class="projects-coverflow-wrapper" id="projects-coverflow-wrapper" tabindex="0" role="region" aria-label="Featured Projects 3D Coverflow">
+          <div class="coverflow-stage" id="projects-coverflow-stage">
+            <!-- Cards rendered dynamically by js/projects.js -->
+          </div>
+
+          <!-- Bottom Navigation Controls -->
+          <div class="coverflow-controls-row">
+            <button class="coverflow-nav-btn" id="coverflow-prev-btn" aria-label="Previous project" title="Previous Project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+
+            <div class="coverflow-dots-track" id="coverflow-dots-track">
+              <!-- Dots rendered dynamically -->
+            </div>
+
+            <button class="coverflow-nav-btn" id="coverflow-next-btn" aria-label="Next project" title="Next Project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+          <!-- Monospace Hint & Counter -->
+          <div class="coverflow-hint-text" id="coverflow-counter-hint">
+            1 / 3 · Swipe or click to slide
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. TECHNICAL SKILLS MATRIX (Tech Stack & Keyword Match)
+         ========================================================= -->
+    <section id="skills" class="section" style="background: var(--bg-surface-raised); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Expertise</span>
+          <h2 class="section-title">Technical Skills Matrix</h2>
+          <p class="section-desc">A structured overview of the frameworks, databases, languages, and tools I use in production.</p>
+        </div>
+
+        <div class="skills-category-grid" id="skills-category-container">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. COMPETITIVE PROGRAMMING & ALGORITHMS (CS Foundation)
+         ========================================================= -->
+    <section id="competitive" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Problem Solving</span>
+          <h2 class="section-title">Algorithmic Competence & Contests</h2>
+          <p class="section-desc">Sharpening data structures, graph theory, dynamic programming, and computational thinking on competitive platforms.</p>
+        </div>
+
+        <div class="cp-grid" id="cp-grid-container">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. EDUCATION & TRAINING (Academic & Infinite Carousel)
+         ========================================================= -->
+    <section id="education" class="section" style="background: var(--bg-surface-raised); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Qualifications</span>
+          <h2 class="section-title">Education & Certifications</h2>
+          <p class="section-desc">Academic degree and verified industry-standard bootcamps.</p>
+        </div>
+
+        <div class="education-dual-grid">
+          <!-- Column 1: Academic Education Card -->
+          <div class="education-col">
+            <h3 class="timeline-column-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+              Academic Education
+            </h3>
+            
+            <div class="education-card card card-hover">
+              <div>
+                <div class="timeline-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+                  <span>01/2022 – 02/2026</span>
+                  <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Chittagong, BD</span>
+                </div>
+                <h4 class="education-degree-title">B.Sc. in Computer Science & Engineering</h4>
+                <p class="education-institution-name">Port City International University, Chittagong</p>
+                
+                <div class="timeline-grade-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                  CGPA: 3.53 / 4.00
+                </div>
+                
+                <ul class="education-bullet-list" style="list-style: disc; padding-left: 18px; font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.65; margin-top: var(--space-2);">
+                  <li style="margin-bottom: 6px;">Graduated with a strong academic standing of 3.53 / 4.00 CGPA</li>
+                  <li style="margin-bottom: 6px;">Deep foundation in Data Structures, Relational Database Modeling, and Distributed Systems</li>
+                  <li>Active team participant in university programming contests and hackathons</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Certifications Infinite Vertical Carousel Card -->
+          <div class="education-col">
+            <div class="cert-header-row">
+              <h3 class="timeline-column-title" style="margin-bottom: 0;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="7"></circle>
+                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+                Certifications & Bootcamps
+              </h3>
+              
+              <!-- Carousel Controls (Up / Down & Counter) -->
+              <div class="cert-carousel-controls">
+                <span class="cert-counter-badge" id="cert-counter">01 / 03</span>
+                <button id="cert-prev-btn" class="cert-nav-btn" aria-label="Previous Certificate" title="Previous Certificate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </button>
+                <button id="cert-next-btn" class="cert-nav-btn" aria-label="Next Certificate" title="Next Certificate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- The Vertical Carousel Card -->
+            <div class="education-card card card-hover cert-carousel-container" id="cert-carousel-wrapper" tabindex="0" role="region" aria-label="Certificates Infinite Carousel">
+              <div class="cert-carousel-stage" id="cert-carousel-stage">
+                <!-- Rendered dynamically by js/education-carousel.js -->
+              </div>
+              
+              <!-- Bottom Interactive Dots Indicator -->
+              <div class="cert-dots-indicator" id="cert-dots-indicator">
+                <span class="cert-dot active" data-index="0"></span>
+                <span class="cert-dot" data-index="1"></span>
+                <span class="cert-dot" data-index="2"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. ABOUT SECTION (Engineering Strengths & Quick Overview)
+         ========================================================= -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">About Me</span>
+          <h2 class="section-title">Engineering Philosophy & Background</h2>
+          <p class="section-desc">Key engineering strengths and quick background overview.</p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Left Column: Key Highlights & Capabilities -->
+          <div class="card card-hover">
+            <!-- Recruiter-Friendly Key Highlights -->
+            <div class="about-highlights-list" style="display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6);">
+              <div class="about-highlight-item" style="display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-sm); line-height: 1.55;">
+                <span style="color: var(--color-primary); margin-top: 2px; flex-shrink: 0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span><strong>Scalable Backend Architecture:</strong> Hands-on experience designing clean REST APIs with <strong>Python, Django & DRF</strong>, JWT auth, and sub-50ms query responses.</span>
+              </div>
+
+              <div class="about-highlight-item" style="display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-sm); line-height: 1.55;">
+                <span style="color: var(--color-primary); margin-top: 2px; flex-shrink: 0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span><strong>Relational Data Engineering:</strong> Schema modeling, index tuning, and CRUD optimization across <strong>PostgreSQL & MySQL</strong>.</span>
+              </div>
+
+              <div class="about-highlight-item" style="display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-sm); line-height: 1.55;">
+                <span style="color: var(--color-primary); margin-top: 2px; flex-shrink: 0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span><strong>Modern Frontend Integration:</strong> Seamlessly connecting APIs with typed, reactive user interfaces in <strong>React 19, Next.js 15, and TypeScript</strong>.</span>
+              </div>
+
+              <div class="about-highlight-item" style="display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-sm); line-height: 1.55;">
+                <span style="color: var(--color-primary); margin-top: 2px; flex-shrink: 0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span><strong>Rigorous CS & Problem Solving:</strong> 210+ hours intensive bootcamp training with active competitive programming on <strong>Codeforces & Codechef</strong>.</span>
+              </div>
+            </div>
+
+            <!-- Capabilities Grid -->
+            <div class="capabilities-grid" id="capabilities-container">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+
+          <!-- Right Column: Quick Profile Details & Interests -->
+          <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+            <div class="card card-hover">
+              <h3 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-4);">Quick Overview</h3>
+              <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-sm);">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+                  <span style="color: var(--text-muted); font-family: var(--font-mono);">Degree</span>
+                  <span style="font-weight: 600;">B.Sc. in CSE (CGPA 3.53)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+                  <span style="color: var(--text-muted); font-family: var(--font-mono);">Location</span>
+                  <span style="font-weight: 600;">Chattogram, Bangladesh</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+                  <span style="color: var(--text-muted); font-family: var(--font-mono);">Languages</span>
+                  <span style="font-weight: 600;">English (Conversational), Bangla (Native)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+                  <span style="color: var(--text-muted); font-family: var(--font-mono);">Specialization</span>
+                  <span style="font-weight: 600; color: var(--color-primary);">Django, DRF & React/Next.js</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-hover">
+              <h3 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-4);">Problem Solving & Passions</h3>
+              <ul style="list-style: disc; padding-left: 20px; font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.7;">
+                <li>Competitive Programming on <strong>Codeforces</strong> and <strong>Codechef</strong></li>
+                <li>Data Structure optimization and asymptotic performance tuning</li>
+                <li>Exploring AI integrations and automation pipelines using <strong>n8n</strong></li>
+                <li>Traveling and exploring scenic natural spots across Chattogram</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         8. CONTACT & QUICK CONNECT (Direct Action)
+         ========================================================= -->
+    <section id="contact" class="section" style="background: var(--bg-surface-raised); border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Connect</span>
+          <h2 class="section-title">Get In Touch</h2>
+          <p class="section-desc">Have an open engineering role, project inquiry, or technical question? Feel free to reach out directly!</p>
+        </div>
+
+        <div class="contact-box">
+          <div class="contact-grid">
+            <!-- Left: Direct Channels -->
+            <div>
+              <h3 class="contact-channels-title">Direct Contact</h3>
+              <p class="contact-channels-desc">Click any channel below to copy or initiate a conversation directly.</p>
+
+              <div class="contact-cards-list">
+                <!-- Email -->
+                <button class="contact-card-btn copy-email-btn" title="Click to copy email">
+                  <div class="contact-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                  </div>
+                  <div>
+                    <div class="contact-card-label">Email Address (Click to copy)</div>
+                    <div class="contact-card-value">monsurulislamcse.0208@gmail.com</div>
+                  </div>
+                </button>
+
+                <!-- Phone / WhatsApp -->
+                <a href="https://wa.me/8801611836864" target="_blank" rel="noopener noreferrer" class="contact-card-btn">
+                  <div class="contact-card-icon" style="color: var(--color-success);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  </div>
+                  <div>
+                    <div class="contact-card-label">WhatsApp Chat</div>
+                    <div class="contact-card-value">+8801611836864</div>
+                  </div>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://linkedin.com/in/monzurul-islam-irfan/" target="_blank" rel="noopener noreferrer" class="contact-card-btn">
+                  <div class="contact-card-icon" style="color: var(--color-secondary);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                  </div>
+                  <div>
+                    <div class="contact-card-label">LinkedIn Profile</div>
+                    <div class="contact-card-value">monzurul-islam-irfan</div>
+                  </div>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/m-d-Irfan" target="_blank" rel="noopener noreferrer" class="contact-card-btn">
+                  <div class="contact-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                  </div>
+                  <div>
+                    <div class="contact-card-label">GitHub Repositories</div>
+                    <div class="contact-card-value">m-d-Irfan</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Message Form -->
+            <div>
+              <form id="portfolio-contact-form">
+                <div class="form-group">
+                  <label for="contact-name" class="form-label">Your Name</label>
+                  <input type="text" id="contact-name" class="form-input" placeholder="e.g. Alex Johnson" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-email" class="form-label">Your Email</label>
+                  <input type="email" id="contact-email" class="form-input" placeholder="alex@company.com" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-message" class="form-label">Message</label>
+                  <textarea id="contact-message" class="form-textarea" placeholder="Hello Monzurul, I would like to discuss an opportunity..." required></textarea>
+                </div>
+
+                <button type="submit" id="contact-submit-btn" class="btn btn-primary" style="width: 100%;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="nav-brand">
+        <div class="brand-monogram">MI</div>
+        <span>Monzurul Islam (Irfan)</span>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#competitive">Problem Solving</a>
+        <a href="#education">Education</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+
+      <div class="footer-socials">
+        <a href="https://github.com/m-d-Irfan" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://linkedin.com/in/monzurul-islam-irfan/" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <a href="https://codeforces.com/profile/monzurul.islam2022" target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Codeforces">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        </a>
+        <a href="mailto:monsurulislamcse.0208@gmail.com" class="btn-icon" aria-label="Email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        </a>
+      </div>
+
+      <div class="footer-copyright">
+        © <span id="current-year">2026</span> Monzurul Islam.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Floating Action Button (Smooth Hero Return) -->
+  <button id="back-to-top-btn" class="back-to-top-fab no-print" aria-label="Back to Top" title="Back to Hero Section">
+    <svg class="back-to-top-ring" viewBox="0 0 36 36">
+      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+      <path class="ring-progress" id="scroll-progress-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+    </svg>
+    <svg class="back-to-top-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

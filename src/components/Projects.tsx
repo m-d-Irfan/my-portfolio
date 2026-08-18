@@ -1,130 +1,46 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { usePortfolio } from "@/context/context";
-import { ArrowUpRight, Code, Layers, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { usePortfolio } from "../context/context";
+import { Project } from "../data/portfolio";
+import { ExternalLink, Github, Info, X } from "lucide-react";
 
 export default function Projects() {
   const { data } = usePortfolio();
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("All");
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const categories = ["All", "Full Stack", "Backend", "CMS"];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const filteredProjects = data.projects.filter((project) => {
-    if (filter === "All") return true;
-    return project.category === filter;
+  const filteredProjects = data.projects.filter((p) => {
+    if (activeCategory === "All") return true;
+    return p.category === activeCategory;
   });
 
-  // Reset index when category changes
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [filter]);
-
-  const total = filteredProjects.length;
-
-  const handlePrev = () => {
-    if (total === 0) return;
-    setCurrentIndex((prev) => (prev - 1 + total) % total);
-  };
-
-  const handleNext = () => {
-    if (total === 0) return;
-    setCurrentIndex((prev) => (prev + 1) % total);
-  };
-
-  // Touch swipe support for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (diff > 45) {
-      handleNext();
-    } else if (diff < -45) {
-      handlePrev();
-    }
-    setTouchStartX(null);
-  };
-
-  if (total === 0) return null;
-
-  // Calculate 3-card relative positions for the infinite coverflow carousel
-  const getCardStyle = (index: number) => {
-    if (!isInView) {
-      return "scale-75 opacity-0 pointer-events-none translate-y-12";
-    }
-
-    if (total === 1) {
-      return "relative z-30 scale-100 opacity-100 pointer-events-auto max-w-lg mx-auto transition-all duration-800";
-    }
-
-    // Relative offset from current active index in loop
-    const diff = (index - currentIndex + total) % total;
-
-    if (diff === 0) {
-      // Active / Middle Card - Much bigger, sharp, centered, full opacity
-      return "relative z-30 scale-100 sm:scale-105 opacity-100 shadow-2xl shadow-primary/15 border-primary/50 pointer-events-auto translate-x-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
-    } else if (diff === 1 || (total === 2 && diff === 1)) {
-      // Right Card - Half shown on right edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] translate-x-[48%] sm:translate-x-[52%] lg:translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
-    } else if (diff === total - 1) {
-      // Left Card - Half shown on left edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] -translate-x-[48%] sm:-translate-x-[52%] lg:-translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform";
-    } else {
-      // Hidden behind
-      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-700";
-    }
-  };
-
   return (
-    <section id="projects" ref={sectionRef} className="section py-24 bg-base-200/20 border-y border-base-300/40 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+    <section id="projects" className="py-16 sm:py-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="font-outfit text-3xl sm:text-5xl font-bold tracking-tight mb-4">
-            Featured <span className="text-gradient">Projects</span>
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary font-mono text-xs font-semibold mb-3">
+            Portfolio
+          </div>
+          <h2 className="font-outfit text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Featured Projects & Systems
           </h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
-          <p className="font-sans text-sm sm:text-base opacity-70 mt-4 max-w-xl mx-auto">
-            Explore a selection of my latest software engineering projects, showcasing end-to-end full-stack systems and secure backend APIs.
+          <p className="font-sans text-base text-base-content/75">
+            Selected software engineering projects demonstrating end-to-end full-stack architectures and secure REST APIs.
           </p>
         </div>
 
-        {/* Categories Filtering tabs */}
-        <div className="flex justify-center items-center gap-2 mb-14 flex-wrap font-outfit">
+        {/* Category Tabs */}
+        <div className="flex justify-center flex-wrap gap-2 mb-10">
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setFilter(cat)}
-              className={`btn btn-sm sm:btn-md rounded-xl border border-base-300 font-semibold transition-all duration-300 ${
-                filter === cat
-                  ? "btn-primary text-primary-content shadow-md shadow-primary/20"
-                  : "btn-ghost hover:bg-base-200 hover:border-base-300"
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-full font-outfit text-xs sm:text-sm font-semibold transition-all duration-300 ${
+                activeCategory === cat
+                  ? "bg-primary text-black shadow-md shadow-primary/25"
+                  : "bg-base-200 border border-base-300 text-base-content/75 hover:border-primary/40 hover:text-primary"
               }`}
             >
               {cat}
@@ -132,134 +48,191 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* =========================================================
-            3D Infinity Loop Carousel Container:
-            - Middle card: Big, centered, focused
-            - Left & Right cards: Half visible, blurry & transparent
-           ========================================================= */}
-        <div
-          className="relative w-full max-w-5xl mx-auto min-h-[540px] sm:min-h-[580px] flex items-center justify-center py-6 select-none"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {filteredProjects.map((project, index) => {
-            const cardStyle = getCardStyle(index);
-            const isCenter = index === currentIndex;
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project) => (
+            <article
+              key={project.id}
+              className="bg-base-200/60 border border-base-300 rounded-3xl overflow-hidden flex flex-col shadow-xl hover:border-primary/40 hover:shadow-2xl transition-all duration-300 group"
+            >
+              {/* Thumbnail Container */}
+              <div className="relative w-full aspect-video overflow-hidden bg-base-300">
+                <img
+                  src={project.imageSrc}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-base-100/90 backdrop-blur-md border border-base-300 font-mono text-[11px] font-semibold text-secondary">
+                  {project.category}
+                </span>
+              </div>
 
-            return (
-              <div
-                key={project.id}
-                onClick={() => {
-                  if (!isCenter) setCurrentIndex(index);
-                }}
-                className={`w-full max-w-[340px] sm:max-w-md md:max-w-[420px] rounded-3xl bg-base-200/95 border border-base-300/60 overflow-hidden flex flex-col justify-between ${cardStyle}`}
-              >
-                {/* Top Details (Image + Content) */}
-                <div>
-                  {/* Project Image Frame */}
-                  <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-base-300">
-                    <div className="absolute inset-0 bg-base-900/10 z-10" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={project.imageSrc}
-                      alt={project.title}
-                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                    {/* Category Pill */}
-                    <span className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full bg-base-100/90 border border-base-300/60 font-outfit shadow-sm">
-                      <Layers className="w-3 h-3 text-secondary" />
-                      {project.category}
+              {/* Body */}
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="font-outfit text-xl font-bold text-base-content mb-2">
+                  {project.title}
+                </h3>
+
+                <p className="font-sans text-xs sm:text-sm text-base-content/75 line-clamp-3 mb-4 leading-relaxed flex-grow">
+                  {project.description}
+                </p>
+
+                {/* Tech Stack Pills */}
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {project.techStack.slice(0, 5).map((tech, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 rounded-md bg-base-100 border border-base-300 text-[11px] font-mono text-base-content/80"
+                    >
+                      {tech}
                     </span>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-6">
-                    <h3 className="font-outfit text-xl sm:text-2xl font-bold text-base-content/95 mb-2 line-clamp-1">
-                      {project.title}
-                    </h3>
-
-                    <p className="font-sans text-xs sm:text-sm opacity-80 line-clamp-3 leading-relaxed mb-5 text-justify">
-                      {project.description}
-                    </p>
-
-                    {/* Tech stack pills */}
-                    <div className="flex flex-wrap gap-1.5 mb-2">
-                      {project.techStack.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-base-100 border border-base-300/60 text-[11px] font-semibold opacity-85"
-                        >
-                          <Code className="w-3 h-3 text-primary" />
-                          {tech}
-                        </span>
-                      ))}
-                      {project.techStack.length > 4 && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-base-100 border border-base-300/60 text-[11px] font-semibold opacity-65">
-                          +{project.techStack.length - 4} more
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  ))}
+                  {project.techStack.length > 5 && (
+                    <span className="px-2 py-0.5 rounded-md bg-base-100 border border-base-300 text-[11px] font-mono text-primary font-bold">
+                      +{project.techStack.length - 5}
+                    </span>
+                  )}
                 </div>
 
-                {/* View Details Action button */}
-                <div className="p-6 pt-0">
-                  <Link
-                    href={`/projects/${project.id}`}
-                    className={`btn btn-primary btn-outline btn-block rounded-2xl gap-1.5 font-outfit text-sm ${
-                      !isCenter ? "pointer-events-none" : ""
-                    }`}
+                {/* Actions */}
+                <div className="flex items-center gap-2 pt-4 border-t border-base-300">
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="flex-1 btn btn-sm btn-outline rounded-xl font-outfit text-xs gap-1.5"
                   >
-                    View Details / More <ArrowUpRight className="w-4 h-4" />
-                  </Link>
+                    <Info className="w-3.5 h-3.5" /> Case Study
+                  </button>
+
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 btn btn-sm btn-primary rounded-xl font-outfit text-xs gap-1.5 shadow-sm"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" /> Live Demo
+                  </a>
+
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-sm btn-ghost btn-circle text-base-content/80 hover:text-primary"
+                    title="View Source Code"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
+      </div>
 
-        {/* Carousel Slider Controls: Prev / Next Buttons + Indicators */}
-        <div className="flex flex-col items-center justify-center gap-4 mt-6">
-          <div className="flex items-center gap-4">
+      {/* Case Study Detail Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-base-100 border border-base-300 rounded-3xl p-6 sm:p-8 shadow-2xl">
             <button
-              onClick={handlePrev}
-              className="btn btn-circle btn-sm sm:btn-md bg-base-200 border border-base-300 hover:bg-primary hover:text-primary-content hover:border-primary transition-all active:scale-90 shadow-md"
-              aria-label="Previous project"
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 btn btn-ghost btn-circle btn-sm text-base-content/75 hover:text-primary"
+              aria-label="Close modal"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <X className="w-5 h-5" />
             </button>
 
-            {/* Indicator Dots */}
-            <div className="flex items-center gap-2 px-2">
-              {filteredProjects.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    i === currentIndex
-                      ? "w-8 bg-primary shadow-sm shadow-primary/40"
-                      : "w-2.5 bg-base-300 hover:bg-base-content/40"
-                  }`}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary font-mono text-xs font-semibold mb-2">
+              {selectedProject.category}
+            </div>
+
+            <h3 className="font-outfit text-2xl font-bold text-gradient mb-2">
+              {selectedProject.title}
+            </h3>
+
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {selectedProject.techStack.map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="px-2.5 py-1 rounded-lg bg-base-200 border border-base-300 text-xs font-mono text-base-content/80"
+                >
+                  {tech}
+                </span>
               ))}
             </div>
 
-            <button
-              onClick={handleNext}
-              className="btn btn-circle btn-sm sm:btn-md bg-base-200 border border-base-300 hover:bg-primary hover:text-primary-content hover:border-primary transition-all active:scale-90 shadow-md"
-              aria-label="Next project"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-          
-          <span className="text-xs font-mono opacity-50">
-            {currentIndex + 1} / {total} · Swipe or click to slide
-          </span>
-        </div>
+            <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 bg-base-300 border border-base-300">
+              <img
+                src={selectedProject.imageSrc}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-      </div>
+            {/* Quick Action Links */}
+            <div className="flex flex-wrap gap-3 mb-6">
+              <a
+                href={selectedProject.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 btn btn-primary btn-sm rounded-xl font-outfit gap-2"
+              >
+                <ExternalLink className="w-4 h-4" /> Live Application
+              </a>
+
+              <a
+                href={selectedProject.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 btn btn-outline btn-sm rounded-xl font-outfit gap-2"
+              >
+                <Github className="w-4 h-4" /> Client Code
+              </a>
+
+              {selectedProject.githubBackendUrl && (
+                <a
+                  href={selectedProject.githubBackendUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 btn btn-outline btn-secondary btn-sm rounded-xl font-outfit gap-2"
+                >
+                  <Github className="w-4 h-4" /> Server API Code
+                </a>
+              )}
+            </div>
+
+            {/* Key System Highlights */}
+            <div className="mb-6">
+              <h4 className="font-outfit text-base font-bold text-base-content mb-3">
+                Key System Highlights
+              </h4>
+              <ul className="space-y-2 font-sans text-xs sm:text-sm text-base-content/85 list-disc pl-5 leading-relaxed text-justify">
+                {(selectedProject.bullets || [selectedProject.description]).map((bullet, idx) => (
+                  <li key={idx}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Challenges */}
+            <div className="p-4 rounded-2xl bg-base-200 border border-base-300 mb-4">
+              <h5 className="font-mono text-xs font-bold text-warning uppercase mb-1.5">
+                Technical Challenges
+              </h5>
+              <p className="font-sans text-xs sm:text-sm text-base-content/80 leading-relaxed text-justify">
+                {selectedProject.challenges}
+              </p>
+            </div>
+
+            {/* Roadmaps */}
+            <div className="p-4 rounded-2xl bg-base-200 border border-base-300">
+              <h5 className="font-mono text-xs font-bold text-primary uppercase mb-1.5">
+                Future Roadmaps
+              </h5>
+              <p className="font-sans text-xs sm:text-sm text-base-content/80 leading-relaxed text-justify">
+                {selectedProject.improvements}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

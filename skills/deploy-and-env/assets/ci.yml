@@ -1,0 +1,228 @@
+# CI pipeline. Copy to .github/workflows/ci.yml.
+#
+# Gate order is fail-fast: lint (seconds) before tests (minutes) before build.
+#
+# Three jobs have NO continue-on-error and never will:
+#   - the security regression suite (S1-S8 as permanent tests)
+#   - the secret scan
+#   - makemigrations --check
+# Each one's failure mode is silent in every other check, which is why they are
+# gates rather than warnings.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  # A newer push supersedes an in-flight run on the same ref.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      # A real MySQL, not SQLite. Production is MySQL, and the differences are
+      # real: case-sensitive table names, index length limits, different DDL
+      # transaction semantics. A suite that only ran on SQLite has not tested
+      # production.
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-password-not-a-secret
+          MYSQL_DATABASE: test_daf
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+      redis:
+        # Required for throttle tests: LocMemCache is per-process, so rate
+        # limits are unenforceable across workers (N2).
+        image: redis:7
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+    env:
+      DJANGO_SETTINGS_MODULE: daf_backend.settings
+      SECRET_KEY: ci-only-key-regenerated-per-run-not-a-real-secret
+      DEBUG: 'False'
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      DB_ENGINE: django.db.backends.mysql
+      DB_NAME: test_daf
+      DB_USER: root
+      DB_PASSWORD: ci-root-password-not-a-secret
+      DB_HOST: 127.0.0.1
+      DB_PORT: '3306'
+      REDIS_URL: redis://127.0.0.1:6379/1
+      EMAIL_HOST_USER: ci@example.com
+      EMAIL_HOST_PASSWORD: ci-placeholder
+      DEFAULT_FROM_EMAIL: ci@example.com
+      FRONTEND_URL: http://localhost:5173
+      BACKEND_URL: http://localhost:8000
+
+    defaults:
+      run:
+        working-directory: daf_backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: daf_backend/requirements.txt
+
+      - name: Install
+        # requirements.txt, not a hand-listed set. If the file is incomplete,
+        # CI should fail here — that is the same failure the server will have.
+        run: pip install -r requirements.txt
+
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check .
+
+      - name: Migrations are up to date
+        # GATE. A model changed without a migration passes every local test
+        # (SQLite is recreated from models) and fails on the first production
+        # request.
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Migrate
+        run: python manage.py migrate --noinput
+
+      - name: Deployment checks
+        # S4. Zero warnings, not "only the ones we know about".
+        run: python manage.py check --deploy --fail-level WARNING
+
+      - name: Boot fails loudly without a required env var
+        # C1. Proves the fail-fast mechanism works — a missing key must crash
+        # at boot, not evaluate to None and fail open six weeks later.
+        run: |
+          if env -u SECRET_KEY python manage.py check 2>/dev/null; then
+            echo "FAIL: the app booted with SECRET_KEY unset."
+            echo "Route settings through env_config.env() — see deploy-and-env/01."
+            exit 1
+          fi
+          echo "ok: missing required env var is fatal at boot"
+
+      - name: Every env key is documented
+        run: |
+          diff \
+            <(grep -rhoE "env(_bool|_int|_list|_float)?\(['\"][A-Z_]+" --include=*.py . \
+               | grep -oE "[A-Z_]{2,}" | sort -u) \
+            <(grep -oE "^[A-Z_]+" .env.example | sort -u) \
+          || { echo "FAIL: .env.example and the code disagree about which keys exist."; exit 1; }
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Security regression suite
+        # GATE. One test per audit finding. S1, S2, S5, S6 and S8 were all live
+        # in production simultaneously and nothing noticed.
+        run: pytest tests/test_security_regressions.py -v
+
+      - name: Query and payload budgets
+        run: pytest tests/test_query_budget.py -v
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'daf front/daf frontend'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: 'daf front/daf frontend/package-lock.json'
+
+      - name: Install
+        # ci, not install — respects the lockfile exactly. `npm install` can
+        # resolve a different version than the lock pins, which is how a build
+        # that passed locally fails in production.
+        run: npm ci
+
+      - run: npm run lint
+
+      - run: npm test -- --run
+
+      - name: Build
+        env:
+          VITE_API_URL: https://api.delhialuminium.com
+        run: npm run build
+
+      - name: Performance budgets
+        # performance-budget owns the numbers; this is where they are enforced.
+        # P3 — a 6.6 MB PNG — shipped because nothing checked.
+        run: bash scripts/check_budget.sh
+
+      - name: No secret in the bundle
+        # Vite inlines every VITE_ variable at build time. The bundle is
+        # published source.
+        run: |
+          if grep -rnE "APP_SECRET|SECRET_KEY|DB_PASSWORD|API_SECRET" dist/assets/*.js; then
+            echo "FAIL: a secret-shaped string is in the client bundle."
+            exit 1
+          fi
+          echo "ok: no secret in the bundle"
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history. A secret three commits back is as compromised as one
+          # in this PR.
+          fetch-depth: 0
+
+      - name: Gitleaks
+        # GATE. S3: MySQL and Gmail credentials were plaintext in tracked source.
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: No database or log file is tracked
+        # db.sqlite3 held real customer rows and password hashes; stderr.log
+        # held tracebacks containing OTP codes and passwords.
+        run: |
+          if git ls-files | grep -E '\.sqlite3$|\.log$|^\.env$|/\.env$'; then
+            echo "FAIL: a database, log file or .env is tracked."
+            exit 1
+          fi
+          echo "ok: nothing sensitive is tracked"
+
+  deploy:
+    needs: [backend, frontend, secrets]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          # The script uses `set -euo pipefail`, backs up first, and exits
+          # non-zero if the health check fails — so a broken deploy turns this
+          # job red instead of passing silently.
+          script: cd ~/daf_backend && bash scripts/deploy.sh
+
+      - name: Smoke test
+        run: |
+          curl -sf https://api.delhialuminium.com/health/ | tee /dev/stderr | grep -q '"status": *"ok"'

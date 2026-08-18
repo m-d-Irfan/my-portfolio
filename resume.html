@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Monzurul Islam | Junior Software Engineer</title>
+  <meta name="description" content="Official Curriculum Vitae of Monzurul Islam (Irfan), Junior Software Engineer specializing in Python, Django REST Framework, PostgreSQL, and React/Next.js." />
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+
+  <style>
+    .resume-page-wrapper {
+      padding: var(--space-6) var(--space-4);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .resume-control-bar {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-4);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .resume-sheet {
+      width: 100%;
+      max-width: 850px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8) var(--space-10);
+      box-shadow: var(--shadow-lg);
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--text-primary);
+    }
+
+    .resume-header {
+      border-bottom: 2px solid var(--border-subtle);
+      padding-bottom: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .resume-candidate-name {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .resume-candidate-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 6px;
+    }
+
+    .resume-contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      margin-bottom: 3px;
+    }
+
+    .resume-sheet a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.18s ease, text-decoration 0.18s ease;
+    }
+
+    .resume-sheet a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      color: var(--color-primary);
+    }
+
+    .resume-contact-row a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.18s ease, text-decoration 0.18s ease;
+    }
+
+    .resume-contact-row a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      color: var(--color-primary);
+    }
+
+    .resume-section {
+      margin-bottom: var(--space-4);
+    }
+
+    .resume-section-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-primary);
+      border-bottom: 1.5px solid var(--border-subtle);
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+      font-family: var(--font-heading);
+    }
+
+    .resume-entry {
+      margin-bottom: 8px;
+    }
+
+    .resume-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .resume-entry-title {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 13.5px;
+    }
+
+    .resume-entry-meta {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .resume-bullets {
+      list-style: disc;
+      padding-left: 18px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      text-align: justify;
+    }
+
+    .resume-bullets li {
+      margin-bottom: 3px;
+    }
+
+    .resume-bullets strong {
+      color: var(--text-primary);
+    }
+
+    .project-links-span {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .project-links-span a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .project-links-span a:hover {
+      text-decoration: underline;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .resume-page-wrapper {
+        padding: 0 !important;
+      }
+      .resume-control-bar {
+        display: none !important;
+      }
+      .resume-sheet {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 10pt !important;
+        line-height: 1.35 !important;
+      }
+      .resume-candidate-title, .resume-section-title, .project-links-span a {
+        color: #000000 !important;
+      }
+      .resume-bullets, .resume-contact-row, .resume-entry-meta {
+        color: #111111 !important;
+      }
+      .resume-section-title {
+        border-bottom: 1.5px solid #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="resume-page-wrapper">
+    <!-- Top Action Control Bar (Hidden on Print) -->
+    <div class="resume-control-bar no-print">
+      <a href="index.html" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Portfolio
+      </a>
+
+      <div style="display: flex; gap: var(--space-2);">
+        <button onclick="window.print()" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / PDF Export
+        </button>
+
+        <a href="./assets/Monzurul_Islam.pdf" download="Monzurul_Islam_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download PDF
+        </a>
+
+        <button id="theme-toggle-btn" class="btn-icon" aria-label="Toggle Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Official A4 Printable Sheet -->
+    <article class="resume-sheet">
+      <!-- Candidate Header -->
+      <header class="resume-header">
+        <h1 class="resume-candidate-name">Monzurul Islam</h1>
+        <div class="resume-candidate-title">Junior Software Engineer</div>
+        <div class="resume-contact-row">
+          <span><a href="mailto:monsurulislamcse.0208@gmail.com">monsurulislamcse.0208@gmail.com</a></span>
+          <span>|</span>
+          <span>+8801611836864</span>
+          <span>|</span>
+          <span>Chattogram, Bangladesh</span>
+        </div>
+        <div class="resume-contact-row">
+          <span><a href="https://github.com/m-d-Irfan" target="_blank">github.com/m-d-Irfan</a></span>
+          <span>|</span>
+          <span><a href="https://linkedin.com/in/monzurul-islam-irfan/" target="_blank">linkedin.com/in/monzurul-islam-irfan/</a></span>
+        </div>
+        <div class="resume-contact-row">
+          <span>Portfolio: <a href="https://monzurul-islam.vercel.app" target="_blank">monzurul-islam</a></span>
+          <span>|</span>
+          <span>Codeforce: <a href="https://codeforces.com/profile/monzurul.islam2022" target="_blank">monzurul.islam2022</a></span>
+          <span>|</span>
+          <span>Codechef: <a href="https://www.codechef.com/users/montikuna_2" target="_blank">montikuna_2</a></span>
+        </div>
+      </header>
+
+      <!-- Career Objective -->
+      <section class="resume-section">
+        <h2 class="resume-section-title">CAREER OBJECTIVE</h2>
+        <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.45; text-align: justify;">
+          Backend-focused Computer Science graduate with hands-on experience designing and building secure, scalable REST APIs using Python, Django, and Django REST Framework. Proficient in PostgreSQL for data modeling, JWT-based authentication, and cloud deployment via Render with GitHub Actions CI/CD. Seeking a backend engineering position where I can contribute to production systems and grow within a structured engineering team.
+        </p>
+      </section>
+
+      <!-- Technical Skills -->
+      <section class="resume-section">
+        <h2 class="resume-section-title">SKILL</h2>
+        <div style="font-size: 12.5px; line-height: 1.45; color: var(--text-secondary);">
+          <p><strong style="color: var(--text-primary);">Languages:</strong> Python, JavaScript, TypeScript</p>
+          <p><strong style="color: var(--text-primary);">Backend:</strong> Django, Django REST Framework (DRF), REST APIs, JWT</p>
+          <p><strong style="color: var(--text-primary);">Databases:</strong> MySQL, PostgreSQL</p>
+          <p><strong style="color: var(--text-primary);">Frontend:</strong> React.js(v19), Next.js(v15), HTML5, TailwindCSS, JavaScript</p>
+          <p><strong style="color: var(--text-primary);">Concepts:</strong> Object-Oriented Programming, DSA, CRUD, Axios</p>
+          <p><strong style="color: var(--text-primary);">Tools & DevOps:</strong> Git, GitHub, Render, Vercel, Postman, AWS, Prisma.</p>
+          <p><strong style="color: var(--text-primary);">Hard Skill:</strong> MS Word, PowerPoint, Excel, Bangla type.</p>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="resume-section">
+        <h2 class="resume-section-title">PROJECTS</h2>
+
+        <!-- Project 1: EduCore AI -->
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">
+              EduCore AI <em style="font-weight: normal; font-size: 12px; opacity: 0.85;">(Django, DRF, JWT, RestAPIs, React.js, Next.js, TypeScript)</em>
+            </span>
+            <span class="project-links-span">
+              <a href="https://educore-ai-tan.vercel.app/" target="_blank">Live</a> | 
+              <a href="https://github.com/m-d-Irfan/LLC_FrontEnd" target="_blank">Client</a> | 
+              <a href="https://github.com/m-d-Irfan/LLC_backend" target="_blank">Server</a>
+            </span>
+          </div>
+          <ul class="resume-bullets">
+            <li><strong>Role-based access & admin control</strong> — Users register as student or instructor; instructor accounts stay pending until an admin approves or rejects them (with an emailed reason). Enforced via JWT auth and role-based route middleware, with an admin dashboard for stats, user/course management, and enrollment cancellation.</li>
+            <li><strong>Course authoring (instructor)</strong> — Instructors create courses with modules and ordered lessons (title, content, video URL, thumbnails, pricing, publish toggle), managed from an instructor dashboard.</li>
+            <li><strong>Enrollment & lesson progress tracking (student)</strong> — Students browse/search published courses, enroll, work through lessons, and have completion progress tracked per lesson.</li>
+            <li><strong>Automated certificate issuance</strong> — Once a student finishes every lesson in a course, the backend auto-generates a certificate (unique ID) and emails it; a certificates list is available on their dashboard.</li>
+          </ul>
+        </div>
+
+        <!-- Project 2: Sports Blog CMS -->
+        <div class="resume-entry" style="margin-top: 6px;">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">
+              Sports Blog CMS <em style="font-weight: normal; font-size: 12px; opacity: 0.85;">(Python · Django · MySQL)</em>
+            </span>
+            <span class="project-links-span">
+              <a href="https://sport-blogs.onrender.com/" target="_blank">Live</a> | 
+              <a href="https://github.com/m-d-Irfan/Basic-Blog" target="_blank">Client</a> | 
+              <a href="https://github.com/m-d-Irfan/Basic-Blog" target="_blank">Server</a>
+            </span>
+          </div>
+          <ul class="resume-bullets">
+            <li><strong>User authentication</strong> — Visitors sign up and log in (Django's built-in auth) to get posting rights; logged-out users can still browse.</li>
+            <li><strong>Post authoring & management</strong> — Logged-in users create, edit, and delete their own blog posts, each assigned to a category, with a personal "my posts" view filtered by author.</li>
+            <li><strong>Category browsing</strong> — Posts are organized into categories that can be created/updated/deleted, and visitors can filter posts by category to read related content together.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="resume-section">
+        <h2 class="resume-section-title">EDUCATION</h2>
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">B.Sc. in Computer Science & Engineering, <span style="font-weight: normal; font-style: italic;">Port City International University, Chittagong</span></span>
+            <span class="resume-entry-meta">01/2022 – 02/2026</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 1px;">
+            <span>• <strong>CGPA: 3.53 / 4.00</strong></span>
+            <span style="font-family: var(--font-mono);">Chittagong, Bangladesh</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Training -->
+      <section class="resume-section">
+        <h2 class="resume-section-title">TRAINING</h2>
+
+        <div class="resume-entry">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">Computer Science Fundamentals − with Phitron</span>
+            <span class="resume-entry-meta">2023 – 2024</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.45; text-align: justify;">
+            Industry oriented training around 210 hours covering C++, Python, Data Structure and Algorithm, Object Oriented Programming, Competitive Programming, Database Management on SQL and PostgreSQL, Django, Django REST framework, RestAPIs, Server Deploy with AWS
+          </p>
+        </div>
+
+        <div class="resume-entry" style="margin-top: 4px;">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">
+              Master Git and GitHub - Beginner to Expert <a href="https://udemy-certificate.s3.amazonaws.com/image/UC-491ed3e9-c16c-491d-8e8c-d331cf6cac92.jpg" target="_blank" style="font-size: 11px; color: var(--color-primary);">[Certificate]</a>
+            </span>
+            <span class="resume-entry-meta">Feb 2025</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.45; text-align: justify;">
+            Covering basic setup, branching, project fork & clone, workflow (staging, upstaging, commit), 2way merge, 3way merge, resolve merge conflict, collaborations.
+          </p>
+        </div>
+
+        <div class="resume-entry" style="margin-top: 4px;">
+          <div class="resume-entry-header">
+            <span class="resume-entry-title">Next Level Web Development – Programming Hero ( Running )</span>
+            <span class="resume-entry-meta">April ⎯ Sep 2026</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.45; text-align: justify;">
+            AI driven Software Engineering Oriented bootcamp covers Advance Typescript with OOP, Node.js, CRUD with Express.js, Advance PostgreSQL and Database modeling, Prisma ORM, Advance Querying, filtering, Advance Next.js, WT custom Authentication, Docker container and Data Management, AI chat integration with Node.js and automation with n8n.
+          </p>
+        </div>
+      </section>
+
+      <!-- Language -->
+      <section class="resume-section" style="margin-bottom: 0;">
+        <p style="font-size: 12.5px; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Language:</strong> English (Conversational), Bangla (Native)</p>
+      </section>
+    </article>
+  </div>
+
+  <script type="module">
+    import { initTheme } from './js/theme.js';
+    initTheme();
+  </script>
+</body>
+</html>
