@@ -1291,7 +1291,8 @@ section[id] {
 .coverflow-stage {
   position: relative;
   width: 100%;
-  height: 560px;
+  height: 640px;
+  padding: 24px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1303,11 +1304,11 @@ section[id] {
 
 .coverflow-card {
   position: absolute;
-  width: 460px;
+  width: 440px;
   max-width: 86vw;
   background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-2xl);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 24px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1324,13 +1325,14 @@ section[id] {
   cursor: pointer;
 }
 
-/* Center Active Card: ONLY this middle card is interactive and accessible */
+/* Center Active Card: Clean visible glowing borders on all 4 sides */
 .coverflow-card.card-center {
   z-index: 20;
   opacity: 1;
-  transform: translate3d(0, 0, 40px) scale(1.1) rotateY(0deg);
-  border-color: var(--border-accent);
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.6), 0 0 35px rgba(16, 185, 129, 0.22);
+  transform: translate3d(0, 0, 30px) scale(1.05) rotateY(0deg);
+  border: 2px solid var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(16, 185, 129, 0.25);
   filter: blur(0px);
   cursor: default;
   pointer-events: auto !important;
@@ -1339,9 +1341,10 @@ section[id] {
 .coverflow-card.card-center:hover,
 .coverflow-card.card-center:focus-within,
 .coverflow-card.card-center:active {
+  border: 2px solid var(--color-primary);
   border-color: var(--color-primary);
-  box-shadow: 0 26px 65px rgba(0, 0, 0, 0.7), 0 0 45px rgba(16, 185, 129, 0.35);
-  transform: translate3d(0, -4px, 45px) scale(1.12) rotateY(0deg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(16, 185, 129, 0.35);
+  transform: translate3d(0, -3px, 35px) scale(1.06) rotateY(0deg);
 }
 
 /* Side Cards: INACCESSIBLE, non-interactive, transparent blurry */
@@ -1619,7 +1622,8 @@ section[id] {
 /* Responsive Mobile Adjustments */
 @media (max-width: 640px) {
   .coverflow-stage {
-    height: 480px;
+    height: 540px;
+    padding: 16px 0;
     margin-bottom: var(--space-4);
     overflow: hidden;
   }
