@@ -103,12 +103,12 @@ export default function Navbar() {
                 <kbd className="px-1.5 py-0.5 rounded bg-base-300 text-[10px] font-bold">⌘K</kbd>
               </button>
 
-              <button
-                onClick={navigateToResume}
+              <a
+                href="/resume.html"
                 className="btn btn-sm btn-outline btn-secondary rounded-xl font-outfit gap-1 shadow-sm hover:scale-[1.03] transition-all"
               >
                 Resume <ArrowUpRight className="w-3.5 h-3.5" />
-              </button>
+              </a>
 
               <button
                 onClick={() => setConnectModalOpen(true)}
@@ -182,15 +182,12 @@ export default function Navbar() {
               </button>
             ))}
             <div className="px-4 pt-3 flex flex-col gap-2">
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  navigateToResume();
-                }}
+              <a
+                href="/resume.html"
                 className="btn btn-secondary btn-outline btn-block btn-sm rounded-xl font-outfit justify-center gap-1.5"
               >
                 View Resume <ArrowUpRight className="w-4 h-4" />
-              </button>
+              </a>
               <button
                 onClick={() => {
                   setIsOpen(false);
@@ -289,3 +286,4 @@ export default function Navbar() {
     </>
   );
 }
+

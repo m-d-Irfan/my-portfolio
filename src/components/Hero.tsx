@@ -42,7 +42,7 @@ function RoleDiceRotator() {
 }
 
 export default function Hero() {
-  const { theme, data, navigateToResume, copyToClipboard } = usePortfolio();
+  const { theme, data, copyToClipboard } = usePortfolio();
 
   return (
     <section
@@ -77,7 +77,7 @@ export default function Hero() {
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary to-secondary opacity-40 blur-md group-hover:opacity-70 transition-opacity" />
               <div className="relative w-28 h-28 xs:w-32 xs:h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden border-2 border-primary/40 shadow-xl bg-base-200">
                 <img
-                  src={theme === "light" ? "/assets/Monzurul Islam-Light.jpeg" : "/assets/Monzurul Islam-Dark.jpeg"}
+                  src={theme === "light" ? "/assets/avatar-light.jpeg" : "/assets/avatar-dark.jpeg"}
                   alt={data.name}
                   className="w-full h-full object-cover object-center"
                 />
@@ -100,12 +100,12 @@ export default function Hero() {
               <Download className="w-3.5 h-3.5" /> Download PDF
             </a>
 
-            <button
-              onClick={navigateToResume}
+            <a
+              href="/resume.html"
               className="btn btn-outline btn-secondary btn-sm font-outfit gap-1.5 text-xs rounded-xl"
             >
               <FileText className="w-3.5 h-3.5" /> View Resume
-            </button>
+            </a>
 
             <button
               onClick={() => copyToClipboard(data.email, "Email address copied")}
@@ -158,12 +158,12 @@ export default function Hero() {
                 <Download className="w-4 h-4" /> Download Resume (PDF)
               </a>
 
-              <button
-                onClick={navigateToResume}
+              <a
+                href="/resume.html"
                 className="btn btn-outline btn-secondary font-outfit gap-2 hover:scale-[1.03] transition-all rounded-2xl"
               >
                 <FileText className="w-4 h-4" /> View Resume
-              </button>
+              </a>
 
               <button
                 onClick={() => copyToClipboard(data.email, "Email address copied")}
@@ -209,7 +209,7 @@ export default function Hero() {
               <div className="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-primary via-secondary to-accent opacity-30 blur-xl group-hover:opacity-60 transition duration-500" />
               <div className="relative rounded-3xl overflow-hidden border-2 border-primary/40 bg-base-200 shadow-2xl">
                 <img
-                  src={theme === "light" ? "/assets/Monzurul Islam-Light.jpeg" : "/assets/Monzurul Islam-Dark.jpeg"}
+                  src={theme === "light" ? "/assets/avatar-light.jpeg" : "/assets/avatar-dark.jpeg"}
                   alt={data.name}
                   className="w-full h-auto aspect-square object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
