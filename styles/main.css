@@ -1312,11 +1312,11 @@ section[id] {
   display: flex;
   flex-direction: column;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.5s ease,
-              filter 0.5s ease,
-              border-color 0.3s ease,
-              box-shadow 0.5s ease;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -1324,7 +1324,7 @@ section[id] {
   cursor: pointer;
 }
 
-/* Center Active Card: Much bigger in the middle, sharp, highlighted */
+/* Center Active Card: ONLY this middle card is interactive and accessible */
 .coverflow-card.card-center {
   z-index: 20;
   opacity: 1;
@@ -1333,7 +1333,32 @@ section[id] {
   box-shadow: 0 22px 55px rgba(0, 0, 0, 0.6), 0 0 35px rgba(16, 185, 129, 0.22);
   filter: blur(0px);
   cursor: default;
-  pointer-events: auto;
+  pointer-events: auto !important;
+}
+
+.coverflow-card.card-center:hover,
+.coverflow-card.card-center:focus-within,
+.coverflow-card.card-center:active {
+  border-color: var(--color-primary);
+  box-shadow: 0 26px 65px rgba(0, 0, 0, 0.7), 0 0 45px rgba(16, 185, 129, 0.35);
+  transform: translate3d(0, -4px, 45px) scale(1.12) rotateY(0deg);
+}
+
+/* Side Cards: INACCESSIBLE, non-interactive, transparent blurry */
+.coverflow-card.card-prev,
+.coverflow-card.card-next,
+.coverflow-card.hidden-card {
+  pointer-events: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default !important;
+}
+
+.coverflow-card.card-prev *,
+.coverflow-card.card-next *,
+.coverflow-card.hidden-card * {
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
 /* Previous Card: Left half-shown, transparent & blurry */
@@ -1344,12 +1369,6 @@ section[id] {
   filter: blur(2.5px);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  pointer-events: auto;
-}
-
-.coverflow-card.card-prev:hover {
-  opacity: 0.8;
-  filter: blur(0.5px);
 }
 
 /* Next Card: Right half-shown, transparent & blurry */
@@ -1360,12 +1379,6 @@ section[id] {
   filter: blur(2.5px);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  pointer-events: auto;
-}
-
-.coverflow-card.card-next:hover {
-  opacity: 0.8;
-  filter: blur(0.5px);
 }
 
 /* Cards Emerge Animation: Side cards come out from behind the middle card */

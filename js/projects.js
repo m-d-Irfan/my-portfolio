@@ -411,10 +411,14 @@ export function openProjectModal(projectId) {
   `;
 
   projectModalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
 }
 
 export function closeProjectModal() {
   if (projectModalBackdrop) {
     projectModalBackdrop.classList.remove('open');
   }
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
 }

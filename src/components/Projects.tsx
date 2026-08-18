@@ -19,7 +19,7 @@ export default function Projects() {
 
   const total = filteredProjects.length;
 
-  // Auto-slide every 3.5s with pause on hover
+  // Auto-slide every 3.5s with pause on middle card hover/touch
   useEffect(() => {
     if (isPaused || total <= 1) return;
     const timer = setInterval(() => {
@@ -27,6 +27,21 @@ export default function Projects() {
     }, 3500);
     return () => clearInterval(timer);
   }, [isPaused, total]);
+
+  // Disable background scroll when viewing project modal
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [selectedProject]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + total) % total);
@@ -86,24 +101,24 @@ export default function Projects() {
 
               if (!isCenter && !isPrev && !isNext) return null;
 
-              let cardStyles = "transition-all duration-600 ease-out absolute w-[330px] sm:w-[440px] max-w-[86vw] bg-base-100 border rounded-3xl overflow-hidden shadow-2xl flex flex-col ";
+              let cardStyles = "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] absolute w-[330px] sm:w-[440px] max-w-[86vw] bg-base-100 border rounded-3xl overflow-hidden shadow-2xl flex flex-col will-change-transform ";
               
               if (isCenter) {
-                cardStyles += "z-20 scale-105 sm:scale-110 translate-x-0 opacity-100 border-primary/50 shadow-primary/15 shadow-2xl blur-none cursor-default";
+                // Middle Card: ONLY accessible card, prominent & active on hover/touch
+                cardStyles += "z-20 scale-105 sm:scale-110 translate-x-0 opacity-100 border-primary/50 shadow-primary/20 shadow-2xl blur-none pointer-events-auto cursor-default hover:border-primary hover:shadow-primary/35 hover:scale-[1.07] sm:hover:scale-[1.12]";
               } else if (isPrev) {
-                cardStyles += "z-10 scale-85 -translate-x-[68%] sm:-translate-x-[70%] opacity-45 blur-[2.5px] border-base-300 hover:opacity-75 hover:blur-[0.5px] cursor-pointer";
+                // Left Side Card: Inaccessible, non-interactive, transparent blurry
+                cardStyles += "z-10 scale-85 -translate-x-[68%] sm:-translate-x-[70%] opacity-40 blur-[3px] border-base-300 pointer-events-none select-none";
               } else if (isNext) {
-                cardStyles += "z-10 scale-85 translate-x-[68%] sm:translate-x-[70%] opacity-45 blur-[2.5px] border-base-300 hover:opacity-75 hover:blur-[0.5px] cursor-pointer";
+                // Right Side Card: Inaccessible, non-interactive, transparent blurry
+                cardStyles += "z-10 scale-85 translate-x-[68%] sm:translate-x-[70%] opacity-40 blur-[3px] border-base-300 pointer-events-none select-none";
               }
 
               return (
                 <article
                   key={project.id}
                   className={cardStyles}
-                  onClick={() => {
-                    if (isPrev) handlePrev();
-                    else if (isNext) handleNext();
-                  }}
+                  aria-hidden={!isCenter}
                 >
                   {/* Thumbnail Image */}
                   <div className="relative w-full aspect-video overflow-hidden bg-base-300">
@@ -143,34 +158,48 @@ export default function Projects() {
                       )}
                     </div>
 
-                    {/* Action Controls */}
+                    {/* Action Controls - Accessible ONLY on middle card */}
                     <div className="flex items-center gap-2 pt-3 border-t border-base-300">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setSelectedProject(project);
+                          if (isCenter) setSelectedProject(project);
                         }}
+                        disabled={!isCenter}
+                        tabIndex={isCenter ? 0 : -1}
                         className="flex-1 btn btn-sm btn-outline rounded-xl font-outfit text-xs gap-1.5"
                       >
                         <Info className="w-3.5 h-3.5" /> Details
                       </button>
 
                       <a
-                        href={project.liveUrl}
+                        href={isCenter ? project.liveUrl : undefined}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex-1 btn btn-sm btn-primary rounded-xl font-outfit text-xs gap-1.5 shadow-sm"
+                        tabIndex={isCenter ? 0 : -1}
+                        onClick={(e) => {
+                          if (!isCenter) e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        className={`flex-1 btn btn-sm btn-primary rounded-xl font-outfit text-xs gap-1.5 shadow-sm ${
+                          !isCenter ? "pointer-events-none opacity-50" : ""
+                        }`}
                       >
                         <ExternalLink className="w-3.5 h-3.5" /> Live Demo
                       </a>
 
                       <a
-                        href={project.githubUrl}
+                        href={isCenter ? project.githubUrl : undefined}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="btn btn-sm btn-ghost btn-circle text-base-content/80 hover:text-primary"
+                        tabIndex={isCenter ? 0 : -1}
+                        onClick={(e) => {
+                          if (!isCenter) e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        className={`btn btn-sm btn-ghost btn-circle text-base-content/80 hover:text-primary ${
+                          !isCenter ? "pointer-events-none opacity-50" : ""
+                        }`}
                         title="View Source Code"
                       >
                         <Github className="w-4 h-4" />
@@ -218,7 +247,7 @@ export default function Projects() {
             </div>
 
             <div className="font-mono text-xs text-base-content/60">
-              {currentIndex + 1} / {total} · Click or swipe cards to slide
+              {currentIndex + 1} / {total} · Slide arrows or swipe to cycle
             </div>
           </div>
         )}
