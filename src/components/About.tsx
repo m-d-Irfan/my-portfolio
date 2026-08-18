@@ -11,13 +11,11 @@ export default function About() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setServicesInView(true);
-        }
+        setServicesInView(entry.isIntersecting);
       },
       {
-        threshold: 0.15,
-        rootMargin: "0px 0px -60px 0px", // Triggers only when visibly scrolled into view
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 

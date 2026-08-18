@@ -1,25 +1,24 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { usePortfolio } from "@/context/context";
-import { Award, Calendar, BookOpen, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { Award, Calendar, BookOpen, ExternalLink } from "lucide-react";
 
 export default function Training() {
   const { data } = usePortfolio();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
+        setIsInView(entry.isIntersecting);
       },
       {
-        threshold: 0.15,
-        rootMargin: "0px 0px -70px 0px", // Triggers visibly as user scrolls into the section
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
@@ -32,6 +31,17 @@ export default function Training() {
 
   const total = data.training.length;
 
+  // 2-second auto-slide loop on mobile when in view and not touched/paused
+  useEffect(() => {
+    if (!isInView || isPaused || total <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % total);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isInView, isPaused, total]);
+
   const handlePrev = () => {
     if (total === 0) return;
     setCurrentIndex((prev) => (prev - 1 + total) % total);
@@ -42,19 +52,24 @@ export default function Training() {
     setCurrentIndex((prev) => (prev + 1) % total);
   };
 
+  // Freeze on touch start
   const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
     setTouchStartX(e.touches[0].clientX);
   };
 
+  // Resume and slide on touch end
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (diff > 45) {
-      handleNext();
-    } else if (diff < -45) {
-      handlePrev();
+    if (touchStartX !== null) {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (diff > 40) {
+        handleNext();
+      } else if (diff < -40) {
+        handlePrev();
+      }
     }
     setTouchStartX(null);
+    setIsPaused(false);
   };
 
   // Calculates animation & 3D slide state for training cards
@@ -64,29 +79,25 @@ export default function Training() {
     // Initial entrance animation states before user scrolls into view
     if (!isInView) {
       if (index === 0 || (total > 1 && index === 1)) {
-        // Middle card drops from top
         return "opacity-0 -translate-y-28 scale-90 pointer-events-none";
       } else if (index === 0) {
-        // Left card hides behind center
         return "opacity-0 translate-x-40 scale-75 pointer-events-none";
       } else {
-        // Right card hides behind center
         return "opacity-0 -translate-x-40 scale-75 pointer-events-none";
       }
     }
 
-    // After entrance animation triggered:
+    // Active Card
     if (diff === 0) {
-      // Middle Active Card - Drops into place
-      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/15 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)]";
+      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/15 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else if (diff === 1 || (total === 2 && diff === 1)) {
-      // Right Card - Emerges from behind center card
-      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-300";
+      // Right Card
+      return "absolute md:relative z-10 scale-[0.85] md:scale-95 opacity-30 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else if (diff === total - 1) {
-      // Left Card - Emerges from behind center card
-      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-300";
+      // Left Card
+      return "absolute md:relative z-10 scale-[0.85] md:scale-95 opacity-30 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[50%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else {
-      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-900";
+      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-700";
     }
   };
 
@@ -107,13 +118,15 @@ export default function Training() {
 
         {/* =========================================================
             Training Cards Container:
-            - Entrance: Middle card drops from TOP, side cards emerge from behind it
-            - Interactive: Infinity loop slide supported
+            - Desktop: 3-column structured grid
+            - Mobile: 2-second auto-loop slide with touch freeze & manual swiping
            ========================================================= */}
         <div
           className="relative min-h-[440px] flex items-center justify-center md:grid md:grid-cols-3 gap-6 max-w-6xl mx-auto select-none"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           {data.training.map((train, index) => {
             const cardClass = getTrainingCardClass(index);
@@ -176,41 +189,22 @@ export default function Training() {
           })}
         </div>
 
-        {/* Carousel Slider Controls on Mobile */}
-        <div className="flex md:hidden flex-col items-center justify-center gap-3 mt-8">
-          <div className="flex items-center gap-4">
+        {/* =========================================================
+            Mobile Clean Pagination Dots (No arrows or text indicators)
+           ========================================================= */}
+        <div className="flex md:hidden justify-center items-center gap-2.5 mt-8">
+          {data.training.map((_, i) => (
             <button
-              onClick={handlePrev}
-              className="btn btn-circle btn-sm bg-base-200 border border-base-300 hover:bg-secondary hover:text-secondary-content transition-all shadow-md"
-              aria-label="Previous training"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            {/* Dots */}
-            <div className="flex items-center gap-2 px-2">
-              {data.training.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === currentIndex
-                      ? "w-6 bg-secondary shadow-sm"
-                      : "w-2 bg-base-300"
-                  }`}
-                  aria-label={`Go to training ${i + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={handleNext}
-              className="btn btn-circle btn-sm bg-base-200 border border-base-300 hover:bg-secondary hover:text-secondary-content transition-all shadow-md"
-              aria-label="Next training"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === currentIndex
+                  ? "w-8 bg-secondary shadow-md shadow-secondary/30"
+                  : "w-2.5 bg-base-300 hover:bg-base-content/40"
+              }`}
+              aria-label={`Go to training slide ${i + 1}`}
+            />
+          ))}
         </div>
 
       </div>

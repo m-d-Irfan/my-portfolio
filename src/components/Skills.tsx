@@ -11,13 +11,11 @@ export default function Skills() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
+        setIsInView(entry.isIntersecting);
       },
       {
-        threshold: 0.15,
-        rootMargin: "0px 0px -70px 0px", // Trigger visibly as user scrolls into the section
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
