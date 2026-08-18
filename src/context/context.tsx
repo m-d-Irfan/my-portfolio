@@ -16,7 +16,7 @@ export interface PortfolioContextType {
   isMounted: boolean;
   introFinished: boolean;
   finishIntro: () => void;
-  toggleTheme: (event?: React.MouseEvent) => void;
+  toggleTheme: (event?: React.MouseEvent | React.TouchEvent | any) => void;
   themeTransitionPoint: ThemeTransitionPoint | null;
   isNavigating: boolean;
   navigateToResume: () => void;
@@ -85,32 +85,40 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {}
   }, []);
 
-  // Federico Pian inspired smooth circular theme transition
-  const toggleTheme = useCallback((event?: React.MouseEvent) => {
+  // Federico Pian inspired smooth circular theme transition originating from button
+  const toggleTheme = useCallback((event?: any) => {
     const nextTheme = theme === "night" ? "light" : "night";
 
-    // Default origin coordinates
-    let x = typeof window !== "undefined" ? window.innerWidth - 60 : 100;
+    // Accurate origin calculation for all screen sizes & touch/click events
+    let x = typeof window !== "undefined" ? window.innerWidth - 50 : 100;
     let y = 32;
 
     if (event) {
-      const rect = (event.currentTarget as HTMLElement)?.getBoundingClientRect?.();
-      if (rect) {
-        x = rect.left + rect.width / 2;
-        y = rect.top + rect.height / 2;
+      const btn = (event.currentTarget as HTMLElement) || (event.target as HTMLElement)?.closest("button");
+      if (btn && typeof btn.getBoundingClientRect === "function") {
+        const rect = btn.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          x = rect.left + rect.width / 2;
+          y = rect.top + rect.height / 2;
+        }
       } else if (event.clientX && event.clientY) {
         x = event.clientX;
         y = event.clientY;
+      } else if (event.touches && event.touches[0]) {
+        x = event.touches[0].clientX;
+        y = event.touches[0].clientY;
       }
     }
 
-    setThemeTransitionPoint({ x, y, toTheme: nextTheme as "light" | "night" });
-
     if (typeof document !== "undefined") {
       const doc = document;
+      doc.documentElement.style.setProperty("--theme-origin-x", `${x}px`);
+      doc.documentElement.style.setProperty("--theme-origin-y", `${y}px`);
+
       const startTransition = (doc as any).startViewTransition;
 
       if (typeof startTransition === "function") {
+        // Native View Transitions API with circular clip-path expansion
         const transition = startTransition.call(doc, () => {
           setTheme(nextTheme);
           localStorage.setItem("theme", nextTheme);
@@ -132,7 +140,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
                 ],
               },
               {
-                duration: 700,
+                duration: 650,
                 easing: "cubic-bezier(0.65, 0, 0.35, 1)",
                 pseudoElement: "::view-transition-new(root)",
               }
@@ -140,18 +148,19 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } else {
-        // Fallback smooth transition without View Transitions API
+        // Fallback smooth circular wave overlay for browsers without View Transitions API
+        setThemeTransitionPoint({ x, y, toTheme: nextTheme as "light" | "night" });
         setTheme(nextTheme);
         localStorage.setItem("theme", nextTheme);
         doc.documentElement.setAttribute("data-theme", nextTheme);
+
+        setTimeout(() => {
+          setThemeTransitionPoint(null);
+        }, 750);
       }
     } else {
       setTheme(nextTheme);
     }
-
-    setTimeout(() => {
-      setThemeTransitionPoint(null);
-    }, 750);
   }, [theme]);
 
   // Smooth page navigation with transition curtain
@@ -213,7 +222,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
 
-      {/* Fallback theme ripple overlay for browsers without View Transitions */}
+      {/* Fallback circular theme wave overlay for non-ViewTransition browsers */}
       {themeTransitionPoint && (
         <div
           className="theme-wave-overlay pointer-events-none fixed inset-0 z-[99999]"

@@ -24,32 +24,31 @@ export default function ResumePage() {
           <ArrowLeft className="w-4 h-4" /> Back to Portfolio
         </button>
 
-        {/* Desktop / Window View: Show 'Print' button only */}
-        <div className="hidden sm:inline-flex items-center gap-3">
-          <button
-            onClick={handlePrint}
-            className="btn btn-primary btn-sm rounded-2xl font-outfit gap-2 shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] transition-all px-4"
-          >
-            <Printer className="w-4 h-4" /> Print
-          </button>
-        </div>
-
-        {/* Mobile View: Show 'Download' button only */}
-        <div className="sm:hidden inline-flex items-center gap-2">
+        {/* Action Buttons: Download visible to everyone; Print visible on desktop only */}
+        <div className="inline-flex items-center gap-3">
+          {/* Download PDF Button (Visible to everyone on mobile & desktop) */}
           <a
             href="/Monzurul_Islam.pdf"
             download="Monzurul_Islam_Resume.pdf"
-            className="btn btn-primary btn-sm rounded-2xl font-outfit gap-1.5 shadow-md shadow-primary/20 px-3.5"
+            className="btn btn-outline btn-secondary btn-sm rounded-2xl font-outfit gap-1.5 shadow-sm hover:scale-[1.02] transition-all px-3.5"
           >
-            <Download className="w-4 h-4" /> Download
+            <Download className="w-4 h-4" /> Download PDF
           </a>
+
+          {/* Print Button (Desktop / Window View Only, Hidden on Mobile) */}
+          <button
+            onClick={handlePrint}
+            className="hidden sm:inline-flex btn btn-primary btn-sm rounded-2xl font-outfit gap-2 shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] transition-all px-4"
+          >
+            <Printer className="w-4 h-4" /> Print
+          </button>
         </div>
       </div>
 
       {/* High-Fidelity Printable Resume Sheet */}
       <main className="max-w-4xl mx-auto bg-base-200/90 [data-theme='light']:bg-white border border-base-300/60 p-6 sm:p-10 rounded-3xl shadow-2xl print-card print:p-0 print:border-none print:bg-white print:text-black animate-fade-in">
         
-        {/* Top Header Information Matching Exact Screenshot */}
+        {/* Top Header Information */}
         <header className="border-b-2 border-base-300 print:border-black pb-5 mb-5">
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
             {/* Left Side: Name and Professional Designation */}
@@ -87,7 +86,7 @@ export default function ResumePage() {
               </div>
 
               {/* Social Channels Row: GitHub, LinkedIn, Codeforces, Codechef */}
-              <div className="flex flex-wrap items-center md:justify-end gap-3 pt-1 text-xs opacity-90">
+              <div className="flex flex-wrap items-center md:justify-end gap-3.5 pt-1 text-xs opacity-90">
                 {/* GitHub */}
                 <a
                   href="https://github.com/m-d-Irfan"
@@ -96,7 +95,7 @@ export default function ResumePage() {
                   className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
                 >
                   <Github className="w-3.5 h-3.5 shrink-0" />
-                  <span>github.com/m-d-Irfan</span>
+                  <span>GitHub</span>
                 </a>
 
                 {/* LinkedIn */}
@@ -107,7 +106,7 @@ export default function ResumePage() {
                   className="inline-flex items-center gap-1.5 hover:underline hover:text-primary transition-colors"
                 >
                   <Linkedin className="w-3.5 h-3.5 shrink-0" />
-                  <span>linkedin.com/in/...</span>
+                  <span>LinkedIn</span>
                 </a>
 
                 {/* Codeforces */}
@@ -333,7 +332,7 @@ export default function ResumePage() {
       </main>
 
       <p className="text-center text-xs opacity-50 no-print mt-6">
-        Print-ready A4 single-page format. Click 'Print' or 'Download' for direct export.
+        Print-ready A4 single-page format. Click 'Print' or 'Download PDF' for direct export.
       </p>
     </AuraBackground>
   );

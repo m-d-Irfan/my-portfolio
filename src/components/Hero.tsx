@@ -1,25 +1,18 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePortfolio } from "@/context/PortfolioContext";
-import { Github, Linkedin, Mail, Code, FileText, ArrowRight, Download } from "lucide-react";
+import { usePortfolio } from "@/context/context";
+import { Github, Linkedin, Mail, Code, FileText, ArrowRight, Download, ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const { theme, data, navigateToResume } = usePortfolio();
 
   return (
-    <section id="home" className="relative min-h-[90vh] flex items-center justify-center pt-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-12">
+    <section id="home" className="relative min-h-[92vh] flex flex-col justify-center items-center pt-16 pb-12 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-8">
         
         {/* Left: Text Contents */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-          
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary font-outfit text-xs sm:text-sm font-semibold mb-6 animate-pulse-slow">
-            <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-            Open for Backend & Full Stack Roles
-          </div>
-
           {/* Heading */}
           <h1 className="font-outfit text-4xl sm:text-6xl font-bold tracking-tight mb-4 leading-tight">
             Hi, I'm <span className="text-gradient">{data.name}</span>
@@ -36,7 +29,7 @@ export default function Hero() {
           </p>
 
           {/* Call to Actions */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-4">
             <button
               onClick={navigateToResume}
               className="btn btn-primary font-outfit shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/35 transition-all duration-300 hover:scale-[1.03] gap-2"
@@ -84,12 +77,29 @@ export default function Hero() {
               {/* Tag overlay */}
               <div className="absolute bottom-6 left-6 right-6 text-center">
                 <span className="font-outfit font-bold text-lg tracking-wide block">{data.name}</span>
-                <span className="font-mono text-xs opacity-75 text-primary">{"<Backend & DRF Specialist />"}</span>
+                <span className="font-mono text-xs opacity-75 text-primary">{"<Full Stack Developer />"}</span>
               </div>
             </div>
           </div>
         </div>
 
+      </div>
+
+      {/* Animated Scroll Down Indicator to Explore More Sections */}
+      <div className="mt-8 mb-2 flex justify-center z-20">
+        <Link
+          href="/#about"
+          className="flex flex-col items-center gap-1.5 group opacity-75 hover:opacity-100 transition-all"
+          aria-label="Scroll down to explore sections"
+        >
+          <span className="font-outfit text-[11px] font-semibold tracking-widest uppercase text-primary group-hover:text-primary/90 transition-colors">
+            Scroll to explore
+          </span>
+          <div className="w-5 h-8 rounded-full border-2 border-primary/40 flex justify-center p-1 group-hover:border-primary transition-colors">
+            <div className="w-1 h-2 rounded-full bg-primary animate-bounce" />
+          </div>
+          <ChevronDown className="w-4 h-4 text-primary/70 -mt-1 animate-pulse" />
+        </Link>
       </div>
     </section>
   );

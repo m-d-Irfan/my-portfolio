@@ -14,18 +14,17 @@ export default function IntroLoader() {
       return;
     }
 
-    // Smooth luxury progress counter
+    // 3+ seconds smooth initialization counter (0 to 100%)
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        // Accelerate smoothly
-        const increment = Math.floor(Math.random() * 8) + 4;
-        return Math.min(prev + increment, 100);
+        // Increment smoothly across ~3.2 seconds
+        return prev + 1;
       });
-    }, 45);
+    }, 32);
 
     return () => clearInterval(interval);
   }, [introFinished]);
@@ -39,7 +38,7 @@ export default function IntroLoader() {
           finishIntro();
         }, 900);
         return () => clearTimeout(exitTimer);
-      }, 400);
+      }, 500);
 
       return () => clearTimeout(timer);
     }
@@ -67,22 +66,23 @@ export default function IntroLoader() {
 
       {/* Center: Luxury Name Reveal & Tracking Typography */}
       <div className="my-auto text-center space-y-6">
-        {/* Name with character tracking expansion animation */}
+        {/* Name with clean mobile two-line separation and tracking expansion */}
         <div className="overflow-hidden py-2">
-          <h1 className="font-outfit text-3xl sm:text-6xl md:text-7xl font-bold tracking-[0.25em] sm:tracking-[0.35em] uppercase text-gradient animate-pulse-slow">
-            {data.name.split("").join(" ")}
+          <h1 className="font-outfit text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-gradient animate-pulse-slow flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
+            <span>{"MONZURUL".split("").join(" ")}</span>
+            <span>{"ISLAM".split("").join(" ")}</span>
           </h1>
         </div>
 
         {/* Subheading Title */}
-        <p className="font-outfit text-xs sm:text-sm md:text-base tracking-[0.3em] uppercase opacity-75 text-secondary">
-          {data.designation} · Backend & Full Stack
+        <p className="font-outfit text-xs sm:text-sm md:text-base tracking-[0.25em] uppercase opacity-80 text-secondary">
+          {data.designation} · Full Stack Developer
         </p>
 
         {/* Minimalist Glowing Progress Line */}
         <div className="w-48 sm:w-72 h-[2px] bg-white/10 mx-auto rounded-full overflow-hidden relative">
           <div
-            className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-150 ease-out shadow-[0_0_12px_rgba(34,211,238,0.8)]"
+            className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-75 ease-out shadow-[0_0_12px_rgba(34,211,238,0.8)]"
             style={{ width: `${progress}%` }}
           />
         </div>

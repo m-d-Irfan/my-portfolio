@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { usePortfolio } from "@/context/PortfolioContext";
+import { usePortfolio } from "@/context/context";
 import { Sun, Moon, Menu, X, ArrowUpRight, Mail, Phone, Linkedin, Github, MessageSquare } from "lucide-react";
 
 export default function Navbar() {
@@ -17,7 +17,23 @@ export default function Navbar() {
   } = usePortfolio();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const pathname = usePathname();
+
+  // Scroll listener to activate semi-transparent glass state on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/#home" },
@@ -45,7 +61,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full bg-base-100/80 backdrop-blur-md border-b border-base-300/40 no-print transition-all duration-300">
+      <nav
+        className={`sticky top-0 z-50 w-full no-print transition-all duration-500 ${
+          isScrolled
+            ? "bg-base-100/75 backdrop-blur-xl border-b border-base-300/60 shadow-lg shadow-base-content/5"
+            : "bg-base-100/30 backdrop-blur-sm border-b border-transparent"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -89,7 +111,7 @@ export default function Navbar() {
                 Let's talk
               </button>
 
-              {/* Theme Toggle Button with Sunlight Burst effect */}
+              {/* Theme Toggle Button with Smooth Transition */}
               <button
                 onClick={(e) => toggleTheme(e)}
                 className="btn btn-ghost btn-circle btn-sm text-base-content/85 hover:text-primary hover:bg-base-200/80 transition-all active:scale-90"
@@ -111,8 +133,9 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={(e) => toggleTheme(e)}
-                className="btn btn-ghost btn-circle btn-sm text-base-content/85 hover:text-primary"
+                className="btn btn-ghost btn-circle btn-sm text-base-content/85 hover:text-primary active:scale-90 transition-all"
                 aria-label="Toggle Theme"
+                title={`Switch to ${theme === "night" ? "Light (Aqua Bubble)" : "Dark (Liquid Cyan)"}`}
               >
                 {!isMounted ? (
                   <span className="w-5 h-5 block" />
@@ -137,7 +160,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Panel */}
         {isOpen && (
-          <div className="md:hidden bg-base-100/95 border-b border-base-300 shadow-xl py-4 px-2 space-y-1 transition-all animate-fadeIn">
+          <div className="md:hidden bg-base-100/95 backdrop-blur-xl border-b border-base-300 shadow-xl py-4 px-2 space-y-1 transition-all animate-fadeIn">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -207,7 +230,7 @@ export default function Navbar() {
               >
                 <div className="w-10 h-10 rounded-xl bg-success/20 flex items-center justify-center text-success">
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.008 0C5.397 0 .06 5.348.06 12.008c0 2.116.546 4.188 1.587 5.946L0 24l6.19-1.62c1.726.944 3.69 1.458 5.724 1.458 6.612 0 11.953-5.34 11.953-11.953C23.867 5.348 18.61 0 12.008 0zm6.59 16.872c-.26-.13-1.538-.756-1.776-.842-.238-.087-.41-.13-.584.13-.174.26-.676.842-.828 1.011-.15.17-.304.19-.564.06-1.2-.6-2.072-1.04-2.885-2.44-.22-.38.22-.353.63-1.17.07-.13.03-.245-.02-.34-.05-.1-.41-1.01-.564-1.383-.15-.36-.316-.31-.43-.31-.11 0-.238-.01-.367-.01-.13 0-.34.05-.517.25-.18.2-1.01 1-1.01 2.44 0 1.44 1.05 2.84 1.196 3.03.145.2 2.06 3.16 5 4.38.7.3 1.242.48 1.67.61.7.22 1.343.19 1.85.115.56-.084 1.73-.706 1.97-1.353.243-.65.243-1.2.17-1.32-.07-.12-.26-.19-.52-.32z" />
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
                   </svg>
                 </div>
                 <div>

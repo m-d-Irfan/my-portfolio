@@ -12,11 +12,19 @@
     background-color: #100e0b;
     overflow-x: hidden;
     min-height: 100vh;
-    transition: background-color 0.5s cubic-bezier(0.65, 0, 0.35, 1), color 0.5s ease;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
   }
 
   [data-theme="light"] body {
     background-color: #faf8f2;
+  }
+
+  /* Universal smooth transition on cards, borders, and text */
+  main, section, header, nav, footer, .card, .glass-card, .btn {
+    transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.35s ease,
+                box-shadow 0.45s ease;
   }
 }
 
@@ -58,12 +66,12 @@
 
 .theme-wave-to-light {
   background: radial-gradient(circle, #faf8f2 0%, rgba(250, 248, 242, 0.98) 60%, rgba(34, 211, 238, 0.4) 100%);
-  animation: circularExpand 0.75s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: circularExpand 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .theme-wave-to-dark {
   background: radial-gradient(circle, #100e0b 0%, rgba(16, 14, 11, 0.98) 60%, rgba(14, 116, 144, 0.4) 100%);
-  animation: circularExpand 0.75s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: circularExpand 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes circularExpand {
@@ -105,6 +113,7 @@
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 /* Layer 2 - screen */
@@ -117,6 +126,7 @@
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 @media (min-width: 768px) {
@@ -135,6 +145,7 @@
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 @media (min-width: 768px) {
@@ -153,6 +164,7 @@
   transform: translateZ(0);
   will-change: transform;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 @media (min-width: 768px) {
