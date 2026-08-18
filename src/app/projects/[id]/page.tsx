@@ -24,7 +24,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   return (
     <AuraBackground>
       <Navbar />
-      <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex-grow">
+      <main className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto flex-grow">
         {/* Back navigation */}
         <div className="mb-8">
           <Link

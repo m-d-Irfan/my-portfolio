@@ -7,6 +7,10 @@
     scroll-behavior: smooth;
   }
   
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+  
   /* Base Backdrops: Liquid Cyan (#100e0b) for Dark & Aqua Bubble (#faf8f2) for Light */
   body {
     background-color: #100e0b;

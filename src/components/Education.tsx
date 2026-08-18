@@ -1,13 +1,35 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { usePortfolio } from "@/context/context";
 import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
 
 export default function Education() {
   const { data } = usePortfolio();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState<boolean>(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -70px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="education" className="section py-20 bg-base-200/20 border-y border-base-300/40 relative">
+    <section id="education" ref={sectionRef} className="section py-20 bg-base-200/20 border-y border-base-300/40 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -23,8 +45,14 @@ export default function Education() {
 
         {/* Responsive Timeline Grid */}
         <div className="max-w-4xl mx-auto relative pl-6 sm:pl-8 border-l border-base-300/70 space-y-12">
-          {data.education.map((edu) => (
-            <div key={edu.id} className="relative group">
+          {data.education.map((edu, index) => (
+            <div
+              key={edu.id}
+              style={{ transitionDelay: `${index * 200}ms` }}
+              className={`relative group transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+              }`}
+            >
               
               {/* Timeline dot */}
               <span className="absolute -left-[35px] sm:-left-[43px] top-1.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-base-100 border-2 border-primary flex items-center justify-center shadow-md shadow-primary/10 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
@@ -58,20 +86,23 @@ export default function Education() {
 
                 {/* Score Grade Badge */}
                 <div className="mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-sm font-semibold">
-                    <Award className="w-4 h-4" />
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 font-outfit text-xs font-semibold text-primary">
+                    <Award className="w-3.5 h-3.5" />
                     {edu.grade}
                   </span>
                 </div>
 
-                {/* Coursework description */}
-                {edu.description && (
-                  <p className="font-sans text-sm sm:text-base opacity-75 leading-relaxed">
-                    {edu.description}
-                  </p>
-                )}
-
+                {/* Highlights List */}
+                <ul className="space-y-2 mt-4 text-sm font-sans opacity-75">
+                  {edu.highlights.map((highlight, hIndex) => (
+                    <li key={hIndex} className="flex items-start gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary/80 mt-2 shrink-0" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
+
             </div>
           ))}
         </div>

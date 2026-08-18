@@ -1,17 +1,43 @@
 "use client";
-import React from "react";
-import { usePortfolio } from "@/context/PortfolioContext";
+import React, { useState, useEffect, useRef } from "react";
+import { usePortfolio } from "@/context/context";
 import { Mail, Phone } from "lucide-react";
 
 export default function Contact() {
   const { setConnectModalOpen } = usePortfolio();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState<boolean>(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -70px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="contact" className="section py-24 bg-transparent relative">
+    <section id="contact" ref={sectionRef} className="section py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         
         {/* Section Header */}
-        <div className="mb-12">
+        <div
+          className={`mb-12 transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
           <h2 className="font-outfit text-4xl sm:text-5xl font-bold tracking-tight mb-4">
             Get In <span className="text-gradient">Touch</span>
           </h2>
@@ -22,7 +48,11 @@ export default function Contact() {
         </div>
 
         {/* Buttons Group - Side by Side */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto mb-12">
+        <div
+          className={`flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto mb-12 transition-all duration-800 delay-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+            isInView ? "opacity-100 scale-100" : "opacity-0 scale-90"
+          }`}
+        >
           <a
             href="mailto:monsurulislamcse.0208@gmail.com"
             className="w-full sm:w-auto btn btn-primary btn-lg rounded-2xl font-outfit shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/35 transition-all duration-300 hover:scale-[1.03] text-base"

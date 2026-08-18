@@ -15,7 +15,10 @@ export default function About() {
           setServicesInView(true);
         }
       },
-      { threshold: 0.15 }
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px", // Triggers only when visibly scrolled into view
+      }
     );
 
     if (servicesRef.current) {
@@ -146,8 +149,8 @@ export default function About() {
 
         {/* =========================================================
             Services & Capabilities Section:
-            - Windows/Desktop: Cards slide in from the LEFT
-            - Mobile: Cards slide in from the UPSIDE / TOP
+            - Windows/Desktop: Cards slide in clearly from the LEFT
+            - Mobile: Cards slide in clearly from the UPSIDE / TOP
            ========================================================= */}
         <div ref={servicesRef} className="mt-20 pt-16 border-t border-base-300/40 overflow-hidden">
           <h3 className="font-outfit text-2xl sm:text-3xl font-bold text-center mb-12">
@@ -159,12 +162,12 @@ export default function About() {
               <div
                 key={service.title}
                 style={{
-                  transitionDelay: `${index * 150}ms`,
+                  transitionDelay: `${index * 180}ms`,
                 }}
-                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group hover:shadow-xl hover:scale-[1.02] ${
+                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] group hover:shadow-xl hover:scale-[1.02] ${
                   servicesInView
                     ? "opacity-100 translate-x-0 translate-y-0"
-                    : "opacity-0 -translate-y-12 md:translate-y-0 md:-translate-x-16"
+                    : "opacity-0 -translate-y-20 md:translate-y-0 md:-translate-x-28"
                 }`}
               >
                 <div

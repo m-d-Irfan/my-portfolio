@@ -21,8 +21,8 @@ export default function Home() {
       {/* Sticky top Navigation Bar */}
       <Navbar />
       
-      {/* Scrollable Layout sections */}
-      <main className="flex-grow">
+      {/* Scrollable Layout sections with fixed navbar clearance */}
+      <main className="flex-grow pt-16">
         <Hero />
         <About />
         <Skills />

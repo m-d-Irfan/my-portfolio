@@ -17,7 +17,10 @@ export default function Training() {
           setIsInView(true);
         }
       },
-      { threshold: 0.15 }
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -70px 0px", // Triggers visibly as user scrolls into the section
+      }
     );
 
     if (sectionRef.current) {
@@ -62,28 +65,28 @@ export default function Training() {
     if (!isInView) {
       if (index === 0 || (total > 1 && index === 1)) {
         // Middle card drops from top
-        return "opacity-0 -translate-y-20 scale-95 pointer-events-none";
+        return "opacity-0 -translate-y-28 scale-90 pointer-events-none";
       } else if (index === 0) {
         // Left card hides behind center
-        return "opacity-0 translate-x-32 scale-75 pointer-events-none";
+        return "opacity-0 translate-x-40 scale-75 pointer-events-none";
       } else {
         // Right card hides behind center
-        return "opacity-0 -translate-x-32 scale-75 pointer-events-none";
+        return "opacity-0 -translate-x-40 scale-75 pointer-events-none";
       }
     }
 
     // After entrance animation triggered:
     if (diff === 0) {
-      // Middle Active Card
-      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/10 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]";
+      // Middle Active Card - Drops into place
+      return "relative z-30 scale-100 opacity-100 shadow-2xl shadow-secondary/15 border-secondary/50 translate-x-0 translate-y-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)]";
     } else if (diff === 1 || (total === 2 && diff === 1)) {
-      // Right Card - Emerged from behind center card
-      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-200";
+      // Right Card - Emerges from behind center card
+      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-300";
     } else if (diff === total - 1) {
-      // Left Card - Emerged from behind center card
-      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-200";
+      // Left Card - Emerges from behind center card
+      return "absolute md:relative z-10 scale-90 md:scale-95 opacity-50 md:opacity-90 hover:opacity-100 blur-[0.5px] md:blur-none -translate-x-[48%] md:translate-x-0 pointer-events-auto transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-300";
     } else {
-      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0";
+      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-900";
     }
   };
 

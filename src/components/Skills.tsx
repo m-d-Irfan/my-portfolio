@@ -15,7 +15,10 @@ export default function Skills() {
           setIsInView(true);
         }
       },
-      { threshold: 0.12 }
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -70px 0px", // Trigger visibly as user scrolls into the section
+      }
     );
 
     if (sectionRef.current) {
@@ -208,13 +211,12 @@ export default function Skills() {
     return <Code className="w-8 h-8 text-neutral-content/60" />;
   };
 
-  // Determines pop-out trajectory vector based on badge grid position
+  // Distinct 4-quadrant trajectory vectors for inside logo badges
   const getBadgePopTransform = (index: number) => {
-    // 0: top-left, 1: top-center, 2: top-right, 3: bottom-left, 4: bottom-center, 5: bottom-right
-    if (index === 0) return "-translate-x-4 -translate-y-4 scale-50 opacity-0";
-    if (index === 1 || index === 2) return "translate-x-4 -translate-y-4 scale-50 opacity-0";
-    if (index === 3) return "-translate-x-4 translate-y-4 scale-50 opacity-0";
-    return "translate-x-4 translate-y-4 scale-50 opacity-0";
+    if (index === 0) return "-translate-x-8 -translate-y-8 scale-50 opacity-0";
+    if (index === 1 || index === 2) return "translate-x-8 -translate-y-8 scale-50 opacity-0";
+    if (index === 3) return "-translate-x-8 translate-y-8 scale-50 opacity-0";
+    return "translate-x-8 translate-y-8 scale-50 opacity-0";
   };
 
   return (
@@ -238,12 +240,12 @@ export default function Skills() {
             <div
               key={category.title}
               style={{
-                transitionDelay: `${catIndex * 160}ms`,
+                transitionDelay: `${catIndex * 180}ms`,
               }}
-              className={`p-6 sm:p-8 rounded-[1.75rem] bg-base-200/90 border border-base-300/50 hover:border-primary/30 shadow-lg shadow-base-300/10 hover:shadow-2xl transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] group ${
+              className={`p-6 sm:p-8 rounded-[1.75rem] bg-base-200/90 border border-base-300/50 hover:border-primary/30 shadow-lg shadow-base-300/10 hover:shadow-2xl transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] group ${
                 isInView
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-16"
+                  : "opacity-0 -translate-y-24"
               }`}
             >
               {/* Category Header */}
@@ -260,7 +262,7 @@ export default function Skills() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {category.skills.map((skill, skillIndex) => {
                   const initialTransform = getBadgePopTransform(skillIndex);
-                  const delay = 200 + catIndex * 100 + skillIndex * 80;
+                  const delay = 350 + catIndex * 120 + skillIndex * 80;
 
                   return (
                     <div
@@ -268,7 +270,7 @@ export default function Skills() {
                       style={{
                         transitionDelay: `${delay}ms`,
                       }}
-                      className={`flex flex-col items-center justify-center p-4 rounded-2xl bg-base-100/70 border border-base-300/50 hover:border-primary/40 hover:bg-base-100 hover:scale-[1.04] transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-md group/badge ${
+                      className={`flex flex-col items-center justify-center p-4 rounded-2xl bg-base-100/70 border border-base-300/50 hover:border-primary/40 hover:bg-base-100 hover:scale-[1.04] transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-md group/badge ${
                         isInView
                           ? "opacity-100 translate-x-0 translate-y-0 scale-100"
                           : initialTransform

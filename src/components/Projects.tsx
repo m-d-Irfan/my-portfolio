@@ -1,16 +1,38 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePortfolio } from "@/context/context";
 import { ArrowUpRight, Code, Layers, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Projects() {
   const { data } = usePortfolio();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("All");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const categories = ["All", "Full Stack", "Backend", "CMS"];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -70px 0px", // Trigger visibly as user scrolls into the section
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const filteredProjects = data.projects.filter((project) => {
     if (filter === "All") return true;
@@ -54,8 +76,12 @@ export default function Projects() {
 
   // Calculate 3-card relative positions for the infinite coverflow carousel
   const getCardStyle = (index: number) => {
+    if (!isInView) {
+      return "scale-75 opacity-0 pointer-events-none translate-y-12";
+    }
+
     if (total === 1) {
-      return "relative z-30 scale-100 opacity-100 pointer-events-auto max-w-lg mx-auto";
+      return "relative z-30 scale-100 opacity-100 pointer-events-auto max-w-lg mx-auto transition-all duration-800";
     }
 
     // Relative offset from current active index in loop
@@ -63,21 +89,21 @@ export default function Projects() {
 
     if (diff === 0) {
       // Active / Middle Card - Much bigger, sharp, centered, full opacity
-      return "relative z-30 scale-100 sm:scale-105 opacity-100 shadow-2xl shadow-primary/15 border-primary/50 pointer-events-auto translate-x-0";
+      return "relative z-30 scale-100 sm:scale-105 opacity-100 shadow-2xl shadow-primary/15 border-primary/50 pointer-events-auto translate-x-0 transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // Right Card - Half shown on right edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] translate-x-[48%] sm:translate-x-[52%] lg:translate-x-[56%] cursor-pointer pointer-events-auto transition-all";
+      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] translate-x-[48%] sm:translate-x-[52%] lg:translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else if (diff === total - 1) {
       // Left Card - Half shown on left edge, scaled down, blurry & semi-transparent
-      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] -translate-x-[48%] sm:-translate-x-[52%] lg:-translate-x-[56%] cursor-pointer pointer-events-auto transition-all";
+      return "absolute z-10 scale-[0.82] sm:scale-85 opacity-40 hover:opacity-75 blur-[1px] -translate-x-[48%] sm:-translate-x-[52%] lg:-translate-x-[56%] cursor-pointer pointer-events-auto transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)]";
     } else {
       // Hidden behind
-      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0";
+      return "absolute z-0 scale-75 opacity-0 pointer-events-none translate-x-0 transition-all duration-800";
     }
   };
 
   return (
-    <section id="projects" className="section py-24 bg-base-200/20 border-y border-base-300/40 relative overflow-hidden">
+    <section id="projects" ref={sectionRef} className="section py-24 bg-base-200/20 border-y border-base-300/40 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -128,7 +154,7 @@ export default function Projects() {
                 onClick={() => {
                   if (!isCenter) setCurrentIndex(index);
                 }}
-                className={`w-full max-w-[340px] sm:max-w-md md:max-w-[420px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] rounded-3xl bg-base-200/95 border border-base-300/60 overflow-hidden flex flex-col justify-between ${cardStyle}`}
+                className={`w-full max-w-[340px] sm:max-w-md md:max-w-[420px] rounded-3xl bg-base-200/95 border border-base-300/60 overflow-hidden flex flex-col justify-between ${cardStyle}`}
               >
                 {/* Top Details (Image + Content) */}
                 <div>

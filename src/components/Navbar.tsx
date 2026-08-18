@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { usePortfolio } from "@/context/context";
-import { Sun, Moon, Menu, X, ArrowUpRight, Mail, Phone, Linkedin, Github, MessageSquare } from "lucide-react";
+import { Sun, Moon, Menu, X, ArrowUpRight, Mail, Phone, Linkedin, Github } from "lucide-react";
 
 export default function Navbar() {
   const {
@@ -20,10 +20,10 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const pathname = usePathname();
 
-  // Scroll listener to activate semi-transparent glass state on scroll
+  // Scroll listener to activate frosted glass styling on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 15) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -47,25 +47,34 @@ export default function Navbar() {
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
     if (href.startsWith("/#")) {
-      const hash = href.replace("/", "");
+      const targetId = href.replace("/#", "");
       if (pathname === "/") {
         e.preventDefault();
-        const targetId = hash.replace("#", "");
         const el = document.getElementById(targetId);
         if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
+          const navHeight = 68;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
         }
+      } else {
+        e.preventDefault();
+        navigateToHome(targetId);
       }
     }
   };
 
   return (
     <>
+      {/* Permanently Fixed Navbar pinned to top everywhere */}
       <nav
-        className={`sticky top-0 z-50 w-full no-print transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full no-print transition-all duration-500 ${
           isScrolled
-            ? "bg-base-100/75 backdrop-blur-xl border-b border-base-300/60 shadow-lg shadow-base-content/5"
-            : "bg-base-100/30 backdrop-blur-sm border-b border-transparent"
+            ? "bg-base-100/85 backdrop-blur-xl border-b border-base-300/60 shadow-lg shadow-base-content/5"
+            : "bg-base-100/60 backdrop-blur-md border-b border-base-300/30"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -160,7 +169,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Panel */}
         {isOpen && (
-          <div className="md:hidden bg-base-100/95 backdrop-blur-xl border-b border-base-300 shadow-xl py-4 px-2 space-y-1 transition-all animate-fadeIn">
+          <div className="md:hidden bg-base-100/98 backdrop-blur-2xl border-b border-base-300 shadow-2xl py-4 px-2 space-y-1 transition-all animate-fadeIn">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -169,7 +178,7 @@ export default function Navbar() {
                   setIsOpen(false);
                   handleNavClick(e, link.href);
                 }}
-                className="block font-outfit text-base font-medium px-4 py-2 hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
+                className="block font-outfit text-base font-medium px-4 py-2.5 hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
               >
                 {link.name}
               </Link>
