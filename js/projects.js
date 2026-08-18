@@ -273,28 +273,36 @@ function bindCarouselControls() {
     });
   }
 
-  // Freeze on Hover over Cards Stage (Desktop)
+  // Freeze on Hover/Touch STRICTLY over the Middle Card (.card-center)
   if (stage) {
-    stage.addEventListener('mouseenter', pauseAutoSlide);
-    stage.addEventListener('mouseleave', resumeAutoSlide);
-  }
+    stage.addEventListener('mouseover', (e) => {
+      if (e.target.closest('.card-center')) {
+        pauseAutoSlide();
+      } else {
+        resumeAutoSlide();
+      }
+    });
 
-  // Touch Handling & Freeze (Mobile)
-  if (wrapper) {
-    wrapper.addEventListener('touchstart', (e) => {
-      pauseAutoSlide();
+    stage.addEventListener('mouseleave', () => {
+      resumeAutoSlide();
+    });
+
+    stage.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.card-center')) {
+        pauseAutoSlide();
+      }
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
       touchEndX = touchStartX;
       touchEndY = touchStartY;
     }, { passive: true });
 
-    wrapper.addEventListener('touchmove', (e) => {
+    stage.addEventListener('touchmove', (e) => {
       touchEndX = e.touches[0].clientX;
       touchEndY = e.touches[0].clientY;
     }, { passive: true });
 
-    wrapper.addEventListener('touchend', () => {
+    stage.addEventListener('touchend', () => {
       const diffX = touchStartX - touchEndX;
       const diffY = touchStartY - touchEndY;
 
@@ -311,9 +319,10 @@ function bindCarouselControls() {
       resumeAutoSlide();
     });
 
-    wrapper.addEventListener('touchcancel', () => {
+    stage.addEventListener('touchcancel', () => {
       resumeAutoSlide();
     });
+  }
 
     // Keyboard Arrow navigation
     wrapper.addEventListener('keydown', (e) => {

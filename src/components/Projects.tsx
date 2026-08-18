@@ -90,9 +90,7 @@ export default function Projects() {
         {/* 3-Card Infinity Carousel Stage */}
         {total > 0 && (
           <div
-            className="relative w-full max-w-5xl mx-auto h-[530px] sm:h-[560px] flex items-center justify-center overflow-hidden"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
+            className="relative w-full max-w-5xl mx-auto h-[480px] xs:h-[510px] sm:h-[560px] flex items-center justify-center overflow-hidden"
           >
             {filteredProjects.map((project, idx) => {
               const isCenter = idx === currentIndex;
@@ -101,17 +99,17 @@ export default function Projects() {
 
               if (!isCenter && !isPrev && !isNext) return null;
 
-              let cardStyles = "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] absolute w-[330px] sm:w-[440px] max-w-[86vw] bg-base-100 border rounded-3xl overflow-hidden shadow-2xl flex flex-col will-change-transform ";
+              let cardStyles = "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] absolute w-[290px] xs:w-[320px] sm:w-[440px] max-w-[82vw] bg-base-100 border rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col will-change-transform ";
               
               if (isCenter) {
-                // Middle Card: ONLY accessible card, prominent & active on hover/touch
-                cardStyles += "z-20 scale-105 sm:scale-110 translate-x-0 opacity-100 border-primary/50 shadow-primary/20 shadow-2xl blur-none pointer-events-auto cursor-default hover:border-primary hover:shadow-primary/35 hover:scale-[1.07] sm:hover:scale-[1.12]";
+                // Middle Card: ONLY accessible card, pauses on hover/touch
+                cardStyles += "z-20 scale-100 xs:scale-105 sm:scale-110 translate-x-0 opacity-100 border-primary/50 shadow-primary/20 shadow-2xl blur-none pointer-events-auto cursor-default hover:border-primary hover:shadow-primary/35 hover:scale-[1.03] sm:hover:scale-[1.12]";
               } else if (isPrev) {
                 // Left Side Card: Inaccessible, non-interactive, transparent blurry
-                cardStyles += "z-10 scale-85 -translate-x-[68%] sm:-translate-x-[70%] opacity-40 blur-[3px] border-base-300 pointer-events-none select-none";
+                cardStyles += "z-10 scale-80 xs:scale-85 -translate-x-[68%] sm:-translate-x-[70%] opacity-35 sm:opacity-40 blur-[2.5px] sm:blur-[3px] border-base-300 pointer-events-none select-none";
               } else if (isNext) {
                 // Right Side Card: Inaccessible, non-interactive, transparent blurry
-                cardStyles += "z-10 scale-85 translate-x-[68%] sm:translate-x-[70%] opacity-40 blur-[3px] border-base-300 pointer-events-none select-none";
+                cardStyles += "z-10 scale-80 xs:scale-85 translate-x-[68%] sm:translate-x-[70%] opacity-35 sm:opacity-40 blur-[2.5px] sm:blur-[3px] border-base-300 pointer-events-none select-none";
               }
 
               return (
@@ -119,6 +117,18 @@ export default function Projects() {
                   key={project.id}
                   className={cardStyles}
                   aria-hidden={!isCenter}
+                  onMouseEnter={() => {
+                    if (isCenter) setIsPaused(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (isCenter) setIsPaused(false);
+                  }}
+                  onTouchStart={() => {
+                    if (isCenter) setIsPaused(true);
+                  }}
+                  onTouchEnd={() => {
+                    if (isCenter) setIsPaused(false);
+                  }}
                 >
                   {/* Thumbnail Image */}
                   <div className="relative w-full aspect-video overflow-hidden bg-base-300">
