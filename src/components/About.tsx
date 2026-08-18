@@ -1,10 +1,29 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { usePortfolio } from "@/context/context";
 import { Heart, Compass, Terminal, Award, Server, Layout } from "lucide-react";
 
 export default function About() {
   const { data } = usePortfolio();
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const [servicesInView, setServicesInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setServicesInView(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (servicesRef.current) {
+      observer.observe(servicesRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const getAboutIcon = (index: number) => {
     switch (index) {
@@ -18,6 +37,33 @@ export default function About() {
         return <Heart className="w-5 h-5 text-success" />;
     }
   };
+
+  const services = [
+    {
+      title: "API & Backend Dev",
+      desc: "Designing and building clean, secure RESTful APIs using Python, Django, DRF, Node.js, and JWT auth.",
+      icon: <Terminal className="w-6 h-6" />,
+      colorClass: "primary",
+    },
+    {
+      title: "Database Design",
+      desc: "Relational database modeling, query tuning, indexing, and management in PostgreSQL and MySQL.",
+      icon: <Server className="w-6 h-6" />,
+      colorClass: "secondary",
+    },
+    {
+      title: "Frontend Integration",
+      desc: "Crafting fast, responsive interfaces with Next.js 15, React 19, TypeScript, and Tailwind CSS.",
+      icon: <Layout className="w-6 h-6" />,
+      colorClass: "accent",
+    },
+    {
+      title: "DevOps & Automation",
+      desc: "Docker setups, CI/CD pipelines (GitHub Actions), AWS storage, and workflow automation in n8n.",
+      icon: <Award className="w-6 h-6" />,
+      colorClass: "success",
+    },
+  ];
 
   return (
     <section id="about" className="section py-20 bg-base-200/30 border-y border-base-300/40 relative">
@@ -98,56 +144,48 @@ export default function About() {
 
         </div>
 
-        {/* Services & Capabilities Section */}
-        <div className="mt-20 pt-16 border-t border-base-300/40">
+        {/* =========================================================
+            Services & Capabilities Section:
+            - Windows/Desktop: Cards slide in from the LEFT
+            - Mobile: Cards slide in from the UPSIDE / TOP
+           ========================================================= */}
+        <div ref={servicesRef} className="mt-20 pt-16 border-t border-base-300/40 overflow-hidden">
           <h3 className="font-outfit text-2xl sm:text-3xl font-bold text-center mb-12">
             Services & <span className="text-gradient">Capabilities</span>
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {/* API Development & Backend */}
-            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-300 group hover:shadow-lg">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Terminal className="w-6 h-6" />
+            {services.map((service, index) => (
+              <div
+                key={service.title}
+                style={{
+                  transitionDelay: `${index * 150}ms`,
+                }}
+                className={`p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-primary/30 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group hover:shadow-xl hover:scale-[1.02] ${
+                  servicesInView
+                    ? "opacity-100 translate-x-0 translate-y-0"
+                    : "opacity-0 -translate-y-12 md:translate-y-0 md:-translate-x-16"
+                }`}
+              >
+                <div
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${
+                    service.colorClass === "primary"
+                      ? "bg-primary/10 text-primary"
+                      : service.colorClass === "secondary"
+                      ? "bg-secondary/10 text-secondary"
+                      : service.colorClass === "accent"
+                      ? "bg-accent/10 text-accent"
+                      : "bg-success/10 text-success"
+                  }`}
+                >
+                  {service.icon}
+                </div>
+                <h4 className="font-outfit text-lg font-bold mb-2">{service.title}</h4>
+                <p className="font-sans text-xs opacity-75 leading-relaxed">
+                  {service.desc}
+                </p>
               </div>
-              <h4 className="font-outfit text-lg font-bold mb-2">API & Backend Dev</h4>
-              <p className="font-sans text-xs opacity-75 leading-relaxed">
-                Designing and building clean, secure RESTful APIs using Python, Django, DRF, Node.js, and JWT auth.
-              </p>
-            </div>
-
-            {/* Database Architecture */}
-            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-secondary/30 transition-all duration-300 group hover:shadow-lg">
-              <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Server className="w-6 h-6" />
-              </div>
-              <h4 className="font-outfit text-lg font-bold mb-2">Database Design</h4>
-              <p className="font-sans text-xs opacity-75 leading-relaxed">
-                Relational database modeling, query tuning, indexing, and management in PostgreSQL and MySQL.
-              </p>
-            </div>
-
-            {/* Frontend UI Integration */}
-            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-accent/30 transition-all duration-300 group hover:shadow-lg">
-              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Layout className="w-6 h-6" />
-              </div>
-              <h4 className="font-outfit text-lg font-bold mb-2">Frontend Integration</h4>
-              <p className="font-sans text-xs opacity-75 leading-relaxed">
-                Crafting fast, responsive interfaces with Next.js 15, React 19, TypeScript, and Tailwind CSS.
-              </p>
-            </div>
-
-            {/* DevOps & Automation */}
-            <div className="p-6 rounded-3xl bg-base-200/50 border border-base-300/50 hover:border-success/30 transition-all duration-300 group hover:shadow-lg">
-              <div className="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Award className="w-6 h-6" />
-              </div>
-              <h4 className="font-outfit text-lg font-bold mb-2">DevOps & Automation</h4>
-              <p className="font-sans text-xs opacity-75 leading-relaxed">
-                Docker setups, CI/CD pipelines (GitHub Actions), AWS storage, and workflow automation in n8n.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
 

@@ -1,10 +1,29 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { usePortfolio } from "@/context/context";
 import { Code, Server, Layout, Settings } from "lucide-react";
 
 export default function Skills() {
   const { data } = usePortfolio();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.12 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const getCategoryIcon = (title: string) => {
     switch (title.toLowerCase()) {
@@ -22,7 +41,6 @@ export default function Skills() {
   const getSkillIcon = (name: string) => {
     const n = name.toLowerCase();
     
-    // SVG icons with official brand colors
     if (n.includes("python")) {
       return (
         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -187,12 +205,20 @@ export default function Skills() {
       );
     }
 
-    // Default general code/settings icon
     return <Code className="w-8 h-8 text-neutral-content/60" />;
   };
 
+  // Determines pop-out trajectory vector based on badge grid position
+  const getBadgePopTransform = (index: number) => {
+    // 0: top-left, 1: top-center, 2: top-right, 3: bottom-left, 4: bottom-center, 5: bottom-right
+    if (index === 0) return "-translate-x-4 -translate-y-4 scale-50 opacity-0";
+    if (index === 1 || index === 2) return "translate-x-4 -translate-y-4 scale-50 opacity-0";
+    if (index === 3) return "-translate-x-4 translate-y-4 scale-50 opacity-0";
+    return "translate-x-4 translate-y-4 scale-50 opacity-0";
+  };
+
   return (
-    <section id="skills" className="section py-24 bg-transparent relative">
+    <section id="skills" ref={sectionRef} className="section py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -206,13 +232,19 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Skill Category Grid - Collapses on Mobile, Side by Side on Desktop */}
+        {/* Skill Category Grid: Cards enter from TOP with inside logos popping out in 4-quadrant directions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {data.skills.map((category) => (
+          {data.skills.map((category, catIndex) => (
             <div
               key={category.title}
-              // Category Card Design - High-opacity base color without backdrop-blur to prevent tearing visual glitches
-              className="p-6 sm:p-8 rounded-[1.75rem] bg-base-200/90 border border-base-300/50 hover:border-primary/25 shadow-md shadow-base-300/10 hover:shadow-xl transition-all duration-500 hover:-translate-y-1 group"
+              style={{
+                transitionDelay: `${catIndex * 160}ms`,
+              }}
+              className={`p-6 sm:p-8 rounded-[1.75rem] bg-base-200/90 border border-base-300/50 hover:border-primary/30 shadow-lg shadow-base-300/10 hover:shadow-2xl transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] group ${
+                isInView
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-16"
+              }`}
             >
               {/* Category Header */}
               <div className="flex items-center gap-3.5 mb-8 border-b border-base-300/40 pb-4">
@@ -224,23 +256,35 @@ export default function Skills() {
                 </h3>
               </div>
 
-              {/* Skills List Sub-Grid - 3 columns on Laptop, 2 columns on Mobile */}
+              {/* Skills List Sub-Grid: Logos pop out from left-up, right-up, left-down, right-down */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {category.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl bg-base-100/60 border border-base-300/40 hover:border-primary/30 hover:bg-base-100 hover:scale-[1.03] transition-all duration-300 hover:shadow-sm group/badge"
-                  >
-                    {/* SVG Brand Icon */}
-                    <div className="w-12 h-12 flex items-center justify-center mb-3 group-hover/badge:scale-110 transition-transform duration-300">
-                      {getSkillIcon(skill.name)}
+                {category.skills.map((skill, skillIndex) => {
+                  const initialTransform = getBadgePopTransform(skillIndex);
+                  const delay = 200 + catIndex * 100 + skillIndex * 80;
+
+                  return (
+                    <div
+                      key={skill.name}
+                      style={{
+                        transitionDelay: `${delay}ms`,
+                      }}
+                      className={`flex flex-col items-center justify-center p-4 rounded-2xl bg-base-100/70 border border-base-300/50 hover:border-primary/40 hover:bg-base-100 hover:scale-[1.04] transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-md group/badge ${
+                        isInView
+                          ? "opacity-100 translate-x-0 translate-y-0 scale-100"
+                          : initialTransform
+                      }`}
+                    >
+                      {/* SVG Brand Icon */}
+                      <div className="w-12 h-12 flex items-center justify-center mb-3 group-hover/badge:scale-115 transition-transform duration-300">
+                        {getSkillIcon(skill.name)}
+                      </div>
+                      {/* Name Label */}
+                      <span className="font-outfit text-[11px] font-bold text-center text-base-content/75 group-hover/badge:text-primary uppercase tracking-wider transition-colors duration-300 select-none">
+                        {skill.name}
+                      </span>
                     </div>
-                    {/* Name Label */}
-                    <span className="font-outfit text-[11px] font-bold text-center text-base-content/75 group-hover/badge:text-primary uppercase tracking-wider transition-colors duration-300 select-none">
-                      {skill.name}
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
             </div>

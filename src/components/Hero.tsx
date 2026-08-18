@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePortfolio } from "@/context/context";
-import { FileText, ArrowRight, Download } from "lucide-react";
+import { FileText, ArrowRight, Download, ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const { theme, data, navigateToResume } = usePortfolio();
@@ -10,34 +10,33 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[92vh] flex flex-col justify-between items-center pt-2 sm:pt-16 pb-4 sm:pb-8 overflow-hidden"
+      className="relative min-h-[90vh] sm:min-h-[92vh] flex flex-col justify-center items-center py-6 sm:py-12 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 my-auto">
         
         {/* =========================================================
-            MOBILE LAYOUT (< lg screens): Split top header + paragraph + buttons
-            All fits in ~95% of mobile viewport with zero scrolling required!
+            MOBILE LAYOUT (< lg screens): Balanced split header + content
            ========================================================= */}
-        <div className="flex lg:hidden flex-col justify-between gap-3 pt-2">
-          {/* Top Row: Left (Name & Designation) + Right (Compact Avatar) */}
-          <div className="flex items-center justify-between gap-3">
+        <div className="flex lg:hidden flex-col justify-center gap-4 py-2">
+          {/* Top Row: Left (Name & Designation) + Right (Prominent Avatar) */}
+          <div className="flex items-center justify-between gap-4">
             {/* Left: Heading & Designation */}
             <div className="flex-1">
-              <h1 className="font-outfit text-2xl sm:text-4xl font-bold tracking-tight leading-tight">
+              <h1 className="font-outfit text-2xl xs:text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
                 Hi, I'm{" "}
-                <span className="text-gradient block font-bold text-3xl sm:text-5xl">
+                <span className="text-gradient block font-bold text-3xl xs:text-4xl sm:text-5xl mt-0.5">
                   {data.name}
                 </span>
               </h1>
-              <h2 className="font-outfit text-sm sm:text-xl font-semibold text-secondary mt-1">
+              <h2 className="font-outfit text-sm xs:text-base sm:text-xl font-semibold text-secondary mt-1">
                 {data.designation}
               </h2>
             </div>
 
-            {/* Right: Compact Avatar */}
+            {/* Right: Prominent Avatar Card */}
             <div className="relative group shrink-0">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-primary to-secondary opacity-40 blur-md group-hover:opacity-70 transition-opacity" />
-              <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-primary/40 shadow-xl bg-base-200">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary to-secondary opacity-40 blur-md group-hover:opacity-70 transition-opacity" />
+              <div className="relative w-28 h-28 xs:w-32 xs:h-32 sm:w-40 sm:h-40 rounded-3xl overflow-hidden border-2 border-primary/40 shadow-xl bg-base-200">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={theme === "light" ? "/Monzurul Islam-Light.jpeg" : "/Monzurul Islam-Dark.jpeg"}
@@ -49,12 +48,12 @@ export default function Hero() {
           </div>
 
           {/* Middle: Objective Paragraph */}
-          <p className="font-sans text-xs sm:text-base opacity-85 leading-relaxed text-justify my-1">
+          <p className="font-sans text-xs xs:text-sm sm:text-base opacity-85 leading-relaxed text-justify my-1">
             {data.careerObjective}
           </p>
 
           {/* Bottom Actions: View Resume & Download PDF */}
-          <div className="grid grid-cols-2 gap-2 sm:gap-4 mt-1">
+          <div className="grid grid-cols-2 gap-3 mt-2">
             <button
               onClick={navigateToResume}
               className="btn btn-primary btn-sm sm:btn-md font-outfit shadow-md shadow-primary/20 hover:shadow-xl transition-all duration-300 gap-1.5 text-xs sm:text-sm rounded-xl"
@@ -75,7 +74,7 @@ export default function Hero() {
         {/* =========================================================
             DESKTOP LAYOUT (>= lg screens): 12-Column Grid
            ========================================================= */}
-        <div className="hidden lg:grid grid-cols-12 gap-12 items-center py-8">
+        <div className="hidden lg:grid grid-cols-12 gap-12 items-center py-6">
           {/* Left: Text Contents */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             <h1 className="font-outfit text-5xl xl:text-6xl font-bold tracking-tight mb-4 leading-tight">
@@ -142,20 +141,21 @@ export default function Hero() {
       </div>
 
       {/* =========================================================
-          BOTTOM 5%: Scroll Indicator GIF (Scroll.gif)
+          CUSTOM MODERN ANIMATED SCROLL INDICATOR
          ========================================================= */}
-      <div className="flex justify-center items-center pt-2 z-20">
+      <div className="flex justify-center items-center pt-4 z-20">
         <Link
           href="/#about"
-          className="flex flex-col items-center gap-1 group opacity-85 hover:opacity-100 transition-opacity"
-          aria-label="Scroll down to explore sections"
+          className="flex flex-col items-center gap-1.5 group opacity-80 hover:opacity-100 transition-all cursor-pointer select-none"
+          aria-label="Scroll down to explore"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/Scroll.gif"
-            alt="Scroll down indicator"
-            className="w-7 h-10 sm:w-8 sm:h-12 object-contain drop-shadow-md group-hover:scale-110 transition-transform"
-          />
+          <span className="font-outfit text-[11px] font-semibold tracking-widest uppercase text-primary/90 group-hover:text-primary transition-colors">
+            Scroll to explore
+          </span>
+          <div className="w-5 h-8 rounded-full border-2 border-primary/40 flex justify-center p-1 group-hover:border-primary transition-colors shadow-sm shadow-primary/20">
+            <div className="w-1.5 h-2.5 rounded-full bg-primary animate-bounce" />
+          </div>
+          <ChevronDown className="w-3.5 h-3.5 text-primary/70 -mt-1 animate-pulse" />
         </Link>
       </div>
     </section>

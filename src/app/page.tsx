@@ -10,11 +10,12 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AuraBackground from "@/components/AuraBackground";
 import IntroLoader from "@/components/IntroLoader";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
     <AuraBackground>
-      {/* Intro Loading Animation like Mattia Cielo */}
+      {/* Intro Loading Animation */}
       <IntroLoader />
 
       {/* Sticky top Navigation Bar */}
@@ -33,6 +34,9 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Back to Top / Hero Button */}
+      <ScrollToTop />
     </AuraBackground>
   );
 }
