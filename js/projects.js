@@ -324,7 +324,8 @@ function bindCarouselControls() {
     });
   }
 
-    // Keyboard Arrow navigation
+  // Keyboard Arrow navigation
+  if (wrapper) {
     wrapper.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
