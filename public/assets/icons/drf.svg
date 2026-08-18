@@ -1,0 +1,34 @@
+<svg width="720" height="180" viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+  <title>Django REST Framework Logo</title>
+
+  <!-- Background -->
+  <rect width="720" height="180" rx="24" fill="#ffffff"></rect>
+
+  <!-- DRF Mark -->
+  <g transform="translate(35, 30)">
+    <!-- Shield -->
+    <path d="M60 0 L120 20 V70 C120 105 94 125 60 140 C26 125 0 105 0 70 V20 Z" fill="#092E20"></path>
+
+    <!-- API brackets -->
+    <path d="M35 43 L20 60 L35 77" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
+
+    <path d="M85 43 L100 60 L85 77" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
+
+    <!-- Slash -->
+    <path d="M69 35 L51 85" stroke="#44B78B" stroke-width="8" stroke-linecap="round"></path>
+
+    <!-- REST dots -->
+    <circle cx="47" cy="103" r="4" fill="#44B78B"></circle>
+    <circle cx="60" cy="103" r="4" fill="#44B78B"></circle>
+    <circle cx="73" cy="103" r="4" fill="#44B78B"></circle>
+  </g>
+
+  <!-- Text -->
+  <text x="190" y="92" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#092E20">
+    Django
+  </text>
+
+  <text x="190" y="135" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600" letter-spacing="3" fill="#44B78B">
+    REST FRAMEWORK
+  </text>
+</svg>

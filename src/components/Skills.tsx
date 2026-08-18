@@ -2,6 +2,33 @@ import React, { useState } from "react";
 import { usePortfolio } from "../context/context";
 import { Code2, Server, Layout, Cloud } from "lucide-react";
 
+const iconFileMap: Record<string, string> = {
+  "Django": "django.svg",
+  "Django REST Framework (DRF)": "drf.svg",
+  "PostgreSQL": "postgresql.svg",
+  "MySQL": "mysql.svg",
+  "REST APIs & JWT": "jwt.svg",
+  "Prisma ORM": "prisma.svg",
+  "React.js (v19)": "react.svg",
+  "Next.js (v15)": "nextjs.svg",
+  "Tailwind CSS": "tailwind.svg",
+  "HTML5": "html5.svg",
+  "CSS3": "css3.svg",
+  "Axios": "axios.svg",
+  "Python": "python.svg",
+  "JavaScript (ES6+)": "javascript.svg",
+  "TypeScript": "typescript.svg",
+  "C++": "cpp.svg",
+  "SQL": "sql.svg",
+  "C Language": "c.svg",
+  "Git & GitHub": "git.svg",
+  "Docker": "docker.svg",
+  "Vercel & Render": "vercel.svg",
+  "AWS Cloud": "aws.svg",
+  "Postman": "postman.svg",
+  "n8n Automation": "n8n.svg"
+};
+
 export default function Skills() {
   const { data } = usePortfolio();
   const [activeFilter, setActiveFilter] = useState<string>("All");
@@ -82,13 +109,21 @@ export default function Skills() {
                     key={sIdx}
                     className="p-3.5 rounded-2xl bg-base-200/70 border border-base-300 hover:border-primary/40 hover:bg-base-200 transition-all duration-300 flex flex-col justify-between group"
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-outfit font-bold text-xs sm:text-sm text-base-content group-hover:text-primary transition-colors">
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <img
+                        src={`/assets/icons/${iconFileMap[skill.name] || 'c.svg'}`}
+                        alt={skill.name}
+                        className="w-7 h-7 object-contain shrink-0 group-hover:scale-110 transition-transform duration-300"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                      <span className="font-outfit font-bold text-xs sm:text-sm text-base-content group-hover:text-primary transition-colors line-clamp-1">
                         {skill.name}
                       </span>
                     </div>
                     
-                    <div className="flex items-center justify-between font-mono text-[10px] text-primary">
+                    <div className="flex items-center justify-between font-mono text-[10px] text-primary mt-1">
                       <span>{skill.tag || "Skill"}</span>
                       <span className="opacity-60">{skill.level}%</span>
                     </div>
@@ -110,3 +145,4 @@ export default function Skills() {
     </section>
   );
 }
+
