@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { usePortfolio } from "@/context/context";
 import AuraBackground from "@/components/AuraBackground";
 import { ArrowLeft, Printer, Download, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
